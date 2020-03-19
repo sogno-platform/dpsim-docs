@@ -1,4 +1,4 @@
-baseURL = "https://dpsim-simulator.github.io"
+baseURL = "https://dpsim.fein-aachen.org"
 title = "DPsim"
 
 enableRobotsTXT = true
