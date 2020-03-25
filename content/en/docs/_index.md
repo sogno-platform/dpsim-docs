@@ -15,7 +15,7 @@ DPsim is a solver library for dynamic power system simulation.
 - The simulation core is implemented in highly-efficient C++ code.
 - It supports real-time execution with time-steps down to 50 uS.
 - It can load models in the IEC61970 Common Information Model (CIM) XML format.
-- It can be interfaced to a variety of protocols and interfaces via [VILLASnode](http://www.fein-aachen.org/projects/villas-framework/).
+- It can be interfaced to a variety of protocols and interfaces via [VILLASnode](https://fein-aachen.org/projects/villas-node/).
 
 
 ## Contact
@@ -27,9 +27,9 @@ For further question please consider joining our Slack channel: [FEIN e.V. Slack
 - Steffen Vogel <stvogel@eonerc.rwth-aachen.de>
 - Jan Dinkelbach <jdinkelbach@eonerc.rwth-aachen.de>
 
-[Institute for Automation of Complex Power Systems (ACS)](http://www.acs.eonerc.rwth-aachen.de)  
-[EON Energy Research Center (EONERC)](http://www.eonerc.rwth-aachen.de)  
-[RWTH University Aachen, Germany](http://www.rwth-aachen.de)  
+[Institute for Automation of Complex Power Systems (ACS)](http://www.acs.eonerc.rwth-aachen.de) \
+[EON Energy Research Center (EONERC)](http://www.eonerc.rwth-aachen.de) \
+[RWTH University Aachen, Germany](http://www.rwth-aachen.de)
 
 
 ## Publications
