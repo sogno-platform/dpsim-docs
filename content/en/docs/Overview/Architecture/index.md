@@ -35,6 +35,8 @@ Its main purpose will be offline simulation, for example, to provide reference r
 The component models depend mostly on the Eigen library.
 Even if components are used in combination with Sundials ODE / DAE solvers, we try to keep the specific functions required by these solvers independent of the Sundials package.
 
+## Class Hierarchy
+
 The `Simulation` class holds references to instances of `Interface`, `Solver`, `Logger` and `SystemTopology`.
 For a simulation scenario, the minimum description would include a `SystemTopology` and a solver type.
 The `Solver` instance is then created by the `Simulation`.
