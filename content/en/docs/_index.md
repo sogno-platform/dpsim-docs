@@ -40,7 +40,8 @@ If you are using DPsim for your research, please cite the following paper in you
 
 Other publications related to DPsim:
 
+- M. Mirz, J. Dinkelbach, A. Monti, "[DPsim—Advancements in Power Electronics Modelling Using Shifted Frequency Analysis and in Real-Time Simulation Capability by Parallelization](https://www.mdpi.com/1996-1073/13/15/3879)," _Energies_, 2020, 13. Jg., Nr. 15, S. 3879.
 - M. Mirz, A. Estebsari, F. Arrigo, E. Bompard and A. Monti, "[Dynamic phasors to enable distributed real-time simulation](http://ieeexplore.ieee.org/document/8004805/)," _2017 6th International Conference on Clean Electrical Power (ICCEP)_, Santa Margherita Ligure, 2017, pp. 139-144.
+- S. Vogel, M. Mirz, L. Razik, A. Monti, "[An Open Solution for Next-generation Real-time Power System Simulation](https://ieeexplore.ieee.org/document/8245739)," _1st IEEE Conference on Energy Internet and Energy System Integration (IEEE-EI^2)_, Beijing, 2017.
 - M. Mirz, A. Monti, A. Estebsari, F. Arrigo, E. Bompard, "[Functionality of the releases of the real time solver V1](http://re-serve.eu/files/reserve/Content/Deliverables/D4.2.pdf)," _RESERVE Library_, 2017.
 - M. Mirz, S. Vogel, A. Monti, "[First Interconnection test of the nodes in pan-European simulation platform](http://re-serve.eu/files/reserve/Content/Deliverables/D4.4.pdf)," _RESERVE Library_, 2017.
-- S. Vogel, M. Mirz, L. Razik, A. Monti, "[An Open Solution for Next-generation Real-time Power System Simulation](https://ieeexplore.ieee.org/document/8245739)," _1st IEEE Conference on Energy Internet and Energy System Integration (IEEE-EI^2)_, Beijing, 2017.
