@@ -16,7 +16,7 @@ To start a Jupyter session, run a DPsim Docker container
 
 		$ docker run -p 8888:8888 rwthacs/dpsim
 
-And access the session by opening the following link: http://localhost:8888/lab/tree/Index.ipynb?token=3adaa57df44cea75e60c0169e1b2a98ae8f7de130481b5bc
+And access the session by opening the following link: http://localhost:8888/lab?token=3adaa57df44cea75e60c0169e1b2a98ae8f7de130481b5bc
 
 ## Python
 
