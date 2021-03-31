@@ -52,7 +52,7 @@ To build everything run
 If you would like to use the Python package, it has to be added to the path
 
     $ cd /dpsim/build
-    $ export PYTHONPATH=$(pwd)/Source/Python:$(pwd)/../Source/Python
+    $ export PYTHONPATH=$(pwd):$(pwd)/Source/Python:$(pwd)/../Source/Python
 
 To run jupyter lab
 
