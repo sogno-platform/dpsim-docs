@@ -8,11 +8,11 @@ date: 2017-01-05
 
 Clone the repository
 
-    $ git clone --recurse-submodules git@git.rwth-aachen.de:acs/public/simulation/dpsim/dpsim.git
+    $ git clone git@github.com:sogno-platform/dpsim.git
 
 or using https if you do not have an account
 
-    $ git clone --recurse-submodules https://git.rwth-aachen.de:acs/public/simulation/dpsim/dpsim
+    $ git clone https://github.com/sogno-platform/dpsim.git
 
 In the repository, there is a Docker file with all required dependencies
 
