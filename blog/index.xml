@@ -1,0 +1,11 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – DPsim Blog</title><link>https://dpsim.fein-aachen.org/blog/</link><description>Recent content in DPsim Blog on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://dpsim.fein-aachen.org/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Blog: Open Source Release</title><link>https://dpsim.fein-aachen.org/blog/2020/03/17/open-source-release/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/blog/2020/03/17/open-source-release/</guid><description>
+&lt;p>DPsim version 1.0.0 was released as open source in January 2018.
+The release is associated to the &lt;a href="https://www.sciencedirect.com/science/article/pii/S2352711018302760">SoftwareX article&lt;/a> about DPsim.&lt;/p></description></item><item><title>Blog: New Documentation</title><link>https://dpsim.fein-aachen.org/blog/2020/03/16/new-documentation/</link><pubDate>Mon, 16 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/blog/2020/03/16/new-documentation/</guid><description>
+&lt;p>The new documentation will include:&lt;/p>
+&lt;ul>
+&lt;li>build and development instructions&lt;/li>
+&lt;li>an architecture overview&lt;/li>
+&lt;li>solver and model descriptions&lt;/li>
+&lt;li>guidelines on how to add new models&lt;/li>
+&lt;/ul>
+&lt;p>To support the description of mathematical models, mathjax is included for rendering latex equations.&lt;/p></description></item></channel></rss>

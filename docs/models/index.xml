@@ -1,0 +1,280 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Models</title><link>https://dpsim.fein-aachen.org/docs/models/</link><description>Recent content in Models on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://dpsim.fein-aachen.org/docs/models/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Basic Elements</title><link>https://dpsim.fein-aachen.org/docs/models/basic-elements/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/basic-elements/</guid><description/></item><item><title>Docs: Branches</title><link>https://dpsim.fein-aachen.org/docs/models/branches/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/branches/</guid><description>
+&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
+&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
+&lt;h2 id="rx-line">RX-Line&lt;/h2>
+&lt;h2 id="pi-line">PI-Line&lt;/h2>
+&lt;h2 id="transformer">Transformer&lt;/h2></description></item><item><title>Docs: Induction Machine</title><link>https://dpsim.fein-aachen.org/docs/models/induction-machine/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/induction-machine/</guid><description/></item><item><title>Docs: Synchronous Generator</title><link>https://dpsim.fein-aachen.org/docs/models/synchronous-generator/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/synchronous-generator/</guid><description>
+&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
+&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
+&lt;p>Two different synchronous machine models are currently available:&lt;/p>
+&lt;ul>
+&lt;li>the full order dq0 reference frame model (EMT, DP) [Kundur, Power system stability and control, 1994]&lt;/li>
+&lt;li>and the much simpler transient stability model (DP) [Eremia, Handbook of Electrical Power System Dynamics, 2003]&lt;/li>
+&lt;/ul>
+&lt;p>The machine model is interfaced to the nodal analysis network solver through a current source, which only affects the source vector and not the system matrix &lt;a href="https://ieeexplore.ieee.org/document/5411963">Wang2010&lt;/a>.&lt;/p>
+&lt;h2 id="basic-equations">Basic Equations&lt;/h2>
+&lt;p>The equations of the stator and rotor voltages are&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\mathbf{v}_{abcs} &amp;amp;= \mathbf{R}_s \mathbf{i}_{abcs} + \frac{d}{dt} \boldsymbol{\lambda}_{abcs} \\
+\mathbf{v}_{dqr} &amp;amp;= \mathbf{R}_r \mathbf{i}_{dqr} + \frac{d}{dt} \boldsymbol{\lambda}_{dqr}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>where&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\mathbf{v}_{abcs} &amp;amp;=
+\begin{pmatrix}
+v_{as} &amp;amp; v_{bs} &amp;amp; v_{cs}
+\end{pmatrix}^T \\
+%
+\mathbf{v}_{dqr} &amp;amp;=
+\begin{pmatrix}
+v_{fd} &amp;amp; v_{kd} &amp;amp; v_{kq1} &amp;amp; v_{kq2}
+\end{pmatrix}^T \\
+%
+\mathbf{i}_{abcs} &amp;amp;=
+\begin{pmatrix}
+i_{as} &amp;amp; i_{bs} &amp;amp; i_{cs}
+\end{pmatrix}^T \\
+%
+\mathbf{i}_{dqr} &amp;amp;=
+\begin{pmatrix}
+i_{fd} &amp;amp; i_{kd} &amp;amp; i_{kq1} &amp;amp; i_{kq2}
+\end{pmatrix}^T \\
+%
+\boldsymbol{\lambda}_{abcs} &amp;amp;=
+\begin{pmatrix}
+\lambda_{as} &amp;amp; \lambda_{bs} &amp;amp; \lambda_{cs}
+\end{pmatrix}^T \\
+%
+\boldsymbol{\lambda}_{dqr} &amp;amp;=
+\begin{pmatrix}
+\lambda_{fd} &amp;amp; \lambda_{kd} &amp;amp; \lambda_{kq1} &amp;amp; \lambda_{kq2}
+\end{pmatrix}^T \\
+%
+\mathbf{R}_s &amp;amp;= diag
+\begin{bmatrix}
+R_s &amp;amp; R_s &amp;amp; R_s
+\end{bmatrix} \\
+%
+\mathbf{R}_r &amp;amp;= diag
+\begin{bmatrix}
+R_{fd} &amp;amp; R_{kd} &amp;amp; R_{kq1} &amp;amp; R_{kq2}
+\end{bmatrix}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The flux linkage equations are defined as&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{equation}
+\begin{bmatrix}
+\boldsymbol{\lambda}_{abcs} \\
+\boldsymbol{\lambda}_{dqr}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\mathbf{L}_s &amp;amp; \mathbf{L}_{rs} \\
+{(\mathbf{L}_{rs})}^{T} &amp;amp; \mathbf{L}_r
+\end{bmatrix}
+\begin{bmatrix}
+\mathbf{i}_{abcs} \\
+\mathbf{i}_{dqr}
+\end{bmatrix}
+\end{equation}\]&lt;/span>&lt;/p>
+&lt;p>The inductance matrices are varying with the rotor position &lt;span class="math inline">\(\theta_r\)&lt;/span> which varies with time.&lt;/p>
+&lt;p>The mechanical equations are:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\frac{d\theta_r}{dt} &amp;amp;= \omega_r \\
+\frac{d\omega_r}{dt} &amp;amp;= \frac{P}{2J} (T_e-T_m)
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>&lt;span class="math inline">\(\theta_r\)&lt;/span> is the rotor position, &lt;span class="math inline">\(\omega_r\)&lt;/span> is the angular electrical speed, &lt;span class="math inline">\(P\)&lt;/span> is the number of poles, &lt;span class="math inline">\(J\)&lt;/span> is the moment of inertia, &lt;span class="math inline">\(T_m\)&lt;/span> and &lt;span class="math inline">\(T_e\)&lt;/span> are the mechanical and electrical torque, respectively. Motor convention is used for all models.&lt;/p>
+&lt;h2 id="dq0-reference-frame-9th-order-model">dq0 Reference Frame 9th Order Model&lt;/h2>
+&lt;p>For stator referred variables, the base quantities for per unit are chosen as follows:&lt;/p>
+&lt;ul>
+&lt;li>&lt;span class="math inline">\(v_{s base}\)&lt;/span> peak value of rated line-to-neutral voltage in V&lt;/li>
+&lt;li>&lt;span class="math inline">\(i_{s base}\)&lt;/span> peak value of rated line current in A&lt;/li>
+&lt;li>&lt;span class="math inline">\(f_{base}\)&lt;/span> rated frequency in Hz&lt;/li>
+&lt;/ul>
+&lt;p>The synchronous generator equations in terms of per unit values in the rotor reference frame become:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{equation}
+\begin{bmatrix}
+\mathbf{v}_{dq0s} \\
+\mathbf{v}_{dqr}
+\end{bmatrix}
+=
+\mathbf{R}_{sr}
+\begin{bmatrix}
+\mathbf{i}_{dq0s} \\
+\mathbf{i}_{dqr}
+\end{bmatrix}
++
+\frac{d}{dt}
+\begin{bmatrix}
+\boldsymbol{\lambda}_{dq0s} \\
+\boldsymbol{\lambda}_{dqr}
+\end{bmatrix}
++ \omega_r
+\begin{bmatrix}
+\boldsymbol{\lambda}_{qds} \\
+0
+\end{bmatrix}
+\label{eq:rotor_reference}
+\end{equation}\]&lt;/span>&lt;/p>
+&lt;p>where&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\mathbf{v}_{dq0s} &amp;amp;=
+\begin{pmatrix}
+v_{ds} &amp;amp; v_{qs} &amp;amp; v_{0s}
+\end{pmatrix}^T \nonumber \\
+%
+\mathbf{i}_{dq0s} &amp;amp;=
+\begin{pmatrix}
+i_{ds} &amp;amp; i_{qs} &amp;amp; i_{0s}
+\end{pmatrix}^T \nonumber \\
+%
+\boldsymbol{\lambda}_{dq0s} &amp;amp;=
+\begin{pmatrix}
+\lambda_{ds} &amp;amp; \lambda_{qs} &amp;amp; \lambda_{0s}
+\end{pmatrix}^T \nonumber \\
+%
+\mathbf{R}_{sr} &amp;amp;= diag
+\begin{bmatrix}
+R_s &amp;amp; R_s &amp;amp; R_s &amp;amp; R_{fd} &amp;amp; R_{kd} &amp;amp; R_{kq1} &amp;amp; R_{kq2}
+\end{bmatrix} \nonumber \\
+%
+\boldsymbol{\lambda}_{dqs} &amp;amp;=
+\begin{pmatrix}
+-\lambda_{qs} &amp;amp; \lambda_{ds} &amp;amp; 0
+\end{pmatrix}^T.
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The flux linkages are:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{equation}
+\begin{pmatrix}
+\boldsymbol{\lambda}_{dq0s} \\
+\boldsymbol{\lambda}_{dqr}
+\end{pmatrix}
+=
+\begin{bmatrix}
+\mathbf{L}_{dqss} &amp;amp; \mathbf{L}_{dqsr} \\
+\mathbf{L}_{dqrs} &amp;amp; \mathbf{L}_{dqrr}
+\end{bmatrix}
+\begin{pmatrix}
+\mathbf{i}_{dq0s} \\
+\mathbf{i}_{dqr}
+\end{pmatrix}
+\label{eq:flux_linkages}
+\end{equation}\]&lt;/span>&lt;/p>
+&lt;p>where&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\mathbf{L}_{dqss} &amp;amp;=
+\begin{bmatrix}
+L_{d} &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; L_{q} &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; L_{ls}
+\end{bmatrix} \nonumber \\
+\mathbf{L}_{dqsr} &amp;amp;=
+\begin{bmatrix}
+L_{md} &amp;amp; L_{md} &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; L_{mq} &amp;amp; L_{mq} \\
+0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0
+\end{bmatrix} \nonumber \\
+\mathbf{L}_{dqrs} &amp;amp;=
+\begin{bmatrix}
+L_{md} &amp;amp; 0 &amp;amp; 0 \\
+L_{md} &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; L_{mq} &amp;amp; 0 \\
+0 &amp;amp; L_{mq} &amp;amp; 0
+\end{bmatrix} \nonumber \\
+\mathbf{L}_{rr} &amp;amp;=
+\begin{bmatrix}
+L_{fd} &amp;amp; L_{md} &amp;amp; 0 &amp;amp; 0 \\
+L_{md} &amp;amp; L_{kd} &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; L_{kq1} &amp;amp; L_{mq} \\
+0 &amp;amp; 0 &amp;amp; L_{mq} &amp;amp; L_{kq2}
+\end{bmatrix} \nonumber \\
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>with&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+L_{d} &amp;amp;= L_{ls} + L_{md} \nonumber \\
+L_{q} &amp;amp;= L_{ls} + L_{mq} \nonumber \\
+L_{fd} &amp;amp;= L_{lfd} + L_{md} \nonumber \\
+L_{kd} &amp;amp;= L_{lkd} + L_{md} \nonumber \\
+L_{kq1} &amp;amp;= L_{lkq1} + L_{mq} \nonumber \\
+L_{kq2} &amp;amp;= L_{lkq2} + L_{mq}.
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The mechanical equations in per unit become:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+T_e &amp;amp;= \lambda_{qs} i_{ds} - \lambda_{ds} i_{qs} \\
+\frac{d \omega_r}{dt} &amp;amp;= \omega_r \\
+\frac{1}{\omega_b} \frac{d \omega_r}{dt} &amp;amp;= \frac{1}{2H} (T_m - T_e).
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>For the simulation, fluxes are chosen as state variables. To avoid the calculation of currents from fluxes using the inverse of the inductance matrix, the equation set needs to be solved for the fluxes analytically. To simplify the calculations, dq axis magnetizing flux linkages are defined [Krause, Analysis of electric machinery and drive systems, 2002]:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\lambda_{md} &amp;amp;= L_{md} \left( i_{ds} + i_{fd} + i_{kd} \right) \nonumber \\
+\lambda_{mq} &amp;amp;= L_{mq} \left( i_{qs} + i_{kq1} + i_{kq2} \right).
+\label{eq:magnetizing_flux_linkage}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>Using the flux linkages results in a simpler equation set for the fluxes:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\lambda_{ds} &amp;amp;= L_{ls} i_{ds} + L_{md} \left( i_{ds} + i_{fd} + i_{kd} \right) \nonumber \\
+\lambda_{qs} &amp;amp;= L_{ls} i_{qs} + L_{mq} \left( i_{qs} + i_{kq1} + i_{kq2} \right) \nonumber \\
+\lambda_{0s} &amp;amp;= L_{ls} i_{0s} \nonumber \\
+\lambda_{fd} &amp;amp;= L_{ls} i_{fd} + L_{md} \left( i_{ds} + i_{fd} + i_{kd} \right) \nonumber \\
+\lambda_{kd} &amp;amp;= L_{ls} i_{kd} + L_{md} \left( i_{ds} + i_{fd} + i_{kd} \right) \nonumber \\
+\lambda_{kq1} &amp;amp;= L_{ls} i_{kq1} + L_{mq} \left( i_{qs} + i_{kq1} + i_{kq2} \right) \nonumber \\
+\lambda_{kq2} &amp;amp;= L_{ls} i_{kq2} + L_{mq} \left( i_{qs} + i_{kq1} + i_{kq2} \right)
+\label{eq:syngen_lambda}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\lambda_{ds} &amp;amp;= L_{ls} i_{ds} + \lambda_{md} \nonumber \\
+\lambda_{qs} &amp;amp;= L_{ls} i_{qs} + \lambda_{mq} \nonumber \\
+\lambda_{0s} &amp;amp;= L_{ls} i_{0s} \nonumber \\
+\lambda_{fd} &amp;amp;= L_{lfd} i_{fd} + \lambda_{md} \nonumber \\
+\lambda_{kd} &amp;amp;= L_{lkd} i_{kd} + \lambda_{md} \nonumber \\
+\lambda_{kq1} &amp;amp;= L_{lkq1} i_{kq1} + \lambda_{mq} \nonumber \\
+\lambda_{kq2} &amp;amp;= L_{lkq2} i_{kq2} + \lambda_{mq}
+\label{eq:flux_currents_flux_linkage}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;h3 id="dynamic-phasor-model">Dynamic Phasor Model&lt;/h3>
+&lt;p>The fundamental dynamic phasors are similar to the dq0 quantities for symmetrical conditions since both yield DC quantities in a rotating reference frame. The network abc dynamic phasor quantities can be converted to dq0 dynamic phasors by applying the symmetrical components transformation and a rotation.&lt;/p>
+&lt;p>The angle &lt;span class="math inline">\(\delta\)&lt;/span> is the orientation of the dq0 reference frame relative to the abc frame.&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\langle i_{ds} \rangle_{0} &amp;amp;= \mathbf{Re} \left\{ \langle i_{p} \rangle_1 \ \mathrm{e}^{-j \delta} \right\} \nonumber \\
+\langle i_{qs} \rangle_{0} &amp;amp;= \mathbf{Im} \left\{ \langle i_{p} \rangle_1 \ \mathrm{e}^{-j \delta} \right\} \nonumber \\
+\langle i_{ds} \rangle_{2} &amp;amp;= \mathbf{Re} \left\{ \langle i_{n} \rangle_{1}^* \ \mathrm{e}^{-j \delta} \right\} \nonumber \\
+\langle i_{qs} \rangle_{2} &amp;amp;= \mathbf{Im} \left\{ \langle i_{n} \rangle_{1}^* \ \mathrm{e}^{-j \delta} \right\} \nonumber \\
+\langle i_{0s} \rangle_{1} &amp;amp;= \mathbf{Re} \left\{ \langle i_{z} \rangle_1 \right\}
+\label{eq:syngen_abc_dq0_conversion}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The winding currents for positive and zero sequence components can be expressed as:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\langle i_{ds} \rangle_0 &amp;amp;= \frac{\langle \lambda_{ds} \rangle_0 - \langle \lambda_{md} \rangle_0 }{L_{ls}} \nonumber \\
+\langle i_{qs} \rangle_0 &amp;amp;= \frac{\langle \lambda_{qs} \rangle_0 - \langle \lambda_{mq} \rangle_0}{L_{ls}} \nonumber \\
+\langle i_{0s} \rangle_1 &amp;amp;= \frac{\langle \lambda_{0s} \rangle_1}{L_{ls}} \nonumber \\
+\langle i_{fd} \rangle_0 &amp;amp;= \frac{\langle \lambda_{fd} \rangle_0 - \langle \lambda_{md} \rangle_0}{L_{lfd}} \nonumber \\
+\langle i_{kd} \rangle_0 &amp;amp;= \frac{\langle \lambda_{kd} \rangle_0 - \langle \lambda_{md} \rangle_0}{L_{lkd}} \nonumber \\
+\langle i_{kq1} \rangle_0 &amp;amp;= \frac{\langle \lambda_{kq1} \rangle_0 - \langle \lambda_{mq} \rangle_0}{L_{lkq1}} \nonumber \\
+\langle i_{kq2} \rangle_0 &amp;amp;= \frac{\langle \lambda_{kq2} \rangle_0 - \langle \lambda_{mq} \rangle_0}{L_{lkq2}}.
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\frac{d}{dt} \langle \lambda_{ds} \rangle_0 &amp;amp;= \langle v_{ds} \rangle_0 + \langle \omega_r \rangle_0 \langle \lambda_{qs} \rangle_0 + \frac{R_s}{L_{ls}} \left( \langle \lambda_{md} \rangle_0 - \langle \lambda_{ds} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{qs} \rangle_0 &amp;amp;= \langle v_{qs} \rangle_0 - \langle \omega_r \rangle_0 \langle \lambda_{ds} \rangle_0 + \frac{R_s}{L_{ls}} \left( \langle \lambda_{mq} \rangle_0 - \langle \lambda_{qs} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{0s} \rangle_1 &amp;amp;= \langle v_{0s} \rangle_1 - \frac{R_s}{L_{ls}} \langle \lambda_{0s} \rangle_1 -j \omega_s \langle \lambda_{0s} \rangle_1 \nonumber \\
+\frac{d}{dt} \langle \lambda_{fd} \rangle_0 &amp;amp;= \langle v_{fd} \rangle_0 + \frac{R_{fd}}{L_{lfd}} \left( \langle \lambda_{md} \rangle_0 - \langle \lambda_{fd} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{kd} \rangle_0 &amp;amp;= \frac{R_{kd}}{L_{lkd}} \left( \langle \lambda_{md} \rangle_0 - \langle \lambda_{kd} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{kq1} \rangle_0 &amp;amp;= \frac{R_{kq1}}{L_{lkq1}} \left( \langle \lambda_{mq} \rangle_0 - \langle \lambda_{kq1} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{kq2} \rangle_0 &amp;amp;= \frac{R_{kq2}}{L_{lkq2}} \left( \langle \lambda_{mq} \rangle_0 - \langle \lambda_{kq2} \rangle_0 \right).
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>In the dynamic phasor case, the equation for &lt;span class="math inline">\(\frac{d}{dt} \langle \lambda_{0s} \rangle_1\)&lt;/span> has a frequency shift. To complete the state model, the magnetizing flux linkages are expressed as:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\langle \lambda_{md} \rangle_0 &amp;amp;= L_{ad} \left( \frac{\langle \lambda_{ds} \rangle_0}{L_{ls}} + \frac{\langle \lambda_{fd} \rangle_0}{L_{lfd}} + \frac{\langle \lambda_{kd} \rangle_0}{L_{lkd}} \right) \nonumber \\
+\langle \lambda_{mq} \rangle_0 &amp;amp;= L_{aq} \left( \frac{\langle \lambda_{qs} \rangle_0}{L_{ls}} + \frac{\langle \lambda_{kq1} \rangle_0}{L_{lkq1}} + \frac{\langle \lambda_{kq2} \rangle_0}{L_{lkq2}} \right)
+\label{eq:winding_flux_linkages}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>where&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+L_{ad} &amp;amp;= \left( \frac{1}{L_{md}} + \frac{1}{L_{ls}} + \frac{1}{L_{lfd}} + \frac{1}{L_{lkd}} \right) \nonumber \\
+L_{aq} &amp;amp;= \left( \frac{1}{L_{mq}} + \frac{1}{L_{ls}} + \frac{1}{L_{lkq1}} + \frac{1}{L_{lkq2}} \right).
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The mechanical equations in dynamic phasors are:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+T_e &amp;amp;= \langle \lambda_{qs} \rangle_0 \langle i_{ds} \rangle_0 - \langle \lambda_{ds} \rangle_0 \langle i_{qs} \rangle_0 \\
+\frac{1}{\omega_s} \frac{d \delta_r}{dt} &amp;amp;= \omega_r - 1 \\
+\frac{d \omega_r}{dt} &amp;amp;= \frac{1}{2H} (T_m - T_e).
+\end{align}\]&lt;/span>&lt;/p>
+&lt;h2 id="transient-stability-model">Transient Stability Model&lt;/h2></description></item><item><title>Docs: VS-Inverter</title><link>https://dpsim.fein-aachen.org/docs/models/power-electronics/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/power-electronics/</guid><description/></item></channel></rss>

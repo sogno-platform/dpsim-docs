@@ -1,0 +1,844 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Documentation</title><link>https://dpsim.fein-aachen.org/docs/</link><description>Recent content in Documentation on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://dpsim.fein-aachen.org/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Architecture</title><link>https://dpsim.fein-aachen.org/docs/overview/architecture/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/architecture/</guid><description>
+&lt;h2 id="modules-and-dependencies">Modules and Dependencies&lt;/h2>
+&lt;p>The figure below shows the main components of the DPsim library and their dependencies on other software projects.
+All functionality is implemented in the C++ core, which can be used standalone or together with the Python interface.
+The Python interface is a thin wrapper of the C++ core.
+Jupyter notebooks can either use the DPsim Python interface to run simulations or call executables implemented in C++.
+The data analysis and plotting is always done in Python using common libraries like Matplotlib.
+To collect the simulation results from within Python, one can use the villas-dataprocessing Python package.&lt;/p>
+&lt;p>&lt;img src="dpsim_modules.svg" alt="image">&lt;/p>
+&lt;p>Another approach to get data in or out of DPsim is the VILLAS interface, which does not depend on Python at all.
+The main purpose of the VILLAS interface is to exchange data during the simulation runtime, for example, in real-time simulation experiments.
+The data could be send to other simulators, hardware or other software components like databases.
+Storing the data in databases can be another way of managing (also offline) simulation results if the Python CSV method is not desireable.&lt;/p>
+&lt;p>The CIM reader is based on the CIM++ library and provides a comfortable alternative to defining the grid manually in C++ or Python.
+In principle, it calls the same functions to create elements, which are also used in the C++ defined example scenarios, but automatically.
+DPsim also provides a way to visualize the defined networks before simulation.&lt;/p>
+&lt;p>The main solver of DPsim is currently the MNA solver because it enables a rather deterministic computation time per simulation time step, which is necessary for real-time simulation.
+Apart from that, it is also well established in offline circuit simulation.
+The only dependency of the MNA solver is the linear algebra library Eigen.
+For some component models, it is possible to use the Sundials ODE solver in combination with the MNA solver. In that case, the component is solved by the ODE solver whereas the network is still handled by the MNA solver.
+A DAE solver is currently under development.
+Its main purpose will be offline simulation, for example, to provide reference results where simulation runtime and real-time execution are not relevant.&lt;/p>
+&lt;p>The component models depend mostly on the Eigen library.
+Even if components are used in combination with Sundials ODE / DAE solvers, we try to keep the specific functions required by these solvers independent of the Sundials package.&lt;/p>
+&lt;h2 id="class-hierarchy">Class Hierarchy&lt;/h2>
+&lt;p>The &lt;code>Simulation&lt;/code> class holds references to instances of &lt;code>Interface&lt;/code>, &lt;code>Solver&lt;/code>, &lt;code>Logger&lt;/code> and &lt;code>SystemTopology&lt;/code>.
+For a simulation scenario, the minimum description would include a &lt;code>SystemTopology&lt;/code> and a solver type.
+The &lt;code>Solver&lt;/code> instance is then created by the &lt;code>Simulation&lt;/code>.&lt;/p>
+&lt;p>&lt;img src="dpsim_classes_simulation.svg" alt="image">&lt;/p>
+&lt;p>An important function of the &lt;code>Simulation&lt;/code> is to collect all tasks, which have to be executed during the simulation.
+These tasks include computation steps of the individual power system component models as well as read and write tasks of the interfaces and logging variables etc.
+Before the scheduling is done, &lt;code>Simulation&lt;/code> calls a function, e.g. &lt;code>getTasks()&lt;/code>, in order to retrieve the tasks from instances of the four classes mentioned previously.
+The power system model element tasks are collected by the &lt;code>Solver&lt;/code> instances and relayed to the &lt;code>Simulation&lt;/code>.&lt;/p>
+&lt;p>All power system element classes inherit from the &lt;code>IdentifiedObject&lt;/code> class.
+This class corresponds with the &lt;code>IdentifiedObject&lt;/code> of the IEC61970 CIM and has a &lt;code>uid&lt;/code> and &lt;code>name&lt;/code> attribute as well.&lt;/p>
+&lt;p>&lt;img src="dpsim_classes_identifiedobject.svg" alt="image">&lt;/p>
+&lt;p>The next layer of specialization includes information on the topological connection between network elements.
+An electrical bus and network nodes in general are represented by the &lt;code>TopologiclaNode&lt;/code> class.
+The connection of electrical components, &lt;code>TopologicalPowerComp&lt;/code>, is managed via terminals of type &lt;code>TopologicalTerminal&lt;/code>.
+These three types describe the &lt;em>electrical&lt;/em> connections of the network, which are bidirectional and include voltages and currents.
+The signal type elements, &lt;code>TopologicalSignalComp&lt;/code>, can only have unidirectional components, which are not expressed using node and terminals.
+Instead, the attribute system is used to define signal type connections.&lt;/p></description></item><item><title>Docs: Attributes</title><link>https://dpsim.fein-aachen.org/docs/overview/attributes/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/attributes/</guid><description>
+&lt;p>Attributes, instances of the &lt;code>Attribute&lt;/code> class, serve multiple purposes in DPsim:&lt;/p>
+&lt;ul>
+&lt;li>add meta information about variables, like read and write access&lt;/li>
+&lt;li>in combination with tasks, they are the input required by the scheduler&lt;/li>
+&lt;li>connect components by pointing an attribute of one component to another component&amp;rsquo;s member variable&lt;/li>
+&lt;li>add additional getter / setter lambda functions to variables&lt;/li>
+&lt;li>add reflexion, which is not supported by C++ directly&lt;/li>
+&lt;/ul>
+&lt;p>Let&amp;rsquo;s have a look at some code snippets that use attributes.&lt;/p>
+&lt;p>Classes support attributes by inheriting from &lt;code>AttributeList&lt;/code>:&lt;/p>
+&lt;pre>&lt;code>class IdentifiedObject: virtual public AttributeList {
+...
+}
+&lt;/code>&lt;/pre>
+&lt;p>New attributes are usually registered in the constructor of a class:&lt;/p>
+&lt;pre>&lt;code>DP::Ph1::Inductor::Inductor(String uid, String name, Logger::Level logLevel)
+...
+addAttribute&amp;lt;Real&amp;gt;(&amp;quot;L&amp;quot;, &amp;amp;mInductance, Flags::read | Flags::write);
+}
+&lt;/code>&lt;/pre>
+&lt;p>Here, the attribute has the name &lt;code>L&lt;/code> and points to the member variable &lt;code>mInductance&lt;/code>.
+Besides, the attribute enables reading and writing this variable.&lt;/p>
+&lt;p>To access an attribute, you need to know its name and the component it belongs to.
+For example, adding the voltage at node &lt;code>n1&lt;/code> to the logger for a simulation can be done as follows:&lt;/p>
+&lt;pre>&lt;code>logger-&amp;gt;addAttribute(&amp;quot;v1&amp;quot;, n1-&amp;gt;attributeMatrixComp(&amp;quot;v&amp;quot;));
+&lt;/code>&lt;/pre>
+&lt;p>Note that the voltage is a complex matrix in this case.
+Since we would like to use Eigen matrix specific methods in the logger, the &lt;code>attributeMatrixComp&lt;/code> function is used to return the attribute already casted to a complex matrix type.&lt;/p>
+&lt;p>Attributes are also used to determine dependencies of tasks on data, which is information required by the scheduler.
+A task describing its dependencies on attributes could look like this.&lt;/p>
+&lt;pre>&lt;code>class MnaPostStep : public Task {
+public:
+MnaPostStep(Inductor&amp;amp; inductor, Attribute&amp;lt;Matrix&amp;gt;::Ptr leftVector) :
+Task(inductor.mName + &amp;quot;.MnaPostStep&amp;quot;),
+mInductor(inductor), mLeftVector(leftVector) {
+mAttributeDependencies.push_back(mLeftVector);
+mModifiedAttributes.push_back(mInductor.attribute(&amp;quot;v_intf&amp;quot;));
+mModifiedAttributes.push_back(mInductor.attribute(&amp;quot;i_intf&amp;quot;));
+}
+void execute(Real time, Int timeStepCount);
+private:
+Inductor&amp;amp; mInductor;
+Attribute&amp;lt;Matrix&amp;gt;::Ptr mLeftVector;
+};
+&lt;/code>&lt;/pre>
+&lt;p>Here, the MNA post step depends on the solution vector of the system, &lt;code>leftVector&lt;/code>, and modifies &lt;code>v_intf&lt;/code> and &lt;code>i_intf&lt;/code>.
+Therefore, this task needs to be scheduled after the system solution that computes &lt;code>leftVector&lt;/code> and before tasks that require the voltage and current interface vectors of the inductance, e.g. the task logging these values.&lt;/p></description></item><item><title>Docs: Scheduling</title><link>https://dpsim.fein-aachen.org/docs/overview/scheduling/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/scheduling/</guid><description>
+&lt;p>DPsim implements level scheduling.
+A task T4 that depends on data modified by task T1 is scheduled to the level following the level of task T1.
+In the simplest case, all tasks of a level have to be finished before tasks of the next level are started.&lt;/p>
+&lt;p>&lt;img src="task_graph_levels.svg" alt="image">&lt;/p>
+&lt;p>The dependencies of tasks on data are determined by referencing the attributes that are read or modified by the task.
+The scheduler computes the schedule prior to the simulation from the task dependency graph resulting from the tasks&amp;rsquo; data dependencies.&lt;/p></description></item><item><title>Docs: Add New Model</title><link>https://dpsim.fein-aachen.org/docs/tasks/add-model/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/tasks/add-model/</guid><description>
+&lt;h2 id="add-a-component-model">Add a Component Model&lt;/h2>
+&lt;p>In this section we will show the implementation of a new component model by means a three-phase dynamic phasor inductor model.&lt;/p>
+&lt;h3 id="c-oop">C++ OOP&lt;/h3>
+&lt;p>DPsim implements component models in a sub project called CPowerSystems (CPS) that is located in the &lt;em>models&lt;/em> folder.
+This folder is added to the DPsim CMake project.
+Every component in DPsim is represented by a C++ class.&lt;/p>
+&lt;p>DPsim supports different types of solvers (MNA, DAE, NRP).
+Each solver requires certain member functions in the component class to be implemented.
+These functions are specified by the solver interface classes: &lt;code>MNAInterface.h&lt;/code>, &lt;code>DAEInterface.h&lt;/code>, etc.&lt;/p>
+&lt;h3 id="directory--namespace-structure">Directory / Namespace Structure&lt;/h3>
+&lt;p>For the implementation of the new component, we add two new files&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>models/Source/DP/DP_Ph3_Inductor.cpp&lt;/code>&lt;/li>
+&lt;li>&lt;code>models/Include/DP/DP_Ph3_Inductor.h&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>In these files, we will implement a new C++ class with the name &lt;code>CPS::DP::Ph3::Inductor&lt;/code>.
+The general structure looks as follows.&lt;/p>
+&lt;p>Directories:&lt;/p>
+&lt;pre>&lt;code>DPsim
+|
+|- Source
+|- Include
+\ models
+|- Source
+|- DP
+|- EMT
+|- Static
+\ Signal
+|- Include
+|- DP
+|- EMT
+|- Static
+\ Signal
+&lt;/code>&lt;/pre>
+&lt;p>Namespaces:&lt;/p>
+&lt;pre>&lt;code>CPS::{DP,EMT,Static,Signal}::{Ph1,Ph3}::{Name}
+&lt;/code>&lt;/pre>
+&lt;h3 id="attributes">Attributes&lt;/h3>
+&lt;p>Each components has a list of attributes, which has to be specified when creating the components class.&lt;/p>
+&lt;p>TODO: explain attribute system&lt;/p>
+&lt;h3 id="tasks-for-prepost-step-functions">Tasks for Pre/Post-step Functions&lt;/h3>
+&lt;p>TODO: add example task dependency graph&lt;/p>
+&lt;h3 id="adding-the-new-component-to-dpsim">Adding the new Component to DPsim&lt;/h3>
+&lt;p>After finishing the implementation of the new component, it needs to be added to the following files:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>models/Include/cps/Components.h&lt;/code>&lt;/li>
+&lt;li>&lt;code>models/Source/CMakeLists.txt&lt;/code>&lt;/li>
+&lt;li>&lt;code>Sources/Python/Module.cpp&lt;/code>&lt;/li>
+&lt;/ul></description></item><item><title>Docs: Examples</title><link>https://dpsim.fein-aachen.org/docs/examples/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/examples/</guid><description>
+&lt;p>The DPsim repository includes &lt;a href="https://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/-/tree/master/Examples">examples&lt;/a> that can be run locally and on Github you can find a selection of &lt;a href="https://github.com/DPsim-Simulator/DPsim-Notebooks">Jupyter notebooks&lt;/a> with results.&lt;/p></description></item><item><title>Docs: Tutorials</title><link>https://dpsim.fein-aachen.org/docs/tutorials/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/tutorials/</guid><description>
+&lt;p>On Github you can find a selection of &lt;a href="https://github.com/DPsim-Simulator/DPsim-Notebooks">Jupyter notebooks&lt;/a> with results.
+These will be updated with more explanations.&lt;/p></description></item><item><title>Docs: Reference</title><link>https://dpsim.fein-aachen.org/docs/reference/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/reference/</guid><description>
+&lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/sphinx/about.html">Sphinx documentation&lt;/a> describes the Python API.&lt;/p>
+&lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/doxygen/index.html">Doxygen documentation&lt;/a> is automatically generated from the C++ code using Doxygen.
+It is helpful to understand the general structure of the C++ DPsim core components.&lt;/p></description></item><item><title>Docs: Contribution Guidelines</title><link>https://dpsim.fein-aachen.org/docs/contribution-guidelines/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/contribution-guidelines/</guid><description>
+&lt;p>We&amp;rsquo;d love to accept your patches and contributions to this project.
+Please get in touch with us via mail or slack if you would like to contribute.&lt;/p></description></item><item><title>Docs: Create New Simulation</title><link>https://dpsim.fein-aachen.org/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/tasks/create-simulation/</guid><description>
+&lt;p>Here, we will show the implementation of a new simulation scenario defined in C++, which is using DPsim as a library.&lt;/p>
+&lt;h2 id="directory-structure">Directory Structure&lt;/h2>
+&lt;p>In the end, your directory structure should look like as follows:&lt;/p>
+&lt;pre>&lt;code>my-project
+|- CMakeLists.txt
+|- source
+|- my-scenario.cpp
+|- dpsim (as submodule)
+&lt;/code>&lt;/pre>
+&lt;h2 id="cmake-file">CMake File&lt;/h2>
+&lt;p>Your CMakeLists could look like this:&lt;/p>
+&lt;pre>&lt;code>cmake_minimum_required(VERSION 3.5)
+project(my-project CXX)
+add_subdirectory(dpsim)
+add_executable(my-scenario source/my-scenario.cpp)
+target_link_libraries(my-scenario dpsim)
+&lt;/code>&lt;/pre>
+&lt;h2 id="build-the-project">Build the Project&lt;/h2>
+&lt;p>The build process is similar to the one of DPsim:&lt;/p>
+&lt;pre>&lt;code>$ cd my-project
+$ mkdir build &amp;amp;&amp;amp; cd build
+$ cmake ..
+$ make my-scenario&lt;/code>&lt;/pre></description></item><item><title>Docs: Basic Elements</title><link>https://dpsim.fein-aachen.org/docs/models/basic-elements/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/basic-elements/</guid><description/></item><item><title>Docs: Branches</title><link>https://dpsim.fein-aachen.org/docs/models/branches/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/branches/</guid><description>
+&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
+&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
+&lt;h2 id="rx-line">RX-Line&lt;/h2>
+&lt;h2 id="pi-line">PI-Line&lt;/h2>
+&lt;h2 id="transformer">Transformer&lt;/h2></description></item><item><title>Docs: Dynamic Phasors</title><link>https://dpsim.fein-aachen.org/docs/concepts/dyn-phasors/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/concepts/dyn-phasors/</guid><description>
+&lt;p>In the power systems community, dynamic phasors were initially introduced for power electronics analysis &lt;a href="https://ieeexplore.ieee.org/document/76811">Sanders1991&lt;/a> as a more general approach than state-space averaging.
+They were used to construct efficient models for the dynamics of switching gate phenomena with a high level of detail as shown in &lt;a href="https://ieeexplore.ieee.org/abstract/document/744524">Mattavelli1999&lt;/a>.
+A few years later, dynamic phasors were also employed for power system simulation as described in &lt;a href="https://www.research-collection.ethz.ch/handle/20.500.11850/123490">Demiray2008&lt;/a>.
+In &lt;a href="https://ieeexplore.ieee.org/document/4026700">Strunz2006&lt;/a> the authors combine the dynamic phasor approach with the Electromagnetic Transients Program (EMTP) simulator concept which includes Modified Nodal Analysis (MNA).
+Further research topics include fault and stability analysis under unbalanced conditions as presented in &lt;a href="https://ieeexplore.ieee.org/document/871734">Stankovic2000&lt;/a> and also rotating machine models have been developed in dynamic phasors &lt;a href="https://ieeexplore.ieee.org/document/4282063">Zhang 2007&lt;/a>.&lt;/p>
+&lt;h2 id="bandpass-signals-and-baseband-representation">Bandpass Signals and Baseband Representation&lt;/h2>
+&lt;p>Although here, dynamic phasors are presented as a power system modelling tool, it should be noted that the concept is also known in other domains, for example, microwave and communications engineering [Maas2003, Suarez2009, Haykin2009, Proakis2001].
+In these domains, the approach is often denoted as base band representation or complex envelope.
+Another common term coming from power electrical engineering is shifted frequency analysis (SFA).
+In the following, the general approach of dynamic phasors for power system simulation is explained starting from the idea of bandpass signals.
+This is because the 50 Hz or 60 Hz fundamental and small deviations from it can be seen as such a bandpass signal.
+Futhermore, higher frequencies, for example, generated by power electronics can be modelled in a similar way.&lt;/p></description></item><item><title>Docs: Induction Machine</title><link>https://dpsim.fein-aachen.org/docs/models/induction-machine/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/induction-machine/</guid><description/></item><item><title>Docs: Nodal Analysis</title><link>https://dpsim.fein-aachen.org/docs/concepts/nodal-analysis/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/concepts/nodal-analysis/</guid><description>
+&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
+&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
+&lt;p>A circuit with &lt;span class="math inline">\(b\)&lt;/span> branches has &lt;span class="math inline">\(2b\)&lt;/span> unknowns since there are &lt;span class="math inline">\(b\)&lt;/span> voltages and &lt;span class="math inline">\(b\)&lt;/span> currents. Hence, &lt;span class="math inline">\(2b\)&lt;/span> linear independent equations are required to solve the circuit. If the circuit has &lt;span class="math inline">\(n\)&lt;/span> nodes and &lt;span class="math inline">\(b\)&lt;/span> branches, it has&lt;/p>
+&lt;ul>
+&lt;li>Kirchoff’s current law (KCL) equations&lt;/li>
+&lt;li>Kirchoff’s voltage law (KVL) equations&lt;/li>
+&lt;li>Characteristic equations (Ohm’s Law)&lt;/li>
+&lt;/ul>
+&lt;p>There are only &lt;span class="math inline">\(n-1\)&lt;/span> KCLs since the nth equation is a linear combination of the remaining &lt;span class="math inline">\(n-1\)&lt;/span>. At the same time, it can be demonstrated that if we can imagine a very high number of closed paths in the network, only &lt;span class="math inline">\(b-n+1\)&lt;/span> are able to provide independent KVLs. Finally there are &lt;span class="math inline">\(b\)&lt;/span> characteristic equations, describing the behavior of the branch, making a total of &lt;span class="math inline">\(2b\)&lt;/span> linear independent equations.&lt;/p>
+&lt;p>The nodal analysis method reduces the number of equations that need to be solved simultaneously. &lt;span class="math inline">\(n-1\)&lt;/span> voltage variables are defined and solved, writing &lt;span class="math inline">\(n-1\)&lt;/span> KCL based equations. A circuit can be solved using Nodal Analysis as follows&lt;/p>
+&lt;ul>
+&lt;li>Select a reference node (mathematical ground) and number the remaining &lt;span class="math inline">\(n-1\)&lt;/span> nodes, that are the independent voltage variables&lt;/li>
+&lt;li>Represent every branch current &lt;span class="math inline">\(i\)&lt;/span> as a function of node voltage variables &lt;span class="math inline">\(v\)&lt;/span> with the general expression &lt;span class="math inline">\(i = g(v)\)&lt;/span>&lt;/li>
+&lt;li>Write &lt;span class="math inline">\(n-1\)&lt;/span> KCL based equations in terms of node voltage variable.&lt;/li>
+&lt;/ul>
+&lt;p>The resulting equations can be written in matrix form and have to be solved for &lt;span class="math inline">\(v\)&lt;/span>. &lt;span class="math display">\[\boldsymbol{Y} \boldsymbol{v} = \boldsymbol{i}\]&lt;/span>&lt;/p></description></item><item><title>Docs: Powerflow</title><link>https://dpsim.fein-aachen.org/docs/concepts/powerflow/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/concepts/powerflow/</guid><description>
+&lt;script>
+MathJax = {
+tex: {
+tags: 'all'
+}
+};
+&lt;/script>
+&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
+&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
+&lt;p>The power flow problem is about the calculation of voltage magnitudes and angles for one set of buses. The solution is obtained from a given set of voltage magnitudes and power levels for a specific model of the network configuration. The power flow solution exhibits the voltages and angles at all buses and real and reactive flows can be deduced from the same.&lt;/p>
+&lt;h2 id="power-system-model">Power System Model&lt;/h2>
+&lt;p>Power systems are modeled as a network of buses (nodes) and branches (lines). To a network bus, components such a generator, load, and transmission substation can be connected. Each bus in the network is fully described by the following four electrical quantities:&lt;/p>
+&lt;ul>
+&lt;li>&lt;span class="math inline">\(\vert V_{k} \vert\)&lt;/span>: the voltage magnitude&lt;/li>
+&lt;li>&lt;span class="math inline">\(\theta_{k}\)&lt;/span>: the voltage phase angle&lt;/li>
+&lt;li>&lt;span class="math inline">\(P_{k}\)&lt;/span>: the active power&lt;/li>
+&lt;li>&lt;span class="math inline">\(Q_{k}\)&lt;/span>: the reactive power&lt;/li>
+&lt;/ul>
+&lt;p>There are three types of networks buses: VD bus, PV bus and PQ bus. Depending on the type of the bus, two of the four electrical quantities are specified as shown in the table below.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr class="header">
+&lt;th>Bus Type&lt;/th>
+&lt;th>Known&lt;/th>
+&lt;th>Unknown&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr class="odd">
+&lt;td>&lt;span class="math inline">\(VD\)&lt;/span>&lt;/td>
+&lt;td>&lt;span class="math inline">\(\vert V_{k} \vert, \theta_{k}\)&lt;/span>&lt;/td>
+&lt;td>&lt;span class="math inline">\(P_{k}, Q_{k}\)&lt;/span>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;span class="math inline">\(PV\)&lt;/span>&lt;/td>
+&lt;td>&lt;span class="math inline">\(P_{k}, \vert V_{k} \vert\)&lt;/span>&lt;/td>
+&lt;td>&lt;span class="math inline">\(Q_{k}, \theta_{k}\)&lt;/span>&lt;/td>
+&lt;/tr>
+&lt;tr class="odd">
+&lt;td>&lt;span class="math inline">\(PQ\)&lt;/span>&lt;/td>
+&lt;td>&lt;span class="math inline">\(P_{k}, Q_{k}\)&lt;/span>&lt;/td>
+&lt;td>&lt;span class="math inline">\(\vert V_{k} \vert, \theta_{k}\)&lt;/span>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="single-phase-power-flow-problem">Single Phase Power Flow Problem&lt;/h2>
+&lt;p>The power flow problem can be expressed by the goal to bring a mismatch function &lt;span class="math inline">\(\vec{f}\)&lt;/span> to zero. The value of the mismatch function depends on a solution vector &lt;span class="math inline">\(\vec{x}\)&lt;/span>: &lt;span class="math display">\[ \vec{f}(\vec{x}) = 0 \]&lt;/span>&lt;/p>
+&lt;p>As &lt;span class="math inline">\(\vec{f}(\vec{x})\)&lt;/span> will be nonlinear, the equation system will be solved with Newton-Raphson:&lt;/p>
+&lt;p>&lt;span class="math display">\[-\textbf{J}(\vec{x}) \Delta \vec{x} = \vec{f} (\vec{x})\]&lt;/span>&lt;/p>
+&lt;p>where &lt;span class="math inline">\(\Delta \vec{x}\)&lt;/span> is the correction of the solution vector and &lt;span class="math inline">\(\textbf{J}(\vec{x})\)&lt;/span> is the Jacobian matrix. The solution vector &lt;span class="math inline">\(\vec{x}\)&lt;/span> represents the voltage &lt;span class="math inline">\(\vec{V}\)&lt;/span> by polar or cartesian quantities. The mismatch function &lt;span class="math inline">\(\vec{f}\)&lt;/span> will either represent the power mismatch &lt;span class="math inline">\(\Delta \vec{S}\)&lt;/span> in terms of&lt;/p>
+&lt;p>&lt;span class="math display">\[\left [ \begin{array}{c} \Delta \vec{P} \\ \Delta \vec{Q} \end{array} \right ]\]&lt;/span>&lt;/p>
+&lt;p>or the current mismatch &lt;span class="math inline">\(\Delta \vec{I}\)&lt;/span> in terms of&lt;/p>
+&lt;p>&lt;span class="math display">\[\left [ \begin{array}{c} \Delta \vec{I_{real}} \\ \Delta \vec{I_{imag}} \end{array} \right ]\]&lt;/span>&lt;/p>
+&lt;p>where the vectors split the complex quantities into real and imaginary parts. Futhermore, the solution vector &lt;span class="math inline">\(\vec{x}\)&lt;/span> will represent &lt;span class="math inline">\(\vec{V}\)&lt;/span> either by polar coordinates&lt;/p>
+&lt;p>&lt;span class="math display">\[\left [ \begin{array}{c} \vec{\delta} \\ \vert \vec{V} \vert \end{array} \right ]\]&lt;/span>&lt;/p>
+&lt;p>or rectangular coordinates&lt;/p>
+&lt;p>&lt;span class="math display">\[\left [ \begin{array}{c} \vec{V_{real}} \\ \vec{V_{imag}} \end{array} \right ]\]&lt;/span>&lt;/p>
+&lt;p>This results in four different formulations of the powerflow problem:&lt;/p>
+&lt;ul>
+&lt;li>with power mismatch function and polar coordinates&lt;/li>
+&lt;li>with power mismatch function and rectangular coordinates&lt;/li>
+&lt;li>with current mismatch function and polar coordinates&lt;/li>
+&lt;li>with current mismatch function and rectangular coordinates&lt;/li>
+&lt;/ul>
+&lt;p>To solve the problem using NR, we need to formulate &lt;span class="math inline">\(\textbf{J} (\vec{x})\)&lt;/span> and &lt;span class="math inline">\(\vec{f} (\vec{x})\)&lt;/span> for each powerflow problem formulation.&lt;/p>
+&lt;h3 id="powerflow-problem-with-power-mismatch-function-and-polar-coordinates">Powerflow Problem with Power Mismatch Function and Polar Coordinates&lt;/h3>
+&lt;h4 id="formulation-of-mismatch-function">Formulation of Mismatch Function&lt;/h4>
+&lt;p>The injected power at a node &lt;span class="math inline">\(k\)&lt;/span> is given by: &lt;span class="math display">\[S_{k} = V_{k} I _{k}^{*}\]&lt;/span>&lt;/p>
+&lt;p>The current injection into any bus &lt;span class="math inline">\(k\)&lt;/span> may be expressed as: &lt;span class="math display">\[I_{k} = \sum_{j=1}^{N} Y_{kj} V_{j}\]&lt;/span>&lt;/p>
+&lt;p>Substitution yields: &lt;span class="math display">\[\begin{align}
+S_{k} =&amp;amp; V_{k} \left ( \sum_{j=1}^{N} Y_{kj} V_{j} \right )^{*}
+=&amp;amp; V_{k} \sum_{j=1}^{N} Y_{kj}^{*} V_{j} ^{*}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>We may define &lt;span class="math inline">\(G_{kj}\)&lt;/span> and &lt;span class="math inline">\(B_{kj}\)&lt;/span> as the real and imaginary parts of the admittance matrix element &lt;span class="math inline">\(Y_{kj}\)&lt;/span> respectively, so that &lt;span class="math inline">\(Y_{kj} = G_{kj} + jB_{kj}\)&lt;/span>. Then we may rewrite the last equation: &lt;span class="math display">\[\begin{align}
+S_{k} &amp;amp;= V_{k} \sum_{j=1}^{N} Y_{kj}^{*} V_{j}^{*} \nonumber \\
+&amp;amp;= \vert V_{k} \vert \angle \theta_{k} \sum_{j=1}^{N} (G_{kj} + jB_{kj})^{*} ( \vert V_{j} \vert \angle \theta_{j})^{*} \nonumber \\
+&amp;amp;= \vert V_{k} \vert \angle \theta_{k} \sum_{j=1}^{N} (G_{kj} - jB_{kj}) ( \vert V_{j} \vert \angle - \theta_{j}) \nonumber \\
+&amp;amp;= \sum_{j=1} ^{N} \vert V_{k} \vert \angle \theta_{k} ( \vert V_{j} \vert \angle - \theta_{j}) (G_{kj} - jB_{kj}) \nonumber \\
+&amp;amp;= \sum_{j=1} ^{N} \left ( \vert V_{k} \vert \vert V_{j} \vert \angle (\theta_{k} - \theta_{j}) \right ) (G_{kj} - jB_{kj}) \nonumber \\
+&amp;amp;= \sum_{j=1} ^{N} \vert V_{k} \vert \vert V_{j} \vert \left ( cos(\theta_{k} - \theta_{j}) + jsin(\theta_{k} - \theta_{j}) \right ) (G_{kj} - jB_{kj})
+\label{eq:compl_power}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>If we now perform the algebraic multiplication of the two terms inside the parentheses, and collect real and imaginary parts, and recall that &lt;span class="math inline">\(S_{k} = P_{k} + jQ_{k}\)&lt;/span>, we can express &lt;span class="math inline">\(\eqref{eq:compl_power}\)&lt;/span> as two equations: one for the real part, &lt;span class="math inline">\(P_{k}\)&lt;/span>, and one for the imaginary part, &lt;span class="math inline">\(Q_{k}\)&lt;/span>, according to:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+{P}_{k} = \sum_{j=1}^{N} \vert V_{k} \vert \vert V_{j} \vert \left ( G_{kj}cos(\theta_{k} - \theta_{j}) + B_{kj} sin(\theta_{k} - \theta_{j}) \right ) \label{eq:active_power}\\
+{Q}_{k} = \sum_{j=1}^{N} \vert V_{k} \vert \vert V_{j} \vert \left ( G_{kj}sin(\theta_{k} - \theta_{j}) - B_{kj} cos(\theta_{k} - \theta_{j}) \right ) \label{eq:reactive_power}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>These equations are called the power flow equations, and they form the fundamental building block from which we solve the power flow problem.&lt;/p>
+&lt;p>We consider a power system network having &lt;span class="math inline">\(N\)&lt;/span> buses. We assume one VD bus, &lt;span class="math inline">\(N_{PV}-1\)&lt;/span> PV buses and &lt;span class="math inline">\(N-N_{PV}\)&lt;/span> PQ buses. We assume that the VD bus is numbered bus &lt;span class="math inline">\(1\)&lt;/span>, the PV buses are numbered &lt;span class="math inline">\(2,...,N_{PV}\)&lt;/span>, and the PQ buses are numbered &lt;span class="math inline">\(N_{PV}+1,...,N\)&lt;/span>. We define the vector of unknown as the composite vector of unknown angles &lt;span class="math inline">\(\vec{\theta}\)&lt;/span> and voltage magnitudes &lt;span class="math inline">\(\vert \vec{V} \vert\)&lt;/span>: &lt;span class="math display">\[\begin{align}
+\vec{x} = \left[ \begin{array}{c} \vec{\theta} \\ \vert \vec{V} \vert \\ \end{array} \right ]
+= \left[ \begin{array}{c} \theta_{2} \\ \theta_{3} \\ \vdots \\ \theta_{N} \\ \vert V_{N_{PV+1}} \vert \\ \vert V_{N_{PV+2}} \vert \\ \vdots \\ \vert V_{N} \vert \end{array} \right]
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The right-hand sides of equations &lt;span class="math inline">\(\eqref{eq:active_power}\)&lt;/span> and &lt;span class="math inline">\(\eqref{eq:reactive_power}\)&lt;/span> depend on the elements of the unknown vector &lt;span class="math inline">\(\vec{x}\)&lt;/span>. Expressing this dependency more explicitly, we rewrite these equations as: &lt;span class="math display">\[\begin{align}
+P_{k} = P_{k} (\vec{x}) \Rightarrow P_{k}(\vec{x}) - P_{k} &amp;amp;= 0 \quad \quad k = 2,...,N \\
+Q_{k} = Q_{k} (\vec{x}) \Rightarrow Q_{k} (\vec{x}) - Q_{k} &amp;amp;= 0 \quad \quad k = N_{PV}+1,...,N
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>We now define the mismatch vector &lt;span class="math inline">\(\vec{f} (\vec{x})\)&lt;/span> as: &lt;span class="math display">\[\begin{align*}
+\vec{f} (\vec{x}) = \left [ \begin{array}{c} f_{1}(\vec{x}) \\ \vdots \\ f_{N-1}(\vec{x}) \\ ------ \\ f_{N}(\vec{x}) \\ \vdots \\ f_{2N-N_{PV} -1}(\vec{x}) \end{array} \right ]
+= \left [ \begin{array}{c} P_{2}(\vec{x}) - P_{2} \\ \vdots \\ P_{N}(\vec{x}) - P_{N} \\ --------- \\ Q_{N_{PV}+1}(\vec{x}) - Q_{N_{PV}+1} \\ \vdots \\ Q_{N}(\vec{x}) - Q_{N} \end{array} \right]
+= \left [ \begin{array}{c} \Delta P_{2} \\ \vdots \\ \Delta P_{N} \\ ------ \\ \Delta Q_{N_{PV}+1} \\ \vdots \\ \Delta Q_{N} \end{array} \right ]
+= \vec{0}
+\end{align*}\]&lt;/span>&lt;/p>
+&lt;p>That is a system of nonlinear equations. This nonlinearity comes from the fact that &lt;span class="math inline">\(P_{k}\)&lt;/span> and &lt;span class="math inline">\(Q_{k}\)&lt;/span> have terms containing products of some of the unknowns and also terms containing trigonometric functions of some the unknowns.&lt;/p>
+&lt;h4 id="formulation-of-jacobian">Formulation of Jacobian&lt;/h4>
+&lt;p>As discussed in the previous section, the power flow problem will be solved using the Newton-Raphson method. Here, the Jacobian matrix is obtained by taking all first-order partial derivates of the power mismatch functions with respect to the voltage angles &lt;span class="math inline">\(\theta_{k}\)&lt;/span> and magnitudes &lt;span class="math inline">\(\vert V_{k} \vert\)&lt;/span> as: &lt;span class="math display">\[\begin{align}
+J_{jk}^{P \theta} &amp;amp;= \frac{\partial P_{j} (\vec{x} ) } {\partial \theta_{k}} = \vert V_{j} \vert \vert V_{k} \vert \left ( G_{jk} sin(\theta_{j} - \theta_{k}) - B_{jk} cos(\theta_{j} - \theta_{k} ) \right ) \\
+J_{jj}^{P \theta} &amp;amp;= \frac{\partial P_{j}(\vec{x})}{\partial \theta_{j}} = -Q_{j} (\vec{x} ) - B_{jj} \vert V_{j} \vert ^{2} \\
+J_{jk}^{Q \theta} &amp;amp;= \frac{\partial Q_{j}(\vec{x})}{\partial \theta_{k}} = - \vert V_{j} \vert \vert V_{k} \vert \left ( G_{jk} cos(\theta_{j} - \theta_{k}) + B_{jk} sin(\theta_{j} - \theta_{k}) \right ) \\
+J_{jj}^{Q \theta} &amp;amp;= \frac{\partial Q_{j}(\vec{x})}{\partial \theta_{k}} = P_{j} (\vec{x} ) - G_{jj} \vert V_{j} \vert ^{2} \\
+J_{jk}^{PV} &amp;amp;= \frac{\partial P_{j} (\vec{x} ) } {\partial \vert V_{k} \vert } = \vert V_{j} \vert \left ( G_{jk} cos(\theta_{j} - \theta_{k}) + B_{jk} sin(\theta_{j} - \theta_{k}) \right ) \\
+J_{jj}^{PV} &amp;amp;= \frac{\partial P_{j}(\vec{x})}{\partial \vert V_{j} \vert } = \frac{P_{j} (\vec{x} )}{\vert V_{j} \vert} + G_{jj} \vert V_{j} \vert \\
+J_{jk}^{QV} &amp;amp;= \frac{\partial Q_{j} (\vec{x} ) } {\partial \vert V_{k} \vert } = \vert V_{j} \vert \left ( G_{jk} sin(\theta_{j} - \theta_{k}) + B_{jk} cos(\theta_{j} - \theta_{k}) \right ) \\
+J_{jj}^{QV} &amp;amp;= \frac{\partial Q_{j}(\vec{x})}{\partial \vert V_{j} \vert } = \frac{Q_{j} (\vec{x} )}{\vert V_{j} \vert} - B_{jj} \vert V_{j} \vert \\
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The linear system of equations that is solved in every Newton iteration can be written in matrix form as follows: &lt;span class="math display">\[\begin{align}
+-\left [ \begin{array}{cccccc} \frac{\partial \Delta P_{2} }{\partial \theta_{2}} &amp;amp; \cdots &amp;amp; \frac{\partial \Delta P_{2} }{\partial \theta_{N}} &amp;amp;
+\frac{\partial \Delta P_{2} }{\partial \vert V_{N_{G+1}} \vert} &amp;amp; \cdots &amp;amp; \frac{\partial \Delta P_{2} }{\partial \vert V_{N} \vert} \\
+\vdots &amp;amp; \ddots &amp;amp; \vdots &amp;amp; \vdots &amp;amp; \ddots &amp;amp; \vdots \\
+\frac{\partial \Delta P_{N} }{\partial \theta_{2}} &amp;amp; \cdots &amp;amp; \frac{\partial \Delta P_{N}}{\partial \theta_{N}} &amp;amp;
+\frac{\partial \Delta P_{N}}{\partial \vert V_{N_{G+1}} \vert } &amp;amp; \cdots &amp;amp; \frac{\partial \Delta P_{N}}{\partial \vert V_{N} \vert} \\
+\frac{\partial \Delta Q_{N_{G+1}} }{\partial \theta_{2}} &amp;amp; \cdots &amp;amp; \frac{\partial \Delta Q_{N_{G+1}} }{\partial \theta_{N}} &amp;amp;
+\frac{\partial \Delta Q_{N_{G+1}} }{\partial \vert V_{N_{G+1}} \vert } &amp;amp; \cdots &amp;amp; \frac{\partial \Delta Q_{N_{G+1}} }{\partial \vert V_{N} \vert} \\
+\vdots &amp;amp; \ddots &amp;amp; \vdots &amp;amp; \vdots &amp;amp; \ddots &amp;amp; \vdots \\
+\frac{\partial \Delta Q_{N}}{\partial \theta_{2}} &amp;amp; \cdots &amp;amp; \frac{\partial \Delta Q_{N}}{\partial \theta_{N}} &amp;amp;
+\frac{\partial \Delta Q_{N}}{\partial \vert V_{N_{G+1}} \vert } &amp;amp; \cdots &amp;amp; \frac{\partial \Delta Q_{N}}{\partial \vert V_{N} \vert}
+\end{array} \right ]
+\left [ \begin{array}{c} \Delta \theta_{2} \\ \vdots \\ \Delta \theta_{N} \\ \Delta \vert V_{N_{G+1}} \vert \\ \vdots \\ \Delta \vert V_{N} \vert \end{array} \right ]
+= \left [ \begin{array}{c} \Delta P_{2} \\ \vdots \\ \Delta P_{N} \\ \Delta Q_{N_{G+1}} \\ \vdots \\ \Delta Q_{N} \end{array} \right ]
+\end{align}\]&lt;/span>&lt;/p>
+&lt;h2 id="solution-of-the-problem">Solution of the Problem&lt;/h2>
+&lt;p>The solution update formula is given by: &lt;span class="math display">\[\begin{align}
+\vec{x}^{(i+1)} = \vec{x}^{(i)} + \Delta \vec{x}^{(i)} = \vec{x}^{(i)} - \textbf{J}^{-1} \vec{f} (\vec{x}^{(i)})
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>To sum up, the NR algorithm, for application to the power flow problem is:&lt;/p>
+&lt;ol type="1">
+&lt;li>Set the iteration counter to &lt;span class="math inline">\(i=1\)&lt;/span>. Use the initial solution &lt;span class="math inline">\(V_{i} = 1 \angle 0^{\circ}\)&lt;/span>&lt;/li>
+&lt;li>Compute the mismatch vector &lt;span class="math inline">\(\vec{f}({\vec{x}})\)&lt;/span> using the power flow equations&lt;/li>
+&lt;li>Perform the following stopping criterion tests:
+&lt;ul>
+&lt;li>If &lt;span class="math inline">\(\vert \Delta P_{i} \vert &amp;lt; \epsilon_{P}\)&lt;/span> for all type PQ and PV buses and&lt;/li>
+&lt;li>If &lt;span class="math inline">\(\vert \Delta Q_{i} \vert &amp;lt; \epsilon_{Q}\)&lt;/span> for all type PQ&lt;/li>
+&lt;li>Then go to step 6&lt;/li>
+&lt;li>Otherwise, go to step 4.&lt;/li>
+&lt;/ul>&lt;/li>
+&lt;li>Evaluate the Jacobian matrix &lt;span class="math inline">\(\textbf{J}^{(i)}\)&lt;/span> and compute &lt;span class="math inline">\(\Delta \vec{x}^{(i)}\)&lt;/span>.&lt;/li>
+&lt;li>Compute the update solution vector &lt;span class="math inline">\(\vec{x}^{(i+1)}\)&lt;/span>. Return to step 3.&lt;/li>
+&lt;li>Stop.&lt;/li>
+&lt;/ol></description></item><item><title>Docs: Synchronous Generator</title><link>https://dpsim.fein-aachen.org/docs/models/synchronous-generator/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/synchronous-generator/</guid><description>
+&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
+&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
+&lt;p>Two different synchronous machine models are currently available:&lt;/p>
+&lt;ul>
+&lt;li>the full order dq0 reference frame model (EMT, DP) [Kundur, Power system stability and control, 1994]&lt;/li>
+&lt;li>and the much simpler transient stability model (DP) [Eremia, Handbook of Electrical Power System Dynamics, 2003]&lt;/li>
+&lt;/ul>
+&lt;p>The machine model is interfaced to the nodal analysis network solver through a current source, which only affects the source vector and not the system matrix &lt;a href="https://ieeexplore.ieee.org/document/5411963">Wang2010&lt;/a>.&lt;/p>
+&lt;h2 id="basic-equations">Basic Equations&lt;/h2>
+&lt;p>The equations of the stator and rotor voltages are&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\mathbf{v}_{abcs} &amp;amp;= \mathbf{R}_s \mathbf{i}_{abcs} + \frac{d}{dt} \boldsymbol{\lambda}_{abcs} \\
+\mathbf{v}_{dqr} &amp;amp;= \mathbf{R}_r \mathbf{i}_{dqr} + \frac{d}{dt} \boldsymbol{\lambda}_{dqr}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>where&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\mathbf{v}_{abcs} &amp;amp;=
+\begin{pmatrix}
+v_{as} &amp;amp; v_{bs} &amp;amp; v_{cs}
+\end{pmatrix}^T \\
+%
+\mathbf{v}_{dqr} &amp;amp;=
+\begin{pmatrix}
+v_{fd} &amp;amp; v_{kd} &amp;amp; v_{kq1} &amp;amp; v_{kq2}
+\end{pmatrix}^T \\
+%
+\mathbf{i}_{abcs} &amp;amp;=
+\begin{pmatrix}
+i_{as} &amp;amp; i_{bs} &amp;amp; i_{cs}
+\end{pmatrix}^T \\
+%
+\mathbf{i}_{dqr} &amp;amp;=
+\begin{pmatrix}
+i_{fd} &amp;amp; i_{kd} &amp;amp; i_{kq1} &amp;amp; i_{kq2}
+\end{pmatrix}^T \\
+%
+\boldsymbol{\lambda}_{abcs} &amp;amp;=
+\begin{pmatrix}
+\lambda_{as} &amp;amp; \lambda_{bs} &amp;amp; \lambda_{cs}
+\end{pmatrix}^T \\
+%
+\boldsymbol{\lambda}_{dqr} &amp;amp;=
+\begin{pmatrix}
+\lambda_{fd} &amp;amp; \lambda_{kd} &amp;amp; \lambda_{kq1} &amp;amp; \lambda_{kq2}
+\end{pmatrix}^T \\
+%
+\mathbf{R}_s &amp;amp;= diag
+\begin{bmatrix}
+R_s &amp;amp; R_s &amp;amp; R_s
+\end{bmatrix} \\
+%
+\mathbf{R}_r &amp;amp;= diag
+\begin{bmatrix}
+R_{fd} &amp;amp; R_{kd} &amp;amp; R_{kq1} &amp;amp; R_{kq2}
+\end{bmatrix}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The flux linkage equations are defined as&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{equation}
+\begin{bmatrix}
+\boldsymbol{\lambda}_{abcs} \\
+\boldsymbol{\lambda}_{dqr}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\mathbf{L}_s &amp;amp; \mathbf{L}_{rs} \\
+{(\mathbf{L}_{rs})}^{T} &amp;amp; \mathbf{L}_r
+\end{bmatrix}
+\begin{bmatrix}
+\mathbf{i}_{abcs} \\
+\mathbf{i}_{dqr}
+\end{bmatrix}
+\end{equation}\]&lt;/span>&lt;/p>
+&lt;p>The inductance matrices are varying with the rotor position &lt;span class="math inline">\(\theta_r\)&lt;/span> which varies with time.&lt;/p>
+&lt;p>The mechanical equations are:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\frac{d\theta_r}{dt} &amp;amp;= \omega_r \\
+\frac{d\omega_r}{dt} &amp;amp;= \frac{P}{2J} (T_e-T_m)
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>&lt;span class="math inline">\(\theta_r\)&lt;/span> is the rotor position, &lt;span class="math inline">\(\omega_r\)&lt;/span> is the angular electrical speed, &lt;span class="math inline">\(P\)&lt;/span> is the number of poles, &lt;span class="math inline">\(J\)&lt;/span> is the moment of inertia, &lt;span class="math inline">\(T_m\)&lt;/span> and &lt;span class="math inline">\(T_e\)&lt;/span> are the mechanical and electrical torque, respectively. Motor convention is used for all models.&lt;/p>
+&lt;h2 id="dq0-reference-frame-9th-order-model">dq0 Reference Frame 9th Order Model&lt;/h2>
+&lt;p>For stator referred variables, the base quantities for per unit are chosen as follows:&lt;/p>
+&lt;ul>
+&lt;li>&lt;span class="math inline">\(v_{s base}\)&lt;/span> peak value of rated line-to-neutral voltage in V&lt;/li>
+&lt;li>&lt;span class="math inline">\(i_{s base}\)&lt;/span> peak value of rated line current in A&lt;/li>
+&lt;li>&lt;span class="math inline">\(f_{base}\)&lt;/span> rated frequency in Hz&lt;/li>
+&lt;/ul>
+&lt;p>The synchronous generator equations in terms of per unit values in the rotor reference frame become:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{equation}
+\begin{bmatrix}
+\mathbf{v}_{dq0s} \\
+\mathbf{v}_{dqr}
+\end{bmatrix}
+=
+\mathbf{R}_{sr}
+\begin{bmatrix}
+\mathbf{i}_{dq0s} \\
+\mathbf{i}_{dqr}
+\end{bmatrix}
++
+\frac{d}{dt}
+\begin{bmatrix}
+\boldsymbol{\lambda}_{dq0s} \\
+\boldsymbol{\lambda}_{dqr}
+\end{bmatrix}
++ \omega_r
+\begin{bmatrix}
+\boldsymbol{\lambda}_{qds} \\
+0
+\end{bmatrix}
+\label{eq:rotor_reference}
+\end{equation}\]&lt;/span>&lt;/p>
+&lt;p>where&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\mathbf{v}_{dq0s} &amp;amp;=
+\begin{pmatrix}
+v_{ds} &amp;amp; v_{qs} &amp;amp; v_{0s}
+\end{pmatrix}^T \nonumber \\
+%
+\mathbf{i}_{dq0s} &amp;amp;=
+\begin{pmatrix}
+i_{ds} &amp;amp; i_{qs} &amp;amp; i_{0s}
+\end{pmatrix}^T \nonumber \\
+%
+\boldsymbol{\lambda}_{dq0s} &amp;amp;=
+\begin{pmatrix}
+\lambda_{ds} &amp;amp; \lambda_{qs} &amp;amp; \lambda_{0s}
+\end{pmatrix}^T \nonumber \\
+%
+\mathbf{R}_{sr} &amp;amp;= diag
+\begin{bmatrix}
+R_s &amp;amp; R_s &amp;amp; R_s &amp;amp; R_{fd} &amp;amp; R_{kd} &amp;amp; R_{kq1} &amp;amp; R_{kq2}
+\end{bmatrix} \nonumber \\
+%
+\boldsymbol{\lambda}_{dqs} &amp;amp;=
+\begin{pmatrix}
+-\lambda_{qs} &amp;amp; \lambda_{ds} &amp;amp; 0
+\end{pmatrix}^T.
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The flux linkages are:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{equation}
+\begin{pmatrix}
+\boldsymbol{\lambda}_{dq0s} \\
+\boldsymbol{\lambda}_{dqr}
+\end{pmatrix}
+=
+\begin{bmatrix}
+\mathbf{L}_{dqss} &amp;amp; \mathbf{L}_{dqsr} \\
+\mathbf{L}_{dqrs} &amp;amp; \mathbf{L}_{dqrr}
+\end{bmatrix}
+\begin{pmatrix}
+\mathbf{i}_{dq0s} \\
+\mathbf{i}_{dqr}
+\end{pmatrix}
+\label{eq:flux_linkages}
+\end{equation}\]&lt;/span>&lt;/p>
+&lt;p>where&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\mathbf{L}_{dqss} &amp;amp;=
+\begin{bmatrix}
+L_{d} &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; L_{q} &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; L_{ls}
+\end{bmatrix} \nonumber \\
+\mathbf{L}_{dqsr} &amp;amp;=
+\begin{bmatrix}
+L_{md} &amp;amp; L_{md} &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; L_{mq} &amp;amp; L_{mq} \\
+0 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0
+\end{bmatrix} \nonumber \\
+\mathbf{L}_{dqrs} &amp;amp;=
+\begin{bmatrix}
+L_{md} &amp;amp; 0 &amp;amp; 0 \\
+L_{md} &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; L_{mq} &amp;amp; 0 \\
+0 &amp;amp; L_{mq} &amp;amp; 0
+\end{bmatrix} \nonumber \\
+\mathbf{L}_{rr} &amp;amp;=
+\begin{bmatrix}
+L_{fd} &amp;amp; L_{md} &amp;amp; 0 &amp;amp; 0 \\
+L_{md} &amp;amp; L_{kd} &amp;amp; 0 &amp;amp; 0 \\
+0 &amp;amp; 0 &amp;amp; L_{kq1} &amp;amp; L_{mq} \\
+0 &amp;amp; 0 &amp;amp; L_{mq} &amp;amp; L_{kq2}
+\end{bmatrix} \nonumber \\
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>with&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+L_{d} &amp;amp;= L_{ls} + L_{md} \nonumber \\
+L_{q} &amp;amp;= L_{ls} + L_{mq} \nonumber \\
+L_{fd} &amp;amp;= L_{lfd} + L_{md} \nonumber \\
+L_{kd} &amp;amp;= L_{lkd} + L_{md} \nonumber \\
+L_{kq1} &amp;amp;= L_{lkq1} + L_{mq} \nonumber \\
+L_{kq2} &amp;amp;= L_{lkq2} + L_{mq}.
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The mechanical equations in per unit become:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+T_e &amp;amp;= \lambda_{qs} i_{ds} - \lambda_{ds} i_{qs} \\
+\frac{d \omega_r}{dt} &amp;amp;= \omega_r \\
+\frac{1}{\omega_b} \frac{d \omega_r}{dt} &amp;amp;= \frac{1}{2H} (T_m - T_e).
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>For the simulation, fluxes are chosen as state variables. To avoid the calculation of currents from fluxes using the inverse of the inductance matrix, the equation set needs to be solved for the fluxes analytically. To simplify the calculations, dq axis magnetizing flux linkages are defined [Krause, Analysis of electric machinery and drive systems, 2002]:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\lambda_{md} &amp;amp;= L_{md} \left( i_{ds} + i_{fd} + i_{kd} \right) \nonumber \\
+\lambda_{mq} &amp;amp;= L_{mq} \left( i_{qs} + i_{kq1} + i_{kq2} \right).
+\label{eq:magnetizing_flux_linkage}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>Using the flux linkages results in a simpler equation set for the fluxes:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\lambda_{ds} &amp;amp;= L_{ls} i_{ds} + L_{md} \left( i_{ds} + i_{fd} + i_{kd} \right) \nonumber \\
+\lambda_{qs} &amp;amp;= L_{ls} i_{qs} + L_{mq} \left( i_{qs} + i_{kq1} + i_{kq2} \right) \nonumber \\
+\lambda_{0s} &amp;amp;= L_{ls} i_{0s} \nonumber \\
+\lambda_{fd} &amp;amp;= L_{ls} i_{fd} + L_{md} \left( i_{ds} + i_{fd} + i_{kd} \right) \nonumber \\
+\lambda_{kd} &amp;amp;= L_{ls} i_{kd} + L_{md} \left( i_{ds} + i_{fd} + i_{kd} \right) \nonumber \\
+\lambda_{kq1} &amp;amp;= L_{ls} i_{kq1} + L_{mq} \left( i_{qs} + i_{kq1} + i_{kq2} \right) \nonumber \\
+\lambda_{kq2} &amp;amp;= L_{ls} i_{kq2} + L_{mq} \left( i_{qs} + i_{kq1} + i_{kq2} \right)
+\label{eq:syngen_lambda}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\lambda_{ds} &amp;amp;= L_{ls} i_{ds} + \lambda_{md} \nonumber \\
+\lambda_{qs} &amp;amp;= L_{ls} i_{qs} + \lambda_{mq} \nonumber \\
+\lambda_{0s} &amp;amp;= L_{ls} i_{0s} \nonumber \\
+\lambda_{fd} &amp;amp;= L_{lfd} i_{fd} + \lambda_{md} \nonumber \\
+\lambda_{kd} &amp;amp;= L_{lkd} i_{kd} + \lambda_{md} \nonumber \\
+\lambda_{kq1} &amp;amp;= L_{lkq1} i_{kq1} + \lambda_{mq} \nonumber \\
+\lambda_{kq2} &amp;amp;= L_{lkq2} i_{kq2} + \lambda_{mq}
+\label{eq:flux_currents_flux_linkage}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;h3 id="dynamic-phasor-model">Dynamic Phasor Model&lt;/h3>
+&lt;p>The fundamental dynamic phasors are similar to the dq0 quantities for symmetrical conditions since both yield DC quantities in a rotating reference frame. The network abc dynamic phasor quantities can be converted to dq0 dynamic phasors by applying the symmetrical components transformation and a rotation.&lt;/p>
+&lt;p>The angle &lt;span class="math inline">\(\delta\)&lt;/span> is the orientation of the dq0 reference frame relative to the abc frame.&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\langle i_{ds} \rangle_{0} &amp;amp;= \mathbf{Re} \left\{ \langle i_{p} \rangle_1 \ \mathrm{e}^{-j \delta} \right\} \nonumber \\
+\langle i_{qs} \rangle_{0} &amp;amp;= \mathbf{Im} \left\{ \langle i_{p} \rangle_1 \ \mathrm{e}^{-j \delta} \right\} \nonumber \\
+\langle i_{ds} \rangle_{2} &amp;amp;= \mathbf{Re} \left\{ \langle i_{n} \rangle_{1}^* \ \mathrm{e}^{-j \delta} \right\} \nonumber \\
+\langle i_{qs} \rangle_{2} &amp;amp;= \mathbf{Im} \left\{ \langle i_{n} \rangle_{1}^* \ \mathrm{e}^{-j \delta} \right\} \nonumber \\
+\langle i_{0s} \rangle_{1} &amp;amp;= \mathbf{Re} \left\{ \langle i_{z} \rangle_1 \right\}
+\label{eq:syngen_abc_dq0_conversion}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The winding currents for positive and zero sequence components can be expressed as:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\langle i_{ds} \rangle_0 &amp;amp;= \frac{\langle \lambda_{ds} \rangle_0 - \langle \lambda_{md} \rangle_0 }{L_{ls}} \nonumber \\
+\langle i_{qs} \rangle_0 &amp;amp;= \frac{\langle \lambda_{qs} \rangle_0 - \langle \lambda_{mq} \rangle_0}{L_{ls}} \nonumber \\
+\langle i_{0s} \rangle_1 &amp;amp;= \frac{\langle \lambda_{0s} \rangle_1}{L_{ls}} \nonumber \\
+\langle i_{fd} \rangle_0 &amp;amp;= \frac{\langle \lambda_{fd} \rangle_0 - \langle \lambda_{md} \rangle_0}{L_{lfd}} \nonumber \\
+\langle i_{kd} \rangle_0 &amp;amp;= \frac{\langle \lambda_{kd} \rangle_0 - \langle \lambda_{md} \rangle_0}{L_{lkd}} \nonumber \\
+\langle i_{kq1} \rangle_0 &amp;amp;= \frac{\langle \lambda_{kq1} \rangle_0 - \langle \lambda_{mq} \rangle_0}{L_{lkq1}} \nonumber \\
+\langle i_{kq2} \rangle_0 &amp;amp;= \frac{\langle \lambda_{kq2} \rangle_0 - \langle \lambda_{mq} \rangle_0}{L_{lkq2}}.
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\frac{d}{dt} \langle \lambda_{ds} \rangle_0 &amp;amp;= \langle v_{ds} \rangle_0 + \langle \omega_r \rangle_0 \langle \lambda_{qs} \rangle_0 + \frac{R_s}{L_{ls}} \left( \langle \lambda_{md} \rangle_0 - \langle \lambda_{ds} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{qs} \rangle_0 &amp;amp;= \langle v_{qs} \rangle_0 - \langle \omega_r \rangle_0 \langle \lambda_{ds} \rangle_0 + \frac{R_s}{L_{ls}} \left( \langle \lambda_{mq} \rangle_0 - \langle \lambda_{qs} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{0s} \rangle_1 &amp;amp;= \langle v_{0s} \rangle_1 - \frac{R_s}{L_{ls}} \langle \lambda_{0s} \rangle_1 -j \omega_s \langle \lambda_{0s} \rangle_1 \nonumber \\
+\frac{d}{dt} \langle \lambda_{fd} \rangle_0 &amp;amp;= \langle v_{fd} \rangle_0 + \frac{R_{fd}}{L_{lfd}} \left( \langle \lambda_{md} \rangle_0 - \langle \lambda_{fd} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{kd} \rangle_0 &amp;amp;= \frac{R_{kd}}{L_{lkd}} \left( \langle \lambda_{md} \rangle_0 - \langle \lambda_{kd} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{kq1} \rangle_0 &amp;amp;= \frac{R_{kq1}}{L_{lkq1}} \left( \langle \lambda_{mq} \rangle_0 - \langle \lambda_{kq1} \rangle_0 \right) \nonumber \\
+\frac{d}{dt} \langle \lambda_{kq2} \rangle_0 &amp;amp;= \frac{R_{kq2}}{L_{lkq2}} \left( \langle \lambda_{mq} \rangle_0 - \langle \lambda_{kq2} \rangle_0 \right).
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>In the dynamic phasor case, the equation for &lt;span class="math inline">\(\frac{d}{dt} \langle \lambda_{0s} \rangle_1\)&lt;/span> has a frequency shift. To complete the state model, the magnetizing flux linkages are expressed as:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+\langle \lambda_{md} \rangle_0 &amp;amp;= L_{ad} \left( \frac{\langle \lambda_{ds} \rangle_0}{L_{ls}} + \frac{\langle \lambda_{fd} \rangle_0}{L_{lfd}} + \frac{\langle \lambda_{kd} \rangle_0}{L_{lkd}} \right) \nonumber \\
+\langle \lambda_{mq} \rangle_0 &amp;amp;= L_{aq} \left( \frac{\langle \lambda_{qs} \rangle_0}{L_{ls}} + \frac{\langle \lambda_{kq1} \rangle_0}{L_{lkq1}} + \frac{\langle \lambda_{kq2} \rangle_0}{L_{lkq2}} \right)
+\label{eq:winding_flux_linkages}
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>where&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+L_{ad} &amp;amp;= \left( \frac{1}{L_{md}} + \frac{1}{L_{ls}} + \frac{1}{L_{lfd}} + \frac{1}{L_{lkd}} \right) \nonumber \\
+L_{aq} &amp;amp;= \left( \frac{1}{L_{mq}} + \frac{1}{L_{ls}} + \frac{1}{L_{lkq1}} + \frac{1}{L_{lkq2}} \right).
+\end{align}\]&lt;/span>&lt;/p>
+&lt;p>The mechanical equations in dynamic phasors are:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{align}
+T_e &amp;amp;= \langle \lambda_{qs} \rangle_0 \langle i_{ds} \rangle_0 - \langle \lambda_{ds} \rangle_0 \langle i_{qs} \rangle_0 \\
+\frac{1}{\omega_s} \frac{d \delta_r}{dt} &amp;amp;= \omega_r - 1 \\
+\frac{d \omega_r}{dt} &amp;amp;= \frac{1}{2H} (T_m - T_e).
+\end{align}\]&lt;/span>&lt;/p>
+&lt;h2 id="transient-stability-model">Transient Stability Model&lt;/h2></description></item><item><title>Docs: VS-Inverter</title><link>https://dpsim.fein-aachen.org/docs/models/power-electronics/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/power-electronics/</guid><description/></item><item><title>Docs: Build</title><link>https://dpsim.fein-aachen.org/docs/getting-started/build/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/build/</guid><description>
+&lt;h2 id="docker-based">Docker based&lt;/h2>
+&lt;p>Clone the repository&lt;/p>
+&lt;pre>&lt;code>$ git clone git@github.com:sogno-platform/dpsim.git
+&lt;/code>&lt;/pre>
+&lt;p>or using https if you do not have an account&lt;/p>
+&lt;pre>&lt;code>$ git clone https://github.com/sogno-platform/dpsim.git
+&lt;/code>&lt;/pre>
+&lt;p>In the repository, there is a Docker file with all required dependencies&lt;/p>
+&lt;pre>&lt;code>$ cd dpsim
+$ docker build -t rwthacs/dpsim-dev -f Packaging/Docker/Dockerfile.dev .
+&lt;/code>&lt;/pre>
+&lt;p>Alternatively, the image can be pulled from DockerHub like so&lt;/p>
+&lt;pre>&lt;code>$ docker pull rwthacs/dpsim-dev
+&lt;/code>&lt;/pre>
+&lt;p>For OS specific instructions on how to install requirements, see the sections below.&lt;/p>
+&lt;p>Next, run a Docker container&lt;/p>
+&lt;pre>&lt;code>$ cd dpsim
+$ docker run -it -p 8888:8888 -v $(pwd):/dpsim --privileged rwthacs/dpsim-dev bash
+&lt;/code>&lt;/pre>
+&lt;p>The option &lt;code>-p&lt;/code> maps the port 8888 of the container to the docker host. This is required to access the jupyter lab instance inside the container. The option &lt;code>--privileged&lt;/code> is required for debug builds.&lt;/p>
+&lt;p>For Windows, you might need to specify the current directory with curly brackets&lt;/p>
+&lt;pre>&lt;code>$ docker run -it -p 8888:8888 -v ${pwd}:/dpsim --privileged rwthacs/dpsim-dev bash
+&lt;/code>&lt;/pre>
+&lt;p>Now, you should be in an interactive session inside the docker container.&lt;/p>
+&lt;p>The DPsim C++ and Python library without C++ examples or documentation can be built as follows&lt;/p>
+&lt;pre>&lt;code>$ cd /dpsim
+$ mkdir build &amp;amp;&amp;amp; cd build
+$ cmake ..
+$ cmake --build . --target dpsim_python
+&lt;/code>&lt;/pre>
+&lt;p>To build everything run&lt;/p>
+&lt;pre>&lt;code>$ cmake --build .
+&lt;/code>&lt;/pre>
+&lt;p>If you would like to use the Python package, it has to be added to the path&lt;/p>
+&lt;pre>&lt;code>$ cd /dpsim/build
+$ export PYTHONPATH=$(pwd):$(pwd)/Source/Python:$(pwd)/../Source/Python
+&lt;/code>&lt;/pre>
+&lt;p>To run jupyter lab&lt;/p>
+&lt;pre>&lt;code>$ cd /dpsim
+$ jupyter lab --ip=&amp;quot;0.0.0.0&amp;quot; --allow-root --no-browser
+&lt;/code>&lt;/pre>
+&lt;p>To install dpsim run&lt;/p>
+&lt;pre>&lt;code>$ cd /dpsim/build
+$ sudo make install
+&lt;/code>&lt;/pre>
+&lt;h2 id="cmake-for-linux">CMake for Linux&lt;/h2>
+&lt;p>The most recent list of requirements can be found in the Dockerfiles.&lt;/p>
+&lt;p>Make sure that the required dependencies are installed.
+The &lt;a href="https://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/-/blob/master/Packaging/install-fedora-deps.sh">fedora installation script&lt;/a> in the DPsim repository is a good place to start from.&lt;/p>
+&lt;p>&lt;strong>Note:&lt;/strong> There are currently no Debian packages for &lt;code>villas-node&lt;/code> and &lt;code>libcimpp16v29a&lt;/code>.
+If you want to use these optional feature, you have to build them manually.&lt;/p>
+&lt;p>Install Sundials&lt;/p>
+&lt;pre>&lt;code>$ git clone --branch v3.1.1 https://github.com/LLNL/sundials.git
+$ mkdir sundials/build
+$ pushd sundials/build
+$ cmake .. \
+-DBUILD_SHARED_LIBS=ON \
+-DBUILD_STATIC_LIBS=OFF \
+-DEXAMPLES_ENABLE_C=OFF
+$ make -j$(nproc) install
+$ popd
+&lt;/code>&lt;/pre>
+&lt;p>The following steps to clone, build and install are the same as for the Docker setup.&lt;/p>
+&lt;h2 id="cmake-for-windows">CMake for Windows&lt;/h2>
+&lt;p>Make sure that the required dependecies are installed:&lt;/p>
+&lt;ul>
+&lt;li>Visual Studio 2017 with C++ Desktop development package&lt;/li>
+&lt;li>&lt;a href="https://cmake.org/">CMake&lt;/a> for Windows&lt;/li>
+&lt;li>&lt;a href="https://git-scm.com/download/win">Git for Windows&lt;/a>&lt;/li>
+&lt;li>For Python support, install Python3, for example, Anaconda, and add Python to your PATH.&lt;/li>
+&lt;/ul>
+&lt;p>Clone the project as explained for Docker.&lt;/p>
+&lt;p>Open a windows command prompt and navigate into the new DPsim folder.
+Generate a Visual Studio project with CMake and use it to build the project&lt;/p>
+&lt;pre>&lt;code>$ mkdir build
+$ cd build
+$ cmake -G &amp;quot;Visual Studio 15 2017 Win64&amp;quot; ..
+&lt;/code>&lt;/pre>
+&lt;p>Open Visual Studio and load the Visual Studio project from the build directory within the DPsim folder.&lt;/p>
+&lt;p>You can either build the project from within Visual Studio or from the command line by running the following command in the windows command prompt&lt;/p>
+&lt;pre>&lt;code>$ cmake --build .
+&lt;/code>&lt;/pre>
+&lt;p>To install the Python package use Visual Studio and the Release configuration to build the DPsim Python module and then build the INSTALL project.&lt;/p>
+&lt;h2 id="cmake-for-macos">CMake for macOS&lt;/h2>
+&lt;p>Make sure that the required dependecies are installed&lt;/p>
+&lt;pre>&lt;code>$ /usr/bin/ruby -e &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;quot;
+$ brew install gcc9 git cmake graphviz python3 gsl eigen spdlog
+$ sudo pip3 install numpy
+&lt;/code>&lt;/pre>
+&lt;p>Clone the source as explained for the Docker setup.&lt;/p>
+&lt;p>Compile&lt;/p>
+&lt;pre>&lt;code>$ mkdir build
+$ cmake ..
+$ make -j$(sysctl -n hw.ncpu)
+&lt;/code>&lt;/pre>
+&lt;p>To install the generated Python module to your system&lt;/p>
+&lt;pre>&lt;code>$ sudo make install
+&lt;/code>&lt;/pre>
+&lt;h2 id="python-package-for-pypi">Python Package for pypi&lt;/h2>
+&lt;p>Follow the previous steps to set up the Docker container.&lt;/p>
+&lt;p>To build the Python package run&lt;/p>
+&lt;pre>&lt;code>$ python3 setup.py bdist_wheel
+&lt;/code>&lt;/pre>
+&lt;h2 id="documentation">Documentation&lt;/h2>
+&lt;h3 id="python">Python&lt;/h3>
+&lt;p>Install &lt;a href="https://www.sphinx-doc.org/en/master/">Sphinx&lt;/a> or use the Docker image.&lt;/p>
+&lt;p>Generate the Python documentation by running Sphinx via CMake:&lt;/p>
+&lt;pre>&lt;code>$ mkdir -p build &amp;amp;&amp;amp; cd build
+$ cmake ..
+$ make docs
+&lt;/code>&lt;/pre>
+&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/&lt;/code>.&lt;/p>
+&lt;h3 id="c">C++&lt;/h3>
+&lt;p>Install &lt;a href="http://www.doxygen.nl/">Doxygen&lt;/a> or use the Docker image.&lt;/p>
+&lt;p>Generate the C++ documentation by running Doxygen via CMake:&lt;/p>
+&lt;pre>&lt;code>$ mkdir -p build &amp;amp;&amp;amp; cd build
+$ cmake ..
+$ make docs_cxx
+&lt;/code>&lt;/pre>
+&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Development</title><link>https://dpsim.fein-aachen.org/docs/getting-started/development/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/development/</guid><description>
+&lt;h2 id="environment">Environment&lt;/h2>
+&lt;p>We recommend the following development tools:&lt;/p>
+&lt;ul>
+&lt;li>Editor: &lt;a href="https://code.visualstudio.com">Visual Studio Code&lt;/a>
+&lt;ul>
+&lt;li>Extensions:
+&lt;ul>
+&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools">CMake Tools&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker">Docker&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig">EditorConfig for VS Code&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://www.docker.com">Docker&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://cmake.org">CMake&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://git-scm.com">Git&lt;/a>
+&lt;ul>
+&lt;li>Issues: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/issues">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/issues&lt;/a>&lt;/li>
+&lt;li>Merge Requests: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/merge_requests">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/merge_requests&lt;/a>&lt;/li>
+&lt;li>Continous Integration and Testing: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/pipelines">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/pipelines&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>Please follow the build instructions to checkout your code and install the basic dependencies and tools.&lt;/p></description></item><item><title>Docs: Install</title><link>https://dpsim.fein-aachen.org/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/install/</guid><description>
+&lt;p>DPsim is a Python module / C++ library for complex power system
+simulation. As a Python module, the easiest way to get to know DPsim is
+via &lt;a href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/">Jupyter Notebooks&lt;/a>.&lt;/p>
+&lt;h2 id="docker">Docker&lt;/h2>
+&lt;p>First, you need to install &lt;a href="https://docs.docker.com/install/">Docker&lt;/a>.&lt;/p>
+&lt;p>To start a Jupyter session, run a DPsim Docker container&lt;/p>
+&lt;pre>&lt;code> $ docker run -p 8888:8888 rwthacs/dpsim
+&lt;/code>&lt;/pre>
+&lt;p>And access the session by opening the following link: http://localhost:8888/lab?token=3adaa57df44cea75e60c0169e1b2a98ae8f7de130481b5bc&lt;/p>
+&lt;h2 id="python">Python&lt;/h2>
+&lt;p>&lt;strong>Currently, the pypi packages are not maintained. Until we have updated the packages, please use the docker installation.&lt;/strong>&lt;/p>
+&lt;h3 id="prerequisites">Prerequisites&lt;/h3>
+&lt;p>First, you need to make sure that Python is installed and your version is compatible.
+An easy way to install Python and all required packages is the &lt;a href="https://www.anaconda.com/">Anaconda distribution&lt;/a>.
+To get started, install the latest installer for Python 3.x from the &lt;a href="https://www.anaconda.com/download/">downloads section&lt;/a>.
+Then, run the Anaconda Prompt and create a new conda environment:&lt;/p>
+&lt;pre>&lt;code>$ conda create -n dpsim python=3.6
+&lt;/code>&lt;/pre>
+&lt;p>After creating the environment you need to make sure that it is activated.
+The current environment is displayed at the beginning of the command line in brackets.
+It should read &lt;em>&amp;quot;(dpsim)&amp;hellip;&amp;quot;&lt;/em>.
+In case it is not activated, run:&lt;/p>
+&lt;pre>&lt;code>$ activate dpsim
+&lt;/code>&lt;/pre>
+&lt;h3 id="pip-package-installation">Pip Package Installation&lt;/h3>
+&lt;p>Then, DPsim can be installed as a Python module:&lt;/p>
+&lt;pre>&lt;code>$ pip install dpsim
+&lt;/code>&lt;/pre>
+&lt;h2 id="from-source">From Source&lt;/h2>
+&lt;p>To build and install DPsim from the source files, please refer to the build section.&lt;/p></description></item><item><title>Docs: Real-Time</title><link>https://dpsim.fein-aachen.org/docs/getting-started/real-time/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/real-time/</guid><description>
+&lt;p>This page describes recommended techniques to optimize the host operating system for real-time execution of DPsim.&lt;/p>
+&lt;p>In principle, real-time execution is supported on all platforms.
+However, we recommend to use an optimized Linux installation.&lt;/p>
+&lt;h2 id="operating-system-and-kernel">Operating System and Kernel&lt;/h2>
+&lt;p>For minimum latency several kernel and driver settings can be optimized.&lt;/p>
+&lt;p>To get started, we recommend the &lt;a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_MRG/2/html/Realtime_Tuning_Guide/index.html">Redhat Real-time Tuning Guide&lt;/a>.&lt;/p>
+&lt;p>A &lt;a href="https://rt.wiki.kernel.org/index.php/Main_Page">PREEMPT_RT patched Linux&lt;/a> kernel is recommended.
+Precompiled kernels for Fedora can be found here: &lt;a href="http://ccrma.stanford.edu/planetccrma/software/">http://ccrma.stanford.edu/planetccrma/software/&lt;/a>&lt;/p>
+&lt;p>Use the &lt;em>tuned&lt;/em> tool for improving general real-time performance.
+Please adjust the setting &lt;code>isolated_cpucores&lt;/code> according to your hardware and enable the &lt;code>realtime&lt;/code> profile as follows:&lt;/p>
+&lt;pre>&lt;code> $ dnf install tuned-profiles-realtime
+$ echo &amp;quot;realtime&amp;quot; &amp;gt; /etc/tuned/active_profile
+$ echo &amp;quot;isolated_cpucores=6-7&amp;quot; &amp;gt;&amp;gt; /etc/tuned/realtime-variables.conf
+$ systemctl enable tuned &amp;amp;&amp;amp; systemctl start tuned
+$ systemctl reboot
+&lt;/code>&lt;/pre>
+&lt;h2 id="running-a-real-time-simulation">Running a real-time simulation&lt;/h2>
+&lt;p>As a reference, real-time simulation examples are provided in the Examples/Cxx folder of the DPsim repository.&lt;/p>
+&lt;p>In order to run a real-time simulation, the simulation process must be started in a special way in order to change the execution priority, scheduler and CPU affinity.
+For this purpose the &lt;code>chrt&lt;/code> and &lt;code>taskset&lt;/code> commands are used.
+In the following example, we pin the execution of the simulation to CPU cores 6-7 which have been reserved previously by the tuned real-time profile (see above).&lt;/p>
+&lt;pre>&lt;code> $ taskset --all-tasks --cpu-list 6-7 \
+$ chrt --fifo 99 \
+$ Examples/Cxx/RT_DP_CS_R_1
+&lt;/code>&lt;/pre>
+&lt;p>More details:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="http://man7.org/linux/man-pages/man1/chrt.1.html">chrt man-page&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://man7.org/linux/man-pages/man1/taskset.1.html">taskset man-page&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="recommended-hardware">Recommended Hardware&lt;/h2>
+&lt;p>Some proposals for the selection of appropriate server hardware:&lt;/p>
+&lt;ul>
+&lt;li>Server-grade CPU, e.g. Intel Xeon. A multi-core system enables true parallel execution of several decoupled systems&lt;/li>
+&lt;li>Server-grade network cards, e.g. Intel PRO/1000. These allow offloading of UDP checksumming to the hardware&lt;/li>
+&lt;/ul></description></item></channel></rss>
