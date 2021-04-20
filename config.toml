@@ -1,4 +1,4 @@
-baseURL = "https://dpsim.fein-aachen.org"
+baseURL = "https://sogno-platform.github.io/dpsim-docs/"
 title = "DPsim"
 
 enableRobotsTXT = true
