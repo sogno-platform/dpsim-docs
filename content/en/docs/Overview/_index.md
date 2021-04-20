@@ -27,6 +27,6 @@ Please contact [Prof. Antonello Monti](mailto:amonti@eonerc.rwth-aachen.de) for 
 
 ## Where should I go next?
 
-* [Getting Started](/getting-started/): Get started with $project
-* [Examples](/examples/): Check out some example code!
+* [Getting Started]({{< ref "/docs/Getting Started/" >}} "Getting Started"): Get started with DPsim
+* [Examples]({{< ref "/docs/Examples/" >}} "Examples"): Check out some example code!
 
