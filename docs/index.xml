@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Documentation</title><link>https://dpsim.fein-aachen.org/docs/</link><description>Recent content in Documentation on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://dpsim.fein-aachen.org/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Architecture</title><link>https://dpsim.fein-aachen.org/docs/overview/architecture/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/architecture/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Documentation</title><link>https://sogno-platform.github.io/dpsim-docs/docs/</link><description>Recent content in Documentation on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://sogno-platform.github.io/dpsim-docs/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Architecture</title><link>https://sogno-platform.github.io/dpsim-docs/docs/overview/architecture/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/overview/architecture/</guid><description>
 &lt;h2 id="modules-and-dependencies">Modules and Dependencies&lt;/h2>
 &lt;p>The figure below shows the main components of the DPsim library and their dependencies on other software projects.
 All functionality is implemented in the C++ core, which can be used standalone or together with the Python interface.
@@ -39,7 +39,7 @@ An electrical bus and network nodes in general are represented by the &lt;code>T
 The connection of electrical components, &lt;code>TopologicalPowerComp&lt;/code>, is managed via terminals of type &lt;code>TopologicalTerminal&lt;/code>.
 These three types describe the &lt;em>electrical&lt;/em> connections of the network, which are bidirectional and include voltages and currents.
 The signal type elements, &lt;code>TopologicalSignalComp&lt;/code>, can only have unidirectional components, which are not expressed using node and terminals.
-Instead, the attribute system is used to define signal type connections.&lt;/p></description></item><item><title>Docs: Attributes</title><link>https://dpsim.fein-aachen.org/docs/overview/attributes/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/attributes/</guid><description>
+Instead, the attribute system is used to define signal type connections.&lt;/p></description></item><item><title>Docs: Attributes</title><link>https://sogno-platform.github.io/dpsim-docs/docs/overview/attributes/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/overview/attributes/</guid><description>
 &lt;p>Attributes, instances of the &lt;code>Attribute&lt;/code> class, serve multiple purposes in DPsim:&lt;/p>
 &lt;ul>
 &lt;li>add meta information about variables, like read and write access&lt;/li>
@@ -86,13 +86,13 @@ Attribute&amp;lt;Matrix&amp;gt;::Ptr mLeftVector;
 };
 &lt;/code>&lt;/pre>
 &lt;p>Here, the MNA post step depends on the solution vector of the system, &lt;code>leftVector&lt;/code>, and modifies &lt;code>v_intf&lt;/code> and &lt;code>i_intf&lt;/code>.
-Therefore, this task needs to be scheduled after the system solution that computes &lt;code>leftVector&lt;/code> and before tasks that require the voltage and current interface vectors of the inductance, e.g. the task logging these values.&lt;/p></description></item><item><title>Docs: Scheduling</title><link>https://dpsim.fein-aachen.org/docs/overview/scheduling/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/scheduling/</guid><description>
+Therefore, this task needs to be scheduled after the system solution that computes &lt;code>leftVector&lt;/code> and before tasks that require the voltage and current interface vectors of the inductance, e.g. the task logging these values.&lt;/p></description></item><item><title>Docs: Scheduling</title><link>https://sogno-platform.github.io/dpsim-docs/docs/overview/scheduling/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/overview/scheduling/</guid><description>
 &lt;p>DPsim implements level scheduling.
 A task T4 that depends on data modified by task T1 is scheduled to the level following the level of task T1.
 In the simplest case, all tasks of a level have to be finished before tasks of the next level are started.&lt;/p>
 &lt;p>&lt;img src="task_graph_levels.svg" alt="image">&lt;/p>
 &lt;p>The dependencies of tasks on data are determined by referencing the attributes that are read or modified by the task.
-The scheduler computes the schedule prior to the simulation from the task dependency graph resulting from the tasks&amp;rsquo; data dependencies.&lt;/p></description></item><item><title>Docs: Add New Model</title><link>https://dpsim.fein-aachen.org/docs/tasks/add-model/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/tasks/add-model/</guid><description>
+The scheduler computes the schedule prior to the simulation from the task dependency graph resulting from the tasks&amp;rsquo; data dependencies.&lt;/p></description></item><item><title>Docs: Add New Model</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/add-model/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/add-model/</guid><description>
 &lt;h2 id="add-a-component-model">Add a Component Model&lt;/h2>
 &lt;p>In this section we will show the implementation of a new component model by means a three-phase dynamic phasor inductor model.&lt;/p>
 &lt;h3 id="c-oop">C++ OOP&lt;/h3>
@@ -141,15 +141,15 @@ The general structure looks as follows.&lt;/p>
 &lt;li>&lt;code>models/Include/cps/Components.h&lt;/code>&lt;/li>
 &lt;li>&lt;code>models/Source/CMakeLists.txt&lt;/code>&lt;/li>
 &lt;li>&lt;code>Sources/Python/Module.cpp&lt;/code>&lt;/li>
-&lt;/ul></description></item><item><title>Docs: Examples</title><link>https://dpsim.fein-aachen.org/docs/examples/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/examples/</guid><description>
-&lt;p>The DPsim repository includes &lt;a href="https://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/-/tree/master/Examples">examples&lt;/a> that can be run locally and on Github you can find a selection of &lt;a href="https://github.com/DPsim-Simulator/DPsim-Notebooks">Jupyter notebooks&lt;/a> with results.&lt;/p></description></item><item><title>Docs: Tutorials</title><link>https://dpsim.fein-aachen.org/docs/tutorials/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/tutorials/</guid><description>
+&lt;/ul></description></item><item><title>Docs: Examples</title><link>https://sogno-platform.github.io/dpsim-docs/docs/examples/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/examples/</guid><description>
+&lt;p>The DPsim repository includes &lt;a href="https://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/-/tree/master/Examples">examples&lt;/a> that can be run locally and on Github you can find a selection of &lt;a href="https://github.com/DPsim-Simulator/DPsim-Notebooks">Jupyter notebooks&lt;/a> with results.&lt;/p></description></item><item><title>Docs: Tutorials</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tutorials/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tutorials/</guid><description>
 &lt;p>On Github you can find a selection of &lt;a href="https://github.com/DPsim-Simulator/DPsim-Notebooks">Jupyter notebooks&lt;/a> with results.
-These will be updated with more explanations.&lt;/p></description></item><item><title>Docs: Reference</title><link>https://dpsim.fein-aachen.org/docs/reference/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/reference/</guid><description>
+These will be updated with more explanations.&lt;/p></description></item><item><title>Docs: Reference</title><link>https://sogno-platform.github.io/dpsim-docs/docs/reference/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/reference/</guid><description>
 &lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/sphinx/about.html">Sphinx documentation&lt;/a> describes the Python API.&lt;/p>
 &lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/doxygen/index.html">Doxygen documentation&lt;/a> is automatically generated from the C++ code using Doxygen.
-It is helpful to understand the general structure of the C++ DPsim core components.&lt;/p></description></item><item><title>Docs: Contribution Guidelines</title><link>https://dpsim.fein-aachen.org/docs/contribution-guidelines/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/contribution-guidelines/</guid><description>
+It is helpful to understand the general structure of the C++ DPsim core components.&lt;/p></description></item><item><title>Docs: Contribution Guidelines</title><link>https://sogno-platform.github.io/dpsim-docs/docs/contribution-guidelines/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/contribution-guidelines/</guid><description>
 &lt;p>We&amp;rsquo;d love to accept your patches and contributions to this project.
-Please get in touch with us via mail or slack if you would like to contribute.&lt;/p></description></item><item><title>Docs: Create New Simulation</title><link>https://dpsim.fein-aachen.org/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/tasks/create-simulation/</guid><description>
+Please get in touch with us via mail or slack if you would like to contribute.&lt;/p></description></item><item><title>Docs: Create New Simulation</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</guid><description>
 &lt;p>Here, we will show the implementation of a new simulation scenario defined in C++, which is using DPsim as a library.&lt;/p>
 &lt;h2 id="directory-structure">Directory Structure&lt;/h2>
 &lt;p>In the end, your directory structure should look like as follows:&lt;/p>
@@ -172,12 +172,12 @@ target_link_libraries(my-scenario dpsim)
 &lt;pre>&lt;code>$ cd my-project
 $ mkdir build &amp;amp;&amp;amp; cd build
 $ cmake ..
-$ make my-scenario&lt;/code>&lt;/pre></description></item><item><title>Docs: Basic Elements</title><link>https://dpsim.fein-aachen.org/docs/models/basic-elements/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/basic-elements/</guid><description/></item><item><title>Docs: Branches</title><link>https://dpsim.fein-aachen.org/docs/models/branches/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/branches/</guid><description>
+$ make my-scenario&lt;/code>&lt;/pre></description></item><item><title>Docs: Basic Elements</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/basic-elements/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/basic-elements/</guid><description/></item><item><title>Docs: Branches</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/branches/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/branches/</guid><description>
 &lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
 &lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
 &lt;h2 id="rx-line">RX-Line&lt;/h2>
 &lt;h2 id="pi-line">PI-Line&lt;/h2>
-&lt;h2 id="transformer">Transformer&lt;/h2></description></item><item><title>Docs: Dynamic Phasors</title><link>https://dpsim.fein-aachen.org/docs/concepts/dyn-phasors/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/concepts/dyn-phasors/</guid><description>
+&lt;h2 id="transformer">Transformer&lt;/h2></description></item><item><title>Docs: Dynamic Phasors</title><link>https://sogno-platform.github.io/dpsim-docs/docs/concepts/dyn-phasors/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/concepts/dyn-phasors/</guid><description>
 &lt;p>In the power systems community, dynamic phasors were initially introduced for power electronics analysis &lt;a href="https://ieeexplore.ieee.org/document/76811">Sanders1991&lt;/a> as a more general approach than state-space averaging.
 They were used to construct efficient models for the dynamics of switching gate phenomena with a high level of detail as shown in &lt;a href="https://ieeexplore.ieee.org/abstract/document/744524">Mattavelli1999&lt;/a>.
 A few years later, dynamic phasors were also employed for power system simulation as described in &lt;a href="https://www.research-collection.ethz.ch/handle/20.500.11850/123490">Demiray2008&lt;/a>.
@@ -189,7 +189,7 @@ In these domains, the approach is often denoted as base band representation or c
 Another common term coming from power electrical engineering is shifted frequency analysis (SFA).
 In the following, the general approach of dynamic phasors for power system simulation is explained starting from the idea of bandpass signals.
 This is because the 50 Hz or 60 Hz fundamental and small deviations from it can be seen as such a bandpass signal.
-Futhermore, higher frequencies, for example, generated by power electronics can be modelled in a similar way.&lt;/p></description></item><item><title>Docs: Induction Machine</title><link>https://dpsim.fein-aachen.org/docs/models/induction-machine/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/induction-machine/</guid><description/></item><item><title>Docs: Nodal Analysis</title><link>https://dpsim.fein-aachen.org/docs/concepts/nodal-analysis/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/concepts/nodal-analysis/</guid><description>
+Futhermore, higher frequencies, for example, generated by power electronics can be modelled in a similar way.&lt;/p></description></item><item><title>Docs: Induction Machine</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/induction-machine/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/induction-machine/</guid><description/></item><item><title>Docs: Nodal Analysis</title><link>https://sogno-platform.github.io/dpsim-docs/docs/concepts/nodal-analysis/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/concepts/nodal-analysis/</guid><description>
 &lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
 &lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
 &lt;p>A circuit with &lt;span class="math inline">\(b\)&lt;/span> branches has &lt;span class="math inline">\(2b\)&lt;/span> unknowns since there are &lt;span class="math inline">\(b\)&lt;/span> voltages and &lt;span class="math inline">\(b\)&lt;/span> currents. Hence, &lt;span class="math inline">\(2b\)&lt;/span> linear independent equations are required to solve the circuit. If the circuit has &lt;span class="math inline">\(n\)&lt;/span> nodes and &lt;span class="math inline">\(b\)&lt;/span> branches, it has&lt;/p>
@@ -205,7 +205,7 @@ Futhermore, higher frequencies, for example, generated by power electronics can 
 &lt;li>Represent every branch current &lt;span class="math inline">\(i\)&lt;/span> as a function of node voltage variables &lt;span class="math inline">\(v\)&lt;/span> with the general expression &lt;span class="math inline">\(i = g(v)\)&lt;/span>&lt;/li>
 &lt;li>Write &lt;span class="math inline">\(n-1\)&lt;/span> KCL based equations in terms of node voltage variable.&lt;/li>
 &lt;/ul>
-&lt;p>The resulting equations can be written in matrix form and have to be solved for &lt;span class="math inline">\(v\)&lt;/span>. &lt;span class="math display">\[\boldsymbol{Y} \boldsymbol{v} = \boldsymbol{i}\]&lt;/span>&lt;/p></description></item><item><title>Docs: Powerflow</title><link>https://dpsim.fein-aachen.org/docs/concepts/powerflow/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/concepts/powerflow/</guid><description>
+&lt;p>The resulting equations can be written in matrix form and have to be solved for &lt;span class="math inline">\(v\)&lt;/span>. &lt;span class="math display">\[\boldsymbol{Y} \boldsymbol{v} = \boldsymbol{i}\]&lt;/span>&lt;/p></description></item><item><title>Docs: Powerflow</title><link>https://sogno-platform.github.io/dpsim-docs/docs/concepts/powerflow/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/concepts/powerflow/</guid><description>
 &lt;script>
 MathJax = {
 tex: {
@@ -353,7 +353,7 @@ J_{jj}^{QV} &amp;amp;= \frac{\partial Q_{j}(\vec{x})}{\partial \vert V_{j} \vert
 &lt;li>Evaluate the Jacobian matrix &lt;span class="math inline">\(\textbf{J}^{(i)}\)&lt;/span> and compute &lt;span class="math inline">\(\Delta \vec{x}^{(i)}\)&lt;/span>.&lt;/li>
 &lt;li>Compute the update solution vector &lt;span class="math inline">\(\vec{x}^{(i+1)}\)&lt;/span>. Return to step 3.&lt;/li>
 &lt;li>Stop.&lt;/li>
-&lt;/ol></description></item><item><title>Docs: Synchronous Generator</title><link>https://dpsim.fein-aachen.org/docs/models/synchronous-generator/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/synchronous-generator/</guid><description>
+&lt;/ol></description></item><item><title>Docs: Synchronous Generator</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/synchronous-generator/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/synchronous-generator/</guid><description>
 &lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
 &lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
 &lt;p>Two different synchronous machine models are currently available:&lt;/p>
@@ -627,7 +627,7 @@ T_e &amp;amp;= \langle \lambda_{qs} \rangle_0 \langle i_{ds} \rangle_0 - \langle
 \frac{1}{\omega_s} \frac{d \delta_r}{dt} &amp;amp;= \omega_r - 1 \\
 \frac{d \omega_r}{dt} &amp;amp;= \frac{1}{2H} (T_m - T_e).
 \end{align}\]&lt;/span>&lt;/p>
-&lt;h2 id="transient-stability-model">Transient Stability Model&lt;/h2></description></item><item><title>Docs: VS-Inverter</title><link>https://dpsim.fein-aachen.org/docs/models/power-electronics/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/models/power-electronics/</guid><description/></item><item><title>Docs: Build</title><link>https://dpsim.fein-aachen.org/docs/getting-started/build/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/build/</guid><description>
+&lt;h2 id="transient-stability-model">Transient Stability Model&lt;/h2></description></item><item><title>Docs: VS-Inverter</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/power-electronics/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/power-electronics/</guid><description/></item><item><title>Docs: Build</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/build/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/build/</guid><description>
 &lt;h2 id="docker-based">Docker based&lt;/h2>
 &lt;p>Clone the repository&lt;/p>
 &lt;pre>&lt;code>$ git clone git@github.com:sogno-platform/dpsim.git
@@ -747,7 +747,7 @@ $ make docs
 $ cmake ..
 $ make docs_cxx
 &lt;/code>&lt;/pre>
-&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Development</title><link>https://dpsim.fein-aachen.org/docs/getting-started/development/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/development/</guid><description>
+&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Development</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/development/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/development/</guid><description>
 &lt;h2 id="environment">Environment&lt;/h2>
 &lt;p>We recommend the following development tools:&lt;/p>
 &lt;ul>
@@ -775,7 +775,7 @@ $ make docs_cxx
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;p>Please follow the build instructions to checkout your code and install the basic dependencies and tools.&lt;/p></description></item><item><title>Docs: Install</title><link>https://dpsim.fein-aachen.org/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/install/</guid><description>
+&lt;p>Please follow the build instructions to checkout your code and install the basic dependencies and tools.&lt;/p></description></item><item><title>Docs: Install</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</guid><description>
 &lt;p>DPsim is a Python module / C++ library for complex power system
 simulation. As a Python module, the easiest way to get to know DPsim is
 via &lt;a href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/">Jupyter Notebooks&lt;/a>.&lt;/p>
@@ -805,7 +805,7 @@ In case it is not activated, run:&lt;/p>
 &lt;pre>&lt;code>$ pip install dpsim
 &lt;/code>&lt;/pre>
 &lt;h2 id="from-source">From Source&lt;/h2>
-&lt;p>To build and install DPsim from the source files, please refer to the build section.&lt;/p></description></item><item><title>Docs: Real-Time</title><link>https://dpsim.fein-aachen.org/docs/getting-started/real-time/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/real-time/</guid><description>
+&lt;p>To build and install DPsim from the source files, please refer to the build section.&lt;/p></description></item><item><title>Docs: Real-Time</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/real-time/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/real-time/</guid><description>
 &lt;p>This page describes recommended techniques to optimize the host operating system for real-time execution of DPsim.&lt;/p>
 &lt;p>In principle, real-time execution is supported on all platforms.
 However, we recommend to use an optimized Linux installation.&lt;/p>

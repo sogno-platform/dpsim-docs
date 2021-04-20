@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Overview</title><link>https://dpsim.fein-aachen.org/docs/overview/</link><description>Recent content in Overview on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://dpsim.fein-aachen.org/docs/overview/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Architecture</title><link>https://dpsim.fein-aachen.org/docs/overview/architecture/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/architecture/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Overview</title><link>https://sogno-platform.github.io/dpsim-docs/docs/overview/</link><description>Recent content in Overview on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://sogno-platform.github.io/dpsim-docs/docs/overview/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Architecture</title><link>https://sogno-platform.github.io/dpsim-docs/docs/overview/architecture/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/overview/architecture/</guid><description>
 &lt;h2 id="modules-and-dependencies">Modules and Dependencies&lt;/h2>
 &lt;p>The figure below shows the main components of the DPsim library and their dependencies on other software projects.
 All functionality is implemented in the C++ core, which can be used standalone or together with the Python interface.
@@ -39,7 +39,7 @@ An electrical bus and network nodes in general are represented by the &lt;code>T
 The connection of electrical components, &lt;code>TopologicalPowerComp&lt;/code>, is managed via terminals of type &lt;code>TopologicalTerminal&lt;/code>.
 These three types describe the &lt;em>electrical&lt;/em> connections of the network, which are bidirectional and include voltages and currents.
 The signal type elements, &lt;code>TopologicalSignalComp&lt;/code>, can only have unidirectional components, which are not expressed using node and terminals.
-Instead, the attribute system is used to define signal type connections.&lt;/p></description></item><item><title>Docs: Attributes</title><link>https://dpsim.fein-aachen.org/docs/overview/attributes/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/attributes/</guid><description>
+Instead, the attribute system is used to define signal type connections.&lt;/p></description></item><item><title>Docs: Attributes</title><link>https://sogno-platform.github.io/dpsim-docs/docs/overview/attributes/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/overview/attributes/</guid><description>
 &lt;p>Attributes, instances of the &lt;code>Attribute&lt;/code> class, serve multiple purposes in DPsim:&lt;/p>
 &lt;ul>
 &lt;li>add meta information about variables, like read and write access&lt;/li>
@@ -86,7 +86,7 @@ Attribute&amp;lt;Matrix&amp;gt;::Ptr mLeftVector;
 };
 &lt;/code>&lt;/pre>
 &lt;p>Here, the MNA post step depends on the solution vector of the system, &lt;code>leftVector&lt;/code>, and modifies &lt;code>v_intf&lt;/code> and &lt;code>i_intf&lt;/code>.
-Therefore, this task needs to be scheduled after the system solution that computes &lt;code>leftVector&lt;/code> and before tasks that require the voltage and current interface vectors of the inductance, e.g. the task logging these values.&lt;/p></description></item><item><title>Docs: Scheduling</title><link>https://dpsim.fein-aachen.org/docs/overview/scheduling/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/overview/scheduling/</guid><description>
+Therefore, this task needs to be scheduled after the system solution that computes &lt;code>leftVector&lt;/code> and before tasks that require the voltage and current interface vectors of the inductance, e.g. the task logging these values.&lt;/p></description></item><item><title>Docs: Scheduling</title><link>https://sogno-platform.github.io/dpsim-docs/docs/overview/scheduling/</link><pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/overview/scheduling/</guid><description>
 &lt;p>DPsim implements level scheduling.
 A task T4 that depends on data modified by task T1 is scheduled to the level following the level of task T1.
 In the simplest case, all tasks of a level have to be finished before tasks of the next level are started.&lt;/p>

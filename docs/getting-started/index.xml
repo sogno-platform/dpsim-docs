@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Getting Started</title><link>https://dpsim.fein-aachen.org/docs/getting-started/</link><description>Recent content in Getting Started on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://dpsim.fein-aachen.org/docs/getting-started/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Build</title><link>https://dpsim.fein-aachen.org/docs/getting-started/build/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/build/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Getting Started</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/</link><description>Recent content in Getting Started on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://sogno-platform.github.io/dpsim-docs/docs/getting-started/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Build</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/build/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/build/</guid><description>
 &lt;h2 id="docker-based">Docker based&lt;/h2>
 &lt;p>Clone the repository&lt;/p>
 &lt;pre>&lt;code>$ git clone git@github.com:sogno-platform/dpsim.git
@@ -118,7 +118,7 @@ $ make docs
 $ cmake ..
 $ make docs_cxx
 &lt;/code>&lt;/pre>
-&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Development</title><link>https://dpsim.fein-aachen.org/docs/getting-started/development/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/development/</guid><description>
+&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Development</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/development/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/development/</guid><description>
 &lt;h2 id="environment">Environment&lt;/h2>
 &lt;p>We recommend the following development tools:&lt;/p>
 &lt;ul>
@@ -146,7 +146,7 @@ $ make docs_cxx
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;p>Please follow the build instructions to checkout your code and install the basic dependencies and tools.&lt;/p></description></item><item><title>Docs: Install</title><link>https://dpsim.fein-aachen.org/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/install/</guid><description>
+&lt;p>Please follow the build instructions to checkout your code and install the basic dependencies and tools.&lt;/p></description></item><item><title>Docs: Install</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</guid><description>
 &lt;p>DPsim is a Python module / C++ library for complex power system
 simulation. As a Python module, the easiest way to get to know DPsim is
 via &lt;a href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/">Jupyter Notebooks&lt;/a>.&lt;/p>
@@ -176,7 +176,7 @@ In case it is not activated, run:&lt;/p>
 &lt;pre>&lt;code>$ pip install dpsim
 &lt;/code>&lt;/pre>
 &lt;h2 id="from-source">From Source&lt;/h2>
-&lt;p>To build and install DPsim from the source files, please refer to the build section.&lt;/p></description></item><item><title>Docs: Real-Time</title><link>https://dpsim.fein-aachen.org/docs/getting-started/real-time/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/getting-started/real-time/</guid><description>
+&lt;p>To build and install DPsim from the source files, please refer to the build section.&lt;/p></description></item><item><title>Docs: Real-Time</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/real-time/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/real-time/</guid><description>
 &lt;p>This page describes recommended techniques to optimize the host operating system for real-time execution of DPsim.&lt;/p>
 &lt;p>In principle, real-time execution is supported on all platforms.
 However, we recommend to use an optimized Linux installation.&lt;/p>

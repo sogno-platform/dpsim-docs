@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Core Tasks</title><link>https://dpsim.fein-aachen.org/docs/tasks/</link><description>Recent content in Core Tasks on DPsim</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 05 Jan 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://dpsim.fein-aachen.org/docs/tasks/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Add New Model</title><link>https://dpsim.fein-aachen.org/docs/tasks/add-model/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/tasks/add-model/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Core Tasks</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/</link><description>Recent content in Core Tasks on DPsim</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Thu, 05 Jan 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://sogno-platform.github.io/dpsim-docs/docs/tasks/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Add New Model</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/add-model/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/add-model/</guid><description>
 &lt;h2 id="add-a-component-model">Add a Component Model&lt;/h2>
 &lt;p>In this section we will show the implementation of a new component model by means a three-phase dynamic phasor inductor model.&lt;/p>
 &lt;h3 id="c-oop">C++ OOP&lt;/h3>
@@ -47,7 +47,7 @@ The general structure looks as follows.&lt;/p>
 &lt;li>&lt;code>models/Include/cps/Components.h&lt;/code>&lt;/li>
 &lt;li>&lt;code>models/Source/CMakeLists.txt&lt;/code>&lt;/li>
 &lt;li>&lt;code>Sources/Python/Module.cpp&lt;/code>&lt;/li>
-&lt;/ul></description></item><item><title>Docs: Create New Simulation</title><link>https://dpsim.fein-aachen.org/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://dpsim.fein-aachen.org/docs/tasks/create-simulation/</guid><description>
+&lt;/ul></description></item><item><title>Docs: Create New Simulation</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</guid><description>
 &lt;p>Here, we will show the implementation of a new simulation scenario defined in C++, which is using DPsim as a library.&lt;/p>
 &lt;h2 id="directory-structure">Directory Structure&lt;/h2>
 &lt;p>In the end, your directory structure should look like as follows:&lt;/p>
