@@ -7,8 +7,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -49,7 +47,7 @@ jobs:
     - run: npm ci
     - run: hugo --minify
     
-    - name: Deploy
+    - name: Deploy dpsim-simulator / FEIN page
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}     
@@ -61,3 +59,10 @@ jobs:
         publish_branch: master
         cname: dpsim.fein-aachen.org
 
+    - name: Deploy SOGNO page
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN  }}     
+        publish_dir: ./public
+        #   keep_files: true
+        publish_branch: gh-pages
