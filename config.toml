@@ -93,7 +93,7 @@ version = "0.0"
 url_latest_version = "https://example.com"
 
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-github_repo = "https://github.com/dpsim-simulator/docs"
+github_repo = "https://github.com/sogno-platform/dpsim-docs"
 # An optional link to a related project repo. For example, the sibling repository where your product code lives.
 github_project_repo = "https://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim"
 
@@ -162,7 +162,7 @@ no = 'Sorry to hear that. Please <a href="https://github.com/USERNAME/REPOSITORY
         desc = "Development takes place here!"
 [[params.links.developer]]
 	name = "GitHub"
-	url = "https://github.com/DPsim-Simulator/dpsim"
+	url = "https://github.com/sogno-platform/dpsim"
 	icon = "fab fa-github"
         desc = "Mirror of the RWTH GitLab project"
 [[params.links.developer]]
