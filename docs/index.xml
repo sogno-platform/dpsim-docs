@@ -141,14 +141,57 @@ The general structure looks as follows.&lt;/p>
 &lt;li>&lt;code>models/Include/cps/Components.h&lt;/code>&lt;/li>
 &lt;li>&lt;code>models/Source/CMakeLists.txt&lt;/code>&lt;/li>
 &lt;li>&lt;code>Sources/Python/Module.cpp&lt;/code>&lt;/li>
-&lt;/ul></description></item><item><title>Docs: Tutorials</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tutorials/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tutorials/</guid><description>
-&lt;p>On Github you can find a selection of &lt;a href="https://github.com/DPsim-Simulator/DPsim-Notebooks">Jupyter notebooks&lt;/a> with results.
-These will be updated with more explanations.&lt;/p></description></item><item><title>Docs: Reference</title><link>https://sogno-platform.github.io/dpsim-docs/docs/reference/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/reference/</guid><description>
+&lt;/ul></description></item><item><title>Docs: Roadmap</title><link>https://sogno-platform.github.io/dpsim-docs/docs/roadmap/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/roadmap/</guid><description>
+&lt;h3 id="under-development">Under Development&lt;/h3>
+&lt;ul>
+&lt;li>Solver
+&lt;ul>
+&lt;li>MPI parallelization of subsystems&lt;/li>
+&lt;li>CUDA sparse implementation&lt;/li>
+&lt;li>improve online system matrix computation and refactorization to support nonlinear elements in network solution (NICSLU integration)&lt;/li>
+&lt;li>merge DAE solver branch&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Interfaces
+&lt;ul>
+&lt;li>reimplement python interface using pybind and expose more models / functionalities&lt;/li>
+&lt;li>add python based examples using the VILLASnode interface&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Tests, Examples, CI
+&lt;ul>
+&lt;li>convert most of the examples to Python and test them against reference results in CI&lt;/li>
+&lt;li>convert more gitlab CI jobs to github actions&lt;/li>
+&lt;li>add IEEE39 system to examples&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Models
+&lt;ul>
+&lt;li>SVC&lt;/li>
+&lt;li>VBR generator model&lt;/li>
+&lt;li>add tap-change to transfomer&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="ideas">Ideas&lt;/h3>
+&lt;ul>
+&lt;li>Solver
+&lt;ul>
+&lt;li>improve integration of diakoptics solver&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Interfaces
+&lt;ul>
+&lt;li>implement CIM reader in Python using new pybind interface and cimpy library&lt;/li>
+&lt;li>support matpower / pypower format for static simulation&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item><item><title>Docs: Reference</title><link>https://sogno-platform.github.io/dpsim-docs/docs/reference/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/reference/</guid><description>
 &lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/sphinx/about.html">Sphinx documentation&lt;/a> describes the Python API.&lt;/p>
 &lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/doxygen/index.html">Doxygen documentation&lt;/a> is automatically generated from the C++ code using Doxygen.
 It is helpful to understand the general structure of the C++ DPsim core components.&lt;/p></description></item><item><title>Docs: Contribution Guidelines</title><link>https://sogno-platform.github.io/dpsim-docs/docs/contribution-guidelines/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/contribution-guidelines/</guid><description>
 &lt;p>We&amp;rsquo;d love to accept your patches and contributions to this project.
-Please get in touch with us via mail or slack if you would like to contribute.&lt;/p></description></item><item><title>Docs: Create New Simulation</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</guid><description>
+Please send us a pull request or get in touch with us via mail or slack if you would like to contribute.&lt;/p></description></item><item><title>Docs: Create New Simulation</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</guid><description>
 &lt;p>Here, we will show the implementation of a new simulation scenario defined in C++, which is using DPsim as a library.&lt;/p>
 &lt;h2 id="directory-structure">Directory Structure&lt;/h2>
 &lt;p>In the end, your directory structure should look like as follows:&lt;/p>

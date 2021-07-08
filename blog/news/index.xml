@@ -1,9 +1,0 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – News About DPsim</title><link>https://sogno-platform.github.io/dpsim-docs/blog/news/</link><description>Recent content in News About DPsim on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://sogno-platform.github.io/dpsim-docs/blog/news/index.xml" rel="self" type="application/rss+xml"/><item><title>Blog: New Documentation</title><link>https://sogno-platform.github.io/dpsim-docs/blog/2020/03/16/new-documentation/</link><pubDate>Mon, 16 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/blog/2020/03/16/new-documentation/</guid><description>
-&lt;p>The new documentation will include:&lt;/p>
-&lt;ul>
-&lt;li>build and development instructions&lt;/li>
-&lt;li>an architecture overview&lt;/li>
-&lt;li>solver and model descriptions&lt;/li>
-&lt;li>guidelines on how to add new models&lt;/li>
-&lt;/ul>
-&lt;p>To support the description of mathematical models, mathjax is included for rendering latex equations.&lt;/p></description></item></channel></rss>
