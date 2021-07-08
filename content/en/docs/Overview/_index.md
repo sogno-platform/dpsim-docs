@@ -12,18 +12,9 @@ Users interact with the C++ simulation kernel via Python bindings, which can be 
 The DPsim simulation kernel is implemented in C++ and uses the Eigen linear algebra library. By using a system programming language like C++ and a highly optimized math library, optimal performance and real-time execution can be guaranteed.
 The integration into the [VILLASframework](https://git.rwth-aachen.de/acs/public/villas/node) allows DPsim to be used in large-scale co-simulations.
 
-
-## Copyright
-
-2017-2020, Institute for Automation of Complex Power Systems, EON ERC, RWTH Aachen University
-
 ## Licensing
 
-__DPsim__ is released as open source software under the [GPLv3 license](https://www.gnu.org/licenses/gpl-3.0.en.html).
-
-Other licensing options available upon request.
-Please contact [Prof. Antonello Monti](mailto:amonti@eonerc.rwth-aachen.de) for further details.
-
+The project is released under the terms of the [MPL 2.0](https://mozilla.org/MPL/2.0/).
 
 ## Where should I go next?
 
