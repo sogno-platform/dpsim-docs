@@ -1,6 +1,4 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Models</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/</link><description>Recent content in Models on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://sogno-platform.github.io/dpsim-docs/docs/models/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Transformer</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/transformer/</link><pubDate>Thu, 22 Jul 2021 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/transformer/</guid><description>
-&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
-&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
 &lt;h2 id="winding-transformer">2-Winding Transformer&lt;/h2>
 &lt;p>The transformer model is composed of an RL-segment and an ideal transformer. The single line diagram is depicted in the figure below.&lt;/p>
 &lt;figure>
@@ -8,12 +6,14 @@
 &lt;/figure>
 &lt;p>If node reduction is not applied, two virtual nodes are created to stamp this model into the system matrix.&lt;/p>
 &lt;p>Furthermore, the ideal transformer has an additional equation, which requires an extension of the system matrix. The complete matrix stamp for the ideal transformer is&lt;/p>
-&lt;p>&lt;span class="math display">\[\begin{equation}
-\bordermatrix{
-~ &amp;amp; j &amp;amp; k &amp;amp; l \cr
-j &amp;amp; &amp;amp; &amp;amp; -1 \cr
-k &amp;amp; &amp;amp; &amp;amp; T \cr
-l &amp;amp; 1 &amp;amp; -T &amp;amp; 0 }
+&lt;p>&lt;span class="math display">\[
+\begin{array}{c|c c c}
+~ &amp;amp; j &amp;amp; k &amp;amp; l \\
+\hline
+j &amp;amp; &amp;amp; &amp;amp; -1 \\
+k &amp;amp; &amp;amp; &amp;amp; T \\
+l &amp;amp; 1 &amp;amp; -T &amp;amp; 0
+\end{array}
 \begin{pmatrix}
 v_j\\
 v_k\\
@@ -25,14 +25,116 @@ i_{l}\\
 \\
 0\\
 \end{pmatrix}
-\label{eq:transformer_matrix_stamp}
-\end{equation}\]&lt;/span>&lt;/p>
-&lt;p>The variable &lt;span class="math inline">\(j\)&lt;/span> denotes the high voltage node while &lt;span class="math inline">\(k\)&lt;/span> is the low voltage node. &lt;span class="math inline">\(l\)&lt;/span> indicates the inserted row and column to accommodate the relation between the two voltages at the ends of the transformer. The transformer ratio is defined as &lt;span class="math inline">\(T = V_{j} / V_{k}\)&lt;/span>. A phase shift can be introduced if &lt;span class="math inline">\(T\)&lt;/span> is considered as a complex number.&lt;/p></description></item><item><title>Docs: Basic Elements</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/basic-elements/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/basic-elements/</guid><description/></item><item><title>Docs: Branches</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/branches/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/branches/</guid><description>
+\]&lt;/span>&lt;/p>
+&lt;p>The variable &lt;span class="math inline">\(j\)&lt;/span> denotes the high voltage node while &lt;span class="math inline">\(k\)&lt;/span> is the low voltage node. &lt;span class="math inline">\(l\)&lt;/span> indicates the inserted row and column to accommodate the relation between the two voltages at the ends of the transformer. The transformer ratio is defined as &lt;span class="math inline">\(T = V_{j} / V_{k}\)&lt;/span>. A phase shift can be introduced if &lt;span class="math inline">\(T\)&lt;/span> is considered as a complex number.&lt;/p></description></item><item><title>Docs: Branches</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/branches/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/branches/</guid><description>
 &lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
 &lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
 &lt;h2 id="rx-line">RX-Line&lt;/h2>
 &lt;h2 id="pi-line">PI-Line&lt;/h2>
-&lt;h2 id="transformer">Transformer&lt;/h2></description></item><item><title>Docs: Induction Machine</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/induction-machine/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/induction-machine/</guid><description/></item><item><title>Docs: Synchronous Generator</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/synchronous-generator/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/synchronous-generator/</guid><description>
+&lt;h2 id="transformer">Transformer&lt;/h2></description></item><item><title>Docs: Induction Machine</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/induction-machine/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/induction-machine/</guid><description/></item><item><title>Docs: RLC-Elements</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/rlc-elements/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/rlc-elements/</guid><description>
+&lt;h2 id="emt-equations-and-modified-nodal-analysis">EMT Equations and Modified Nodal Analysis&lt;/h2>
+&lt;h3 id="inductance">Inductance&lt;/h3>
+&lt;p>An inductance is described by &lt;span class="math display">\[
+v_j(t) - v_k(t) = v_L(t) = L \frac{\mathrm{d} i_L(t)}{\mathrm{d}t}
+\]&lt;/span> Integration results in an equation to compute the current at time &lt;span class="math inline">\(t\)&lt;/span> from a previous state at &lt;span class="math inline">\(t - \Delta t\)&lt;/span> . &lt;span class="math display">\[
+i_L(t) = i_L(t - \Delta t) + \frac{1}{L} \ \int_{t - \Delta t}^{t} v_L(\tau) \ \mathrm{d} \tau
+\]&lt;/span> There are various methods to discretize this equation in order to solve it numerically. The trapezoidal rule, an implicit second-order method, is commonly applied for circuit simulation: &lt;span class="math display">\[
+\int_{t - \Delta t}^{t} f(\tau) \ \mathrm{d} \tau \approx \frac{\Delta t}{2}(f(t) + f(t - \Delta t))
+\]&lt;/span> Applying the trapezoidal rule to leads to &lt;span class="math display">\[
+i_L(t) = i_L(t - \Delta t) + \frac{\Delta t}{2L}(v_L(t) + v_L(t - \Delta t))
+\]&lt;/span> This can be rewritten in terms of an equivalent conductance and current source and the number of time steps &lt;span class="math inline">\(k\)&lt;/span> with size &lt;span class="math inline">\(\Delta t\)&lt;/span>. &lt;span class="math display">\[
+i_L(k) = g_L v_L(k) + i_{L,equiv}(k-1)
+\]&lt;/span> &lt;span class="math display">\[
+i_{L,equiv}(k-1) = i_L(k-1) + \frac{\Delta t}{2L} v_L(k-1)
+\]&lt;/span> &lt;span class="math display">\[
+g_L = \frac{\Delta t}{2L}
+\]&lt;/span>&lt;/p>
+&lt;p>Hence, components described by differential equations are transformed into a DC equivalent circuit as depicted in the figure below.&lt;/p>
+&lt;figure>
+&lt;img src="electrical_resistive_companion_inductance.svg" alt="inductance resistive companion" />&lt;figcaption>inductance resistive companion&lt;/figcaption>
+&lt;/figure>
+&lt;h3 id="capacitance">Capacitance&lt;/h3>
+&lt;p>The same procedure can be applied to describing a capacitance. Integration on both side yields &lt;span class="math display">\[
+i_C(t) = C \frac{\mathrm{d}}{\mathrm{d}t} \ v_C(t)
+\]&lt;/span> &lt;span class="math display">\[
+v_C(t) = v_C(t - \Delta t) + \frac{1}{C} \int_{t - \Delta t}^t i_C(\tau) \mathrm{d} \tau
+\]&lt;/span> Finally, the equivalent circuit is described by a current source and a conductance. &lt;span class="math display">\[
+i_{C}(k) = g_{C} v_C(k) + i_{C,equiv}(k-1)
+\]&lt;/span> &lt;span class="math display">\[
+i_{C,equiv}(k-1) = -i_{C}(k-1) - g_C v_C(k-1)
+\]&lt;/span> &lt;span class="math display">\[
+g_{C} = \frac{2C}{\Delta t}
+\]&lt;/span> This equation set is visualized in the figure below.&lt;/p>
+&lt;figure>
+&lt;img src="electrical_resistive_companion_capacitance.svg" alt="capacitance resistive companion" />&lt;figcaption>capacitance resistive companion&lt;/figcaption>
+&lt;/figure>
+&lt;p>Hence, the vector of unknowns &lt;span class="math inline">\(\bm{x}\)&lt;/span> and the source vector &lt;span class="math inline">\(\bm{b}\)&lt;/span> become time dependent and this leads to the system description: &lt;span class="math display">\[
+\bm{A} \bm{x}(t) = \bm{b}(t)
+\]&lt;/span> To simulate the transient behavior of circuits, this linear equation has to be solved repeatedly. As long as the system topology and the time step is fixed, the system matrix is constant.&lt;/p>
+&lt;h2 id="extension-with-dynamic-phasors">Extension with Dynamic Phasors&lt;/h2>
+&lt;p>The dynamic phasor concept can be integrated with nodal analysis. The overall procedure does not change but the system equations are rewritten using complex numbers and all variables need to be expressed in terms of dynamic phasors. Therefore, the resistive companion representations of inductances and capacitances have to be adapted as well.&lt;/p>
+&lt;h3 id="inductance-1">Inductance&lt;/h3>
+&lt;p>In dynamic phasors the integration of the inductance equation yields &lt;span class="math display">\[
+\begin{align*}
+\langle v_L \rangle(t) &amp;amp;= \Big \langle L \frac{\mathrm{d} i_L}{\mathrm{d}t} \Big \rangle(t) \\
+&amp;amp;= L \frac{\mathrm{d}}{dt} \langle i_L \rangle(t) + j \omega L \ \langle i_L \rangle(t)
+\end{align*}
+\]&lt;/span> &lt;span class="math display">\[
+\langle i_L \rangle(t) = \langle i_L \rangle(t - \Delta t) + \int_{t - \Delta t}^t \frac{1}{L} \langle v_L \rangle(\tau) - j \omega \ \langle i_L \rangle(\tau) \mathrm{d} \tau
+\]&lt;/span>&lt;/p>
+&lt;p>Applying the trapezoidal method leads to the finite difference equation: &lt;span class="math display">\[
+\begin{split}
+\langle i_L \rangle(k) = \langle i_L \rangle(k-1) + \frac{\Delta t}{2} \bigg[ \frac{1}{L} (\langle v_L \rangle(k) + \langle v_L \rangle(k-1))
+- j \omega (\langle i_L \rangle(t) + \langle i_L \rangle(k-1) \bigg]
+\end{split}
+\]&lt;/span>&lt;/p>
+&lt;p>Solving this for &lt;span class="math inline">\(\langle i_L \rangle(k)\)&lt;/span> results in the equivalent circuit model: &lt;span class="math display">\[
+\langle i_L \rangle(k) = \frac{a - jab}{1 + b^2} \langle v_L \rangle(k) + \langle i_{L,equiv} \rangle(k-1)
+\]&lt;/span> with &lt;span class="math display">\[
+a = \frac{\Delta t}{2L}, \qquad b = \frac{\Delta t \omega}{2}
+\]&lt;/span> &lt;span class="math display">\[
+\langle i_{L,equiv} \rangle(k-1) = \frac{1 - b^2 - j2b}{1 + b^2} \langle i_L \rangle(k-1) + \frac{a - jab}{1 + b^2} \langle v_L \rangle(k-1)
+\]&lt;/span>&lt;/p>
+&lt;h3 id="capacitance-1">Capacitance&lt;/h3>
+&lt;p>Similarly, a capacitance is described by as follows &lt;span class="math display">\[
+\langle i_C \rangle(k) = C \ \frac{\mathrm{d} \langle v_C \rangle}{\mathrm{d} t} + j \omega C \ \langle v_C \rangle(t)
+\]&lt;/span> &lt;span class="math display">\[
+v_C(t) = v_C(t- \Delta t) + \int_{t- \Delta t}^{t} \frac{1}{C} \ i_C(\tau) -j \omega \ v_C(\tau) \ \mathrm{d} \tau
+\]&lt;/span>&lt;/p>
+&lt;p>Applying the trapezoidal rule for the capacitance equation leads to the finite difference equation: &lt;span class="math display">\[
+\begin{split}
+\langle v_C \rangle(k) = \langle v_C \rangle(k-1)
++ \frac{\Delta t}{2} \bigg[ \frac{1}{C} \ \langle i_C \rangle(k) - j \omega \ \langle v_C \rangle(k) \\
++ \frac{1}{C} \ \langle i_C \rangle(k-1) - j \omega \ \langle v_C \rangle(k-1) \bigg]
+\end{split}
+\]&lt;/span>&lt;/p>
+&lt;p>The model for the capacitance is defined by &lt;span class="math display">\[
+\langle i_C \rangle(k) = \frac{1+jb}{a} \ \langle v_C \rangle(k) + \langle i_{C,equiv} \rangle(k-1)
+\]&lt;/span> with &lt;span class="math display">\[
+a = \frac{\Delta t}{2C}, \qquad
+b = \frac{\Delta t \omega}{2}
+\]&lt;/span> &lt;span class="math display">\[
+\langle i_{C,equiv} \rangle(k-1) = - \frac{1-jb}{a} \ \langle v_C \rangle(k-1) - \langle i_C \rangle(k-1)
+\]&lt;/span>&lt;/p>
+&lt;h3 id="rl-series-element">RL-series element&lt;/h3>
+&lt;p>In dynamic phasors the integration of the inductance equation yields &lt;span class="math display">\[
+\langle v \rangle(t) = L \frac{\mathrm{d}}{dt} \langle i \rangle(t) + j \omega L \ \langle i \rangle(t) + R \ \langle i \rangle(t)
+\]&lt;/span> &lt;span class="math display">\[
+\langle i \rangle(t) = \langle i \rangle(t - \Delta t) + \int_{t - \Delta t}^t \frac{1}{L} \langle v \rangle(\tau) - j \omega \ \langle i \rangle(\tau) - \frac{R}{L} \ \langle i \rangle(\tau) \mathrm{d} \tau
+\]&lt;/span>&lt;/p>
+&lt;p>Applying the trapezoidal method leads to the finite difference equation: &lt;span class="math display">\[
+\begin{split}
+\langle i \rangle(k) = \langle i \rangle(k-1) + \frac{\Delta t}{2} \bigg[ \frac{1}{L} (\langle v \rangle(k) + \langle v \rangle(k-1))
+- \left( j \omega + \frac{R}{L} \right) (\langle i \rangle(k) + \langle i \rangle(k-1)) \bigg]
+\end{split}
+\]&lt;/span>&lt;/p>
+&lt;p>Solving this for &lt;span class="math inline">\(\langle i \rangle(k)\)&lt;/span> results in the equivalent circuit model: &lt;span class="math display">\[
+\langle i \rangle(k) = \frac{a + Ra^2 - jab}{(1+Ra)^2 + b^2} \langle v \rangle(k) + \langle i_{equiv} \rangle(k-1)
+\]&lt;/span> with &lt;span class="math display">\[
+a = \frac{\Delta t}{2L}, \qquad b = \frac{\Delta t \omega}{2}
+\]&lt;/span> &lt;span class="math display">\[
+\langle i_{equiv} \rangle(k-1) = \frac{1 - b^2 - j2b + 2Ra + (Ra)^2 - j2Rab}{(1+Ra^2) + b^2} \langle i \rangle(k-1) + \frac{a + Ra^2 - jab}{(1+Ra)^2 + b^2} \langle v \rangle(k-1)
+\]&lt;/span>&lt;/p></description></item><item><title>Docs: Synchronous Generator</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/synchronous-generator/</link><pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/synchronous-generator/</guid><description>
 &lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
 &lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
 &lt;p>Two different synchronous machine models are currently available:&lt;/p>
