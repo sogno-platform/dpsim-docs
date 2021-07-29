@@ -65,6 +65,11 @@ time_format_blog = "02.01.2006"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+	[markup.highlight]
+		# See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
+		style = "tango"
+		# Uncomment if you want your chosen highlight style used for code blocks without a specified language
+		# guessSyntax = "true"
 
 # Everything below this are Site Params
 
@@ -159,3 +164,7 @@ no = 'Sorry to hear that. Please <a href="https://github.com/USERNAME/REPOSITORY
 #	url = "https://example.org/mail"
 #	icon = "fa fa-envelope"
 #        desc = "Discuss development issues around the project"
+
+[params.katex]
+enable = true
+html_dom_element = "document.body"
