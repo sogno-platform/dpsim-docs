@@ -191,7 +191,36 @@ The general structure looks as follows.&lt;/p>
 &lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/doxygen/index.html">Doxygen documentation&lt;/a> is automatically generated from the C++ code using Doxygen.
 It is helpful to understand the general structure of the C++ DPsim core components.&lt;/p></description></item><item><title>Docs: Contribution Guidelines</title><link>https://sogno-platform.github.io/dpsim-docs/docs/contribution-guidelines/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/contribution-guidelines/</guid><description>
 &lt;p>We&amp;rsquo;d love to accept your patches and contributions to this project.
-Please send us a pull request or get in touch with us via mail or slack if you would like to contribute.&lt;/p></description></item><item><title>Docs: Create New Simulation</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</guid><description>
+Please send us a pull request or get in touch with us via mail or slack if you would like to contribute.&lt;/p></description></item><item><title>Docs: Transformer</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/transformer/</link><pubDate>Thu, 22 Jul 2021 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/transformer/</guid><description>
+&lt;script src="https://polyfill.io/v3/polyfill.min.js?features=es6">&lt;/script>
+&lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">&lt;/script>
+&lt;h2 id="winding-transformer">2-Winding Transformer&lt;/h2>
+&lt;p>The transformer model is composed of an RL-segment and an ideal transformer. The single line diagram is depicted in the figure below.&lt;/p>
+&lt;figure>
+&lt;img src="electrical_transformer.svg" alt="Transformer" />&lt;figcaption>Transformer&lt;/figcaption>
+&lt;/figure>
+&lt;p>If node reduction is not applied, two virtual nodes are created to stamp this model into the system matrix.&lt;/p>
+&lt;p>Furthermore, the ideal transformer has an additional equation, which requires an extension of the system matrix. The complete matrix stamp for the ideal transformer is&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{equation}
+\bordermatrix{
+~ &amp;amp; j &amp;amp; k &amp;amp; l \cr
+j &amp;amp; &amp;amp; &amp;amp; -1 \cr
+k &amp;amp; &amp;amp; &amp;amp; T \cr
+l &amp;amp; 1 &amp;amp; -T &amp;amp; 0 }
+\begin{pmatrix}
+v_j\\
+v_k\\
+i_{l}\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+\\
+\\
+0\\
+\end{pmatrix}
+\label{eq:transformer_matrix_stamp}
+\end{equation}\]&lt;/span>&lt;/p>
+&lt;p>The variable &lt;span class="math inline">\(j\)&lt;/span> denotes the high voltage node while &lt;span class="math inline">\(k\)&lt;/span> is the low voltage node. &lt;span class="math inline">\(l\)&lt;/span> indicates the inserted row and column to accommodate the relation between the two voltages at the ends of the transformer. The transformer ratio is defined as &lt;span class="math inline">\(T = V_{j} / V_{k}\)&lt;/span>. A phase shift can be introduced if &lt;span class="math inline">\(T\)&lt;/span> is considered as a complex number.&lt;/p></description></item><item><title>Docs: Create New Simulation</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</link><pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/create-simulation/</guid><description>
 &lt;p>Here, we will show the implementation of a new simulation scenario defined in C++, which is using DPsim as a library.&lt;/p>
 &lt;h2 id="directory-structure">Directory Structure&lt;/h2>
 &lt;p>In the end, your directory structure should look like as follows:&lt;/p>
