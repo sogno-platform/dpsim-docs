@@ -5,9 +5,6 @@ date: 2021-07-22
 markup: pandoc
 ---
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 ## 2-Winding Transformer
 The transformer model is composed of an RL-segment and an ideal transformer.
 The single line diagram is depicted in the figure below.
@@ -19,12 +16,14 @@ If node reduction is not applied, two virtual nodes are created to stamp this mo
 Furthermore, the ideal transformer has an additional equation, which requires an extension of the system matrix.
 The complete matrix stamp for the ideal transformer is 
 
-\begin{equation}
-  \bordermatrix{
-  ~ & j & k & l \cr
-  j &  &  & -1 \cr
-  k &  &  & T \cr
-  l & 1 & -T & 0 }
+$$
+  \begin{array}{c|c c c}
+  ~ & j & k & l \\
+  \hline
+  j &  &  & -1 \\ 
+  k &  &  & T \\ 
+  l & 1 & -T & 0
+  \end{array}
   \begin{pmatrix}
     v_j\\
     v_k\\
@@ -36,8 +35,7 @@ The complete matrix stamp for the ideal transformer is
     \\
     0\\
   \end{pmatrix}
-  \label{eq:transformer_matrix_stamp}
-\end{equation}
+$$
 
 The variable $j$ denotes the high voltage node while $k$ is the low voltage node.
 $l$ indicates the inserted row and column to accommodate the relation between the two voltages at the ends of the transformer.
