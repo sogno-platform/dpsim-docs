@@ -43,7 +43,7 @@ The DPsim C++ and Python library without C++ examples or documentation can be bu
     $ cd /dpsim
     $ mkdir build && cd build
     $ cmake ..
-    $ cmake --build . --target dpsim_python
+    $ cmake --build . --target dpsimpy
 
 To build everything run
 
