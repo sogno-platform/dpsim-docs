@@ -187,8 +187,8 @@ The general structure looks as follows.&lt;/p>
 &lt;/ul>
 &lt;/li>
 &lt;/ul></description></item><item><title>Docs: Reference</title><link>https://sogno-platform.github.io/dpsim-docs/docs/reference/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/reference/</guid><description>
-&lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/sphinx/about.html">Sphinx documentation&lt;/a> describes the Python API.&lt;/p>
-&lt;p>The &lt;a href="https://acs.pages.rwth-aachen.de/public/simulation/dpsim/dpsim/doxygen/index.html">Doxygen documentation&lt;/a> is automatically generated from the C++ code using Doxygen.
+&lt;p>The &lt;a href="https://sogno-platform.github.io/dpsim/sphinx/about.html">Sphinx documentation&lt;/a> describes the Python API.&lt;/p>
+&lt;p>The &lt;a href="https://sogno-platform.github.io/dpsim/doxygen/index.html">Doxygen documentation&lt;/a> is automatically generated from the C++ code using Doxygen.
 It is helpful to understand the general structure of the C++ DPsim core components.&lt;/p></description></item><item><title>Docs: Contribution Guidelines</title><link>https://sogno-platform.github.io/dpsim-docs/docs/contribution-guidelines/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/contribution-guidelines/</guid><description>
 &lt;p>We&amp;rsquo;d love to accept your patches and contributions to this project.
 Please send us a pull request or get in touch with us via mail or slack if you would like to contribute.&lt;/p></description></item><item><title>Docs: Transformer</title><link>https://sogno-platform.github.io/dpsim-docs/docs/models/transformer/</link><pubDate>Thu, 22 Jul 2021 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/models/transformer/</guid><description>
