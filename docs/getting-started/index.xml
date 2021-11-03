@@ -8,19 +8,19 @@
 &lt;/code>&lt;/pre>
 &lt;p>In the repository, there is a Docker file with all required dependencies&lt;/p>
 &lt;pre>&lt;code>$ cd dpsim
-$ docker build -t rwthacs/dpsim-dev -f Packaging/Docker/Dockerfile.dev .
+$ docker build -t sogno/dpsim-dev -f Packaging/Docker/Dockerfile.dev .
 &lt;/code>&lt;/pre>
 &lt;p>Alternatively, the image can be pulled from DockerHub like so&lt;/p>
-&lt;pre>&lt;code>$ docker pull rwthacs/dpsim-dev
+&lt;pre>&lt;code>$ docker pull sogno/dpsim-dev
 &lt;/code>&lt;/pre>
 &lt;p>For OS specific instructions on how to install requirements, see the sections below.&lt;/p>
 &lt;p>Next, run a Docker container&lt;/p>
 &lt;pre>&lt;code>$ cd dpsim
-$ docker run -it -p 8888:8888 -v $(pwd):/dpsim --privileged rwthacs/dpsim-dev bash
+$ docker run -it -p 8888:8888 -v $(pwd):/dpsim --privileged sogno/dpsim-dev bash
 &lt;/code>&lt;/pre>
 &lt;p>The option &lt;code>-p&lt;/code> maps the port 8888 of the container to the docker host. This is required to access the jupyter lab instance inside the container. The option &lt;code>--privileged&lt;/code> is required for debug builds.&lt;/p>
 &lt;p>For Windows, you might need to specify the current directory with curly brackets&lt;/p>
-&lt;pre>&lt;code>$ docker run -it -p 8888:8888 -v ${pwd}:/dpsim --privileged rwthacs/dpsim-dev bash
+&lt;pre>&lt;code>$ docker run -it -p 8888:8888 -v ${pwd}:/dpsim --privileged sogno/dpsim-dev bash
 &lt;/code>&lt;/pre>
 &lt;p>Now, you should be in an interactive session inside the docker container.&lt;/p>
 &lt;p>The DPsim C++ and Python library without C++ examples or documentation can be built as follows&lt;/p>
@@ -151,9 +151,10 @@ $ make docs_cxx
 simulation. As a Python module, the easiest way to get to know DPsim is
 via &lt;a href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/">Jupyter Notebooks&lt;/a>.&lt;/p>
 &lt;h2 id="docker">Docker&lt;/h2>
-&lt;p>First, you need to install &lt;a href="https://docs.docker.com/install/">Docker&lt;/a>.&lt;/p>
+&lt;p>First, you need to install &lt;a href="https://docs.docker.com/install/">Docker&lt;/a>.
+Then, you could either build a docker image by yourself as described in the build instructions or download a prepared image from Docker Hub as described in the following.&lt;/p>
 &lt;p>To start a Jupyter session, run a DPsim Docker container&lt;/p>
-&lt;pre>&lt;code> $ docker run -p 8888:8888 rwthacs/dpsim
+&lt;pre>&lt;code> $ docker run -p 8888:8888 sogno/dpsim
 &lt;/code>&lt;/pre>
 &lt;p>And access the session by opening the following link: http://localhost:8888/lab?token=3adaa57df44cea75e60c0169e1b2a98ae8f7de130481b5bc&lt;/p>
 &lt;h2 id="python">Python&lt;/h2>
