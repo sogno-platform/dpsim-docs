@@ -11,10 +11,11 @@ via [Jupyter Notebooks](https://jupyter-notebook-beginner-guide.readthedocs.io/e
 ## Docker
 
 First, you need to install [Docker](https://docs.docker.com/install/).
+Then, you could either build a docker image by yourself as described in the build instructions or download a prepared image from Docker Hub as described in the following.
 
 To start a Jupyter session, run a DPsim Docker container
 
-		$ docker run -p 8888:8888 rwthacs/dpsim
+		$ docker run -p 8888:8888 sogno/dpsim
 
 And access the session by opening the following link: http://localhost:8888/lab?token=3adaa57df44cea75e60c0169e1b2a98ae8f7de130481b5bc
 
