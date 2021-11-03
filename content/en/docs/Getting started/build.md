@@ -17,24 +17,24 @@ or using https if you do not have an account
 In the repository, there is a Docker file with all required dependencies
 
     $ cd dpsim
-    $ docker build -t rwthacs/dpsim-dev -f Packaging/Docker/Dockerfile.dev .
+    $ docker build -t sogno/dpsim-dev -f Packaging/Docker/Dockerfile.dev .
 
 Alternatively, the image can be pulled from DockerHub like so
 
-    $ docker pull rwthacs/dpsim-dev
+    $ docker pull sogno/dpsim-dev
 
 For OS specific instructions on how to install requirements, see the sections below.
 
 Next, run a Docker container
 
     $ cd dpsim
-    $ docker run -it -p 8888:8888 -v $(pwd):/dpsim --privileged rwthacs/dpsim-dev bash
+    $ docker run -it -p 8888:8888 -v $(pwd):/dpsim --privileged sogno/dpsim-dev bash
 
 The option `-p` maps the port 8888 of the container to the docker host. This is required to access the jupyter lab instance inside the container. The option `--privileged` is required for debug builds.
 
 For Windows, you might need to specify the current directory with curly brackets
 
-    $ docker run -it -p 8888:8888 -v ${pwd}:/dpsim --privileged rwthacs/dpsim-dev bash
+    $ docker run -it -p 8888:8888 -v ${pwd}:/dpsim --privileged sogno/dpsim-dev bash
 
 Now, you should be in an interactive session inside the docker container.
 
