@@ -142,6 +142,7 @@ The general structure looks as follows.&lt;/p>
 &lt;li>&lt;code>models/Source/CMakeLists.txt&lt;/code>&lt;/li>
 &lt;li>&lt;code>Sources/Python/Module.cpp&lt;/code>&lt;/li>
 &lt;/ul></description></item><item><title>Docs: Roadmap</title><link>https://sogno-platform.github.io/dpsim-docs/docs/roadmap/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/roadmap/</guid><description>
+&lt;p>Short-term planning for new features is done on the GitHub &lt;a href="https://github.com/orgs/sogno-platform/projects/1">Project board&lt;/a>.&lt;/p>
 &lt;h3 id="under-development">Under Development&lt;/h3>
 &lt;ul>
 &lt;li>Solver
@@ -810,19 +811,19 @@ T_e &amp;amp;= \langle \lambda_{qs} \rangle_0 \langle i_{ds} \rangle_0 - \langle
 &lt;/code>&lt;/pre>
 &lt;p>In the repository, there is a Docker file with all required dependencies&lt;/p>
 &lt;pre>&lt;code>$ cd dpsim
-$ docker build -t sogno/dpsim-dev -f Packaging/Docker/Dockerfile.dev .
+$ docker build -t sogno/dpsim:dev -f Packaging/Docker/Dockerfile.dev .
 &lt;/code>&lt;/pre>
 &lt;p>Alternatively, the image can be pulled from DockerHub like so&lt;/p>
-&lt;pre>&lt;code>$ docker pull sogno/dpsim-dev
+&lt;pre>&lt;code>$ docker pull sogno/dpsim:dev
 &lt;/code>&lt;/pre>
 &lt;p>For OS specific instructions on how to install requirements, see the sections below.&lt;/p>
 &lt;p>Next, run a Docker container&lt;/p>
 &lt;pre>&lt;code>$ cd dpsim
-$ docker run -it -p 8888:8888 -v $(pwd):/dpsim --privileged sogno/dpsim-dev bash
+$ docker run -it -p 8888:8888 -v $(pwd):/dpsim --privileged sogno/dpsim:dev bash
 &lt;/code>&lt;/pre>
 &lt;p>The option &lt;code>-p&lt;/code> maps the port 8888 of the container to the docker host. This is required to access the jupyter lab instance inside the container. The option &lt;code>--privileged&lt;/code> is required for debug builds.&lt;/p>
 &lt;p>For Windows, you might need to specify the current directory with curly brackets&lt;/p>
-&lt;pre>&lt;code>$ docker run -it -p 8888:8888 -v ${pwd}:/dpsim --privileged sogno/dpsim-dev bash
+&lt;pre>&lt;code>$ docker run -it -p 8888:8888 -v ${pwd}:/dpsim --privileged sogno/dpsim:dev bash
 &lt;/code>&lt;/pre>
 &lt;p>Now, you should be in an interactive session inside the docker container.&lt;/p>
 &lt;p>The DPsim C++ and Python library without C++ examples or documentation can be built as follows&lt;/p>
