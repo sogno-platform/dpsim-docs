@@ -1,7 +1,9 @@
 ---
 title: "Development"
 linkTitle: "Development"
-date: 2017-01-05
+weight: 4
+description: >
+  How to extend DPsim.
 ---
 
 ## Environment
@@ -19,8 +21,5 @@ We recommend the following development tools:
 - [Docker](https://www.docker.com)
 - [CMake](https://cmake.org)
 - [Git](https://git-scm.com)
-  - Issues: http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/issues
-  - Merge Requests: http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/merge_requests
-  - Continous Integration and Testing: http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/pipelines
 
 Please follow the build instructions to checkout your code and install the basic dependencies and tools.
