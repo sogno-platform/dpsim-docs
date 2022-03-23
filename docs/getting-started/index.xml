@@ -118,35 +118,7 @@ $ make docs
 $ cmake ..
 $ make docs_cxx
 &lt;/code>&lt;/pre>
-&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Development</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/development/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/development/</guid><description>
-&lt;h2 id="environment">Environment&lt;/h2>
-&lt;p>We recommend the following development tools:&lt;/p>
-&lt;ul>
-&lt;li>Editor: &lt;a href="https://code.visualstudio.com">Visual Studio Code&lt;/a>
-&lt;ul>
-&lt;li>Extensions:
-&lt;ul>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools">CMake Tools&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker">Docker&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig">EditorConfig for VS Code&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;a href="https://www.docker.com">Docker&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://cmake.org">CMake&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://git-scm.com">Git&lt;/a>
-&lt;ul>
-&lt;li>Issues: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/issues">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/issues&lt;/a>&lt;/li>
-&lt;li>Merge Requests: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/merge_requests">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/merge_requests&lt;/a>&lt;/li>
-&lt;li>Continous Integration and Testing: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/pipelines">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/pipelines&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;p>Please follow the build instructions to checkout your code and install the basic dependencies and tools.&lt;/p></description></item><item><title>Docs: Install</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</guid><description>
+&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Install</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</guid><description>
 &lt;p>DPsim is a Python module / C++ library for complex power system
 simulation. As a Python module, the easiest way to get to know DPsim is
 via &lt;a href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/">Jupyter Notebooks&lt;/a>.&lt;/p>

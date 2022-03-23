@@ -92,4 +92,4 @@ A task T4 that depends on data modified by task T1 is scheduled to the level fol
 In the simplest case, all tasks of a level have to be finished before tasks of the next level are started.&lt;/p>
 &lt;p>&lt;img src="task_graph_levels.svg" alt="image">&lt;/p>
 &lt;p>The dependencies of tasks on data are determined by referencing the attributes that are read or modified by the task.
-The scheduler computes the schedule prior to the simulation from the task dependency graph resulting from the tasks&amp;rsquo; data dependencies.&lt;/p></description></item></channel></rss>
+The scheduler computes the schedule prior to the simulation from the task dependency graph resulting from the tasks' data dependencies.&lt;/p></description></item></channel></rss>

@@ -92,7 +92,7 @@ A task T4 that depends on data modified by task T1 is scheduled to the level fol
 In the simplest case, all tasks of a level have to be finished before tasks of the next level are started.&lt;/p>
 &lt;p>&lt;img src="task_graph_levels.svg" alt="image">&lt;/p>
 &lt;p>The dependencies of tasks on data are determined by referencing the attributes that are read or modified by the task.
-The scheduler computes the schedule prior to the simulation from the task dependency graph resulting from the tasks&amp;rsquo; data dependencies.&lt;/p></description></item><item><title>Docs: Add New Model</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/add-model/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/add-model/</guid><description>
+The scheduler computes the schedule prior to the simulation from the task dependency graph resulting from the tasks' data dependencies.&lt;/p></description></item><item><title>Docs: Add New Model</title><link>https://sogno-platform.github.io/dpsim-docs/docs/tasks/add-model/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/tasks/add-model/</guid><description>
 &lt;h2 id="add-a-component-model">Add a Component Model&lt;/h2>
 &lt;p>In this section we will show the implementation of a new component model by means a three-phase dynamic phasor inductor model.&lt;/p>
 &lt;h3 id="c-oop">C++ OOP&lt;/h3>
@@ -921,35 +921,7 @@ $ make docs
 $ cmake ..
 $ make docs_cxx
 &lt;/code>&lt;/pre>
-&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Development</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/development/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/development/</guid><description>
-&lt;h2 id="environment">Environment&lt;/h2>
-&lt;p>We recommend the following development tools:&lt;/p>
-&lt;ul>
-&lt;li>Editor: &lt;a href="https://code.visualstudio.com">Visual Studio Code&lt;/a>
-&lt;ul>
-&lt;li>Extensions:
-&lt;ul>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools">CMake Tools&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker">Docker&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig">EditorConfig for VS Code&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;a href="https://www.docker.com">Docker&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://cmake.org">CMake&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://git-scm.com">Git&lt;/a>
-&lt;ul>
-&lt;li>Issues: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/issues">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/issues&lt;/a>&lt;/li>
-&lt;li>Merge Requests: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/merge_requests">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/merge_requests&lt;/a>&lt;/li>
-&lt;li>Continous Integration and Testing: &lt;a href="http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/pipelines">http://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/pipelines&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;p>Please follow the build instructions to checkout your code and install the basic dependencies and tools.&lt;/p></description></item><item><title>Docs: Install</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</guid><description>
+&lt;p>The resulting documentation will be generated in &lt;code>Documentation/html/Cxx&lt;/code>.&lt;/p></description></item><item><title>Docs: Install</title><link>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</link><pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/getting-started/install/</guid><description>
 &lt;p>DPsim is a Python module / C++ library for complex power system
 simulation. As a Python module, the easiest way to get to know DPsim is
 via &lt;a href="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/">Jupyter Notebooks&lt;/a>.&lt;/p>
@@ -1016,4 +988,8 @@ $ Examples/Cxx/RT_DP_CS_R_1
 &lt;ul>
 &lt;li>Server-grade CPU, e.g. Intel Xeon. A multi-core system enables true parallel execution of several decoupled systems&lt;/li>
 &lt;li>Server-grade network cards, e.g. Intel PRO/1000. These allow offloading of UDP checksumming to the hardware&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;/ul></description></item><item><title>Docs: Guidelines</title><link>https://sogno-platform.github.io/dpsim-docs/docs/development/guidelines/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/development/guidelines/</guid><description>
+&lt;p>This is a summary of general guidelines for the development of DPsim.&lt;/p>
+&lt;h2 id="logging">Logging&lt;/h2>
+&lt;p>Debug or trace should be the default log level for information that might be nice to have but not necessary for every simulation case.&lt;/p>
+&lt;p>Calls to the logger that might occur during simulation must use spdlog macros, like SPDLOG_LOGGER_INFO.&lt;/p></description></item></channel></rss>

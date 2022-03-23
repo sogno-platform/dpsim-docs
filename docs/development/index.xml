@@ -1,0 +1,5 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DPsim – Development</title><link>https://sogno-platform.github.io/dpsim-docs/docs/development/</link><description>Recent content in Development on DPsim</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://sogno-platform.github.io/dpsim-docs/docs/development/index.xml" rel="self" type="application/rss+xml"/><item><title>Docs: Guidelines</title><link>https://sogno-platform.github.io/dpsim-docs/docs/development/guidelines/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://sogno-platform.github.io/dpsim-docs/docs/development/guidelines/</guid><description>
+&lt;p>This is a summary of general guidelines for the development of DPsim.&lt;/p>
+&lt;h2 id="logging">Logging&lt;/h2>
+&lt;p>Debug or trace should be the default log level for information that might be nice to have but not necessary for every simulation case.&lt;/p>
+&lt;p>Calls to the logger that might occur during simulation must use spdlog macros, like SPDLOG_LOGGER_INFO.&lt;/p></description></item></channel></rss>
