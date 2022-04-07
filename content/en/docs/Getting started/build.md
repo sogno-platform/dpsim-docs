@@ -95,20 +95,23 @@ Install Sundials
 
 ### Build instructions
 
-The DPsim C++ and Python library without C++ examples or documentation can be built as follows
+To begin with, do
 
     $ cd /dpsim
     $ mkdir build && cd build
     $ cmake ..
-    $ cmake --build . --target dpsimpy
+
+To build a certain C++ example run
+
+    $ cmake --build . -j$(nproc) --target <myexample>
 
 To build everything run
 
     $ cmake --build . -j$(nproc)
 
-To build a certain C++ example run
+The Python library can be built as follows
 
-    $ cmake --build . -j$(nproc) --target <myexample>
+    $ cmake --build . --target dpsimpy
 
 If you would like to use the Python package, it has to be added to the path
 
