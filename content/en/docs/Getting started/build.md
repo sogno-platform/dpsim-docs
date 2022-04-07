@@ -104,7 +104,11 @@ The DPsim C++ and Python library without C++ examples or documentation can be bu
 
 To build everything run
 
-    $ cmake --build .
+    $ cmake --build . -j$(nproc)
+
+To build a certain C++ example run
+
+    $ cmake --build . -j$(nproc) --target <myexample>
 
 If you would like to use the Python package, it has to be added to the path
 
