@@ -42,32 +42,7 @@ Now, you should be in an interactive session inside the docker container.
 
 ### Build instructions
 
-The DPsim C++ and Python library without C++ examples or documentation can be built as follows
-
-    $ cd /dpsim
-    $ mkdir build && cd build
-    $ cmake ..
-    $ cmake --build . --target dpsimpy
-
-To build everything run
-
-    $ cmake --build .
-
-If you would like to use the Python package, it has to be added to the path
-
-    $ cd /dpsim/build
-    $ export PYTHONPATH=$(pwd):$(pwd)/Source/Python:$(pwd)/../Source/Python
-
-To run jupyter lab
-
-    $ cd /dpsim
-    $ jupyter lab --ip="0.0.0.0" --allow-root --no-browser
-
-To install dpsim run
-
-    $ cd /dpsim/build
-    $ sudo make install
-
+As the docker container is based on Linux, you can run the build instructions as described in the Linux section.
 
 ## Linux
 
