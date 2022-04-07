@@ -4,7 +4,9 @@ linkTitle: "Build"
 date: 2017-01-05
 ---
 
-## Docker based
+## Docker
+
+### Setup instructions
 
 Clone the repository
 
@@ -38,6 +40,8 @@ For Windows, you might need to specify the current directory with curly brackets
 
 Now, you should be in an interactive session inside the docker container.
 
+### Build instructions
+
 The DPsim C++ and Python library without C++ examples or documentation can be built as follows
 
     $ cd /dpsim
@@ -65,7 +69,9 @@ To install dpsim run
     $ sudo make install
 
 
-## CMake for Linux
+## Linux
+
+### Setup instructions
 
 The most recent list of requirements can be found in the Dockerfiles.
 
@@ -87,11 +93,39 @@ Install Sundials
     $ make -j$(nproc) install
     $ popd
 
-The following steps to clone, build and install are the same as for the Docker setup.
+### Build instructions
 
-## CMake for Windows
+The DPsim C++ and Python library without C++ examples or documentation can be built as follows
 
-Make sure that the required dependecies are installed:
+    $ cd /dpsim
+    $ mkdir build && cd build
+    $ cmake ..
+    $ cmake --build . --target dpsimpy
+
+To build everything run
+
+    $ cmake --build .
+
+If you would like to use the Python package, it has to be added to the path
+
+    $ cd /dpsim/build
+    $ export PYTHONPATH=$(pwd):$(pwd)/Source/Python:$(pwd)/../Source/Python
+
+To run jupyter lab
+
+    $ cd /dpsim
+    $ jupyter lab --ip="0.0.0.0" --allow-root --no-browser
+
+To install dpsim run
+
+    $ cd /dpsim/build
+    $ sudo make install
+
+## Windows
+
+### Setup instructions
+
+Make sure that the required dependencies are installed:
 
 - Visual Studio 2017 with C++ Desktop development package
 - [CMake](https://cmake.org/) for Windows
@@ -115,7 +149,9 @@ You can either build the project from within Visual Studio or from the command l
 
 To install the Python package use Visual Studio and the Release configuration to build the DPsim Python module and then build the INSTALL project.
 
-## CMake for macOS
+## macOS
+
+### Setup instructions
 
 Make sure that the required dependecies are installed
 
@@ -125,7 +161,7 @@ Make sure that the required dependecies are installed
 
 Clone the source as explained for the Docker setup.
 
-Compile
+### Build instructions
 
     $ mkdir build
     $ cmake ..
