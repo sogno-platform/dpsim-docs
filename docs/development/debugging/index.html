@@ -2,8 +2,7 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<meta name=generator content="Hugo 0.91.2"><link rel=alternate type=application/rss+xml href=https://sogno-platform.github.io/dpsim-docs/docs/development/index.xml>
-<meta name=ROBOTS content="NOINDEX, NOFOLLOW">
+<meta name=generator content="Hugo 0.91.2"><meta name=ROBOTS content="NOINDEX, NOFOLLOW">
 <link rel="shortcut icon" href=/dpsim-docs/favicons/favicon.ico>
 <link rel=apple-touch-icon href=/dpsim-docs/favicons/apple-touch-icon-180x180.png sizes=180x180>
 <link rel=icon type=image/png href=/dpsim-docs/favicons/favicon-16x16.png sizes=16x16>
@@ -14,24 +13,28 @@
 <link rel=icon type=image/png href=/dpsim-docs/favicons/android-96x96.png sizes=96x96>
 <link rel=icon type=image/png href=/dpsim-docs/favicons/android-144x144.png sizes=144x144>
 <link rel=icon type=image/png href=/dpsim-docs/favicons/android-192x192.png sizes=192x192>
-<title>Development | DPsim</title>
-<meta name=description content="Real-Time Power System Simulation"><meta property="og:title" content="Development">
-<meta property="og:description" content="How to extend DPsim.
-">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://sogno-platform.github.io/dpsim-docs/docs/development/"><meta property="og:site_name" content="DPsim">
-<meta itemprop=name content="Development">
-<meta itemprop=description content="How to extend DPsim.
-"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="Development">
-<meta name=twitter:description content="How to extend DPsim.
-">
+<title>Debugging | DPsim</title>
+<meta name=description content="Real-Time Power System Simulation"><meta property="og:title" content="Debugging">
+<meta property="og:description" content="Mixed Python C++ Debugging Prerequisites Your vscode launch.json should have two configurations, one to launch the python process and one to attach gdb:
+{ &#34;version&#34;: &#34;0.2.0&#34;, &#34;configurations&#34;: [ { &#34;name&#34;: &#34;Python: Current File&#34;, &#34;type&#34;: &#34;python&#34;, &#34;request&#34;: &#34;launch&#34;, &#34;program&#34;: &#34;${file}&#34;, &#34;console&#34;: &#34;integratedTerminal&#34;, &#34;stopOnEntry&#34;: true, &#34;env&#34;: {&#34;PYTHONPATH&#34;: &#34;${workspaceFolder}/build${pathSeparator}${env:PYTHONPATH}&#34;} }, { &#34;name&#34;: &#34;(gdb) Attach&#34;, &#34;type&#34;: &#34;cppdbg&#34;, &#34;request&#34;: &#34;attach&#34;, &#34;program&#34;: &#34;/usr/bin/python&#34;, &#34;processId&#34;: &#34;${command:pickProcess}&#34;, &#34;MIMode&#34;: &#34;gdb&#34;, &#34;setupCommands&#34;: [ { &#34;description&#34;: &#34;Enable pretty-printing for gdb&#34;, &#34;text&#34;: &#34;-enable-pretty-printing&#34;, &#34;ignoreFailures&#34;: true } ] } ] }  The python debugger will stop on entry (&ldquo;stopOnEntry&rdquo;: true).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sogno-platform.github.io/dpsim-docs/docs/development/debugging/"><meta property="article:section" content="docs">
+<meta property="article:modified_time" content="2022-06-24T15:15:40+02:00"><meta property="og:site_name" content="DPsim">
+<meta itemprop=name content="Debugging">
+<meta itemprop=description content="Mixed Python C++ Debugging Prerequisites Your vscode launch.json should have two configurations, one to launch the python process and one to attach gdb:
+{ &#34;version&#34;: &#34;0.2.0&#34;, &#34;configurations&#34;: [ { &#34;name&#34;: &#34;Python: Current File&#34;, &#34;type&#34;: &#34;python&#34;, &#34;request&#34;: &#34;launch&#34;, &#34;program&#34;: &#34;${file}&#34;, &#34;console&#34;: &#34;integratedTerminal&#34;, &#34;stopOnEntry&#34;: true, &#34;env&#34;: {&#34;PYTHONPATH&#34;: &#34;${workspaceFolder}/build${pathSeparator}${env:PYTHONPATH}&#34;} }, { &#34;name&#34;: &#34;(gdb) Attach&#34;, &#34;type&#34;: &#34;cppdbg&#34;, &#34;request&#34;: &#34;attach&#34;, &#34;program&#34;: &#34;/usr/bin/python&#34;, &#34;processId&#34;: &#34;${command:pickProcess}&#34;, &#34;MIMode&#34;: &#34;gdb&#34;, &#34;setupCommands&#34;: [ { &#34;description&#34;: &#34;Enable pretty-printing for gdb&#34;, &#34;text&#34;: &#34;-enable-pretty-printing&#34;, &#34;ignoreFailures&#34;: true } ] } ] }  The python debugger will stop on entry (&ldquo;stopOnEntry&rdquo;: true).">
+<meta itemprop=dateModified content="2022-06-24T15:15:40+02:00">
+<meta itemprop=wordCount content="316">
+<meta itemprop=keywords content><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Debugging">
+<meta name=twitter:description content="Mixed Python C++ Debugging Prerequisites Your vscode launch.json should have two configurations, one to launch the python process and one to attach gdb:
+{ &#34;version&#34;: &#34;0.2.0&#34;, &#34;configurations&#34;: [ { &#34;name&#34;: &#34;Python: Current File&#34;, &#34;type&#34;: &#34;python&#34;, &#34;request&#34;: &#34;launch&#34;, &#34;program&#34;: &#34;${file}&#34;, &#34;console&#34;: &#34;integratedTerminal&#34;, &#34;stopOnEntry&#34;: true, &#34;env&#34;: {&#34;PYTHONPATH&#34;: &#34;${workspaceFolder}/build${pathSeparator}${env:PYTHONPATH}&#34;} }, { &#34;name&#34;: &#34;(gdb) Attach&#34;, &#34;type&#34;: &#34;cppdbg&#34;, &#34;request&#34;: &#34;attach&#34;, &#34;program&#34;: &#34;/usr/bin/python&#34;, &#34;processId&#34;: &#34;${command:pickProcess}&#34;, &#34;MIMode&#34;: &#34;gdb&#34;, &#34;setupCommands&#34;: [ { &#34;description&#34;: &#34;Enable pretty-printing for gdb&#34;, &#34;text&#34;: &#34;-enable-pretty-printing&#34;, &#34;ignoreFailures&#34;: true } ] } ] }  The python debugger will stop on entry (&ldquo;stopOnEntry&rdquo;: true).">
 <link rel=preload href=/dpsim-docs/scss/main.min.7375868ade29b1f5982c27ce479c5faa502e27ca9d8cfa13caa3d7e5022370e1.css as=style>
 <link href=/dpsim-docs/scss/main.min.7375868ade29b1f5982c27ce479c5faa502e27ca9d8cfa13caa3d7e5022370e1.css rel=stylesheet integrity>
 <script src=https://code.jquery.com/jquery-3.5.1.min.js integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin=anonymous></script>
 <script src=https://unpkg.com/lunr@2.3.8/lunr.min.js integrity=sha384-vRQ9bDyE0Wnu+lMfm57BlYLO0/XauFuKpVsZPs7KEDwYKktWi5+Kz3MP8++DFlRY crossorigin=anonymous></script>
 </head>
-<body class=td-section>
+<body class=td-page>
 <header>
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
 <a class=navbar-brand href=/dpsim-docs/>
@@ -110,10 +113,10 @@
 </ul>
 </li>
 <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id=m-dpsim-docsdocsdevelopment-li>
-<a href=/dpsim-docs/docs/development/ class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id=m-dpsim-docsdocsdevelopment><span class=td-sidebar-nav-active-item>Development</span></a>
+<a href=/dpsim-docs/docs/development/ class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-dpsim-docsdocsdevelopment><span>Development</span></a>
 <ul class="ul-2 foldable">
-<li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-dpsim-docsdocsdevelopmentdebugging-li>
-<a href=/dpsim-docs/docs/development/debugging/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-dpsim-docsdocsdevelopmentdebugging><span>Debugging</span></a>
+<li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id=m-dpsim-docsdocsdevelopmentdebugging-li>
+<a href=/dpsim-docs/docs/development/debugging/ class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id=m-dpsim-docsdocsdevelopmentdebugging><span class=td-sidebar-nav-active-item>Debugging</span></a>
 </li>
 <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id=m-dpsim-docsdocsdevelopmentguidelines-li>
 <a href=/dpsim-docs/docs/development/guidelines/ class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id=m-dpsim-docsdocsdevelopmentguidelines><span>Guidelines</span></a>
@@ -174,11 +177,22 @@
 </aside>
 <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
 <div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
-<a href=https://github.com/sogno-platform/dpsim-docs/edit/master/content/en/docs/Development/_index.md target=_blank><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-<a href="https://github.com/sogno-platform/dpsim-docs/new/master/content/en/docs/Development/_index.md?filename=change-me.md&value=---%0Atitle%3A+%22Long+Page+Title%22%0AlinkTitle%3A+%22Short+Nav+Title%22%0Aweight%3A+100%0Adescription%3A+%3E-%0A+++++Page+description+for+heading+and+indexes.%0A---%0A%0A%23%23+Heading%0A%0AEdit+this+template+to+create+your+new+page.%0A%0A%2A+Give+it+a+good+name%2C+ending+in+%60.md%60+-+e.g.+%60getting-started.md%60%0A%2A+Edit+the+%22front+matter%22+section+at+the+top+of+the+page+%28weight+controls+how+its+ordered+amongst+other+pages+in+the+same+directory%3B+lowest+number+first%29.%0A%2A+Add+a+good+commit+message+at+the+bottom+of+the+page+%28%3C80+characters%3B+use+the+extended+description+field+for+more+detail%29.%0A%2A+Create+a+new+branch+so+you+can+preview+your+new+file+and+request+a+review+via+Pull+Request.%0A" target=_blank><i class="fa fa-edit fa-fw"></i> Create child page</a>
-<a href="https://github.com/sogno-platform/dpsim-docs/issues/new?title=Development" target=_blank><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+<a href=https://github.com/sogno-platform/dpsim-docs/edit/master/content/en/docs/Development/Debugging.md target=_blank><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+<a href="https://github.com/sogno-platform/dpsim-docs/new/master/content/en/docs/Development/Debugging.md?filename=change-me.md&value=---%0Atitle%3A+%22Long+Page+Title%22%0AlinkTitle%3A+%22Short+Nav+Title%22%0Aweight%3A+100%0Adescription%3A+%3E-%0A+++++Page+description+for+heading+and+indexes.%0A---%0A%0A%23%23+Heading%0A%0AEdit+this+template+to+create+your+new+page.%0A%0A%2A+Give+it+a+good+name%2C+ending+in+%60.md%60+-+e.g.+%60getting-started.md%60%0A%2A+Edit+the+%22front+matter%22+section+at+the+top+of+the+page+%28weight+controls+how+its+ordered+amongst+other+pages+in+the+same+directory%3B+lowest+number+first%29.%0A%2A+Add+a+good+commit+message+at+the+bottom+of+the+page+%28%3C80+characters%3B+use+the+extended+description+field+for+more+detail%29.%0A%2A+Create+a+new+branch+so+you+can+preview+your+new+file+and+request+a+review+via+Pull+Request.%0A" target=_blank><i class="fa fa-edit fa-fw"></i> Create child page</a>
+<a href="https://github.com/sogno-platform/dpsim-docs/issues/new?title=Debugging" target=_blank><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
 <a href=https://git.rwth-aachen.de/acs/public/simulation/dpsim/dpsim/issues/new target=_blank><i class="fas fa-tasks fa-fw"></i> Create project issue</a>
 </div>
+<div class=td-toc><nav id=TableOfContents>
+<ul>
+<li><a href=#mixed-python-c-debugging>Mixed Python C++ Debugging</a>
+<ul>
+<li><a href=#prerequisites>Prerequisites</a></li>
+<li><a href=#attaching-c-debugger>Attaching C++ Debugger</a></li>
+</ul>
+</li>
+<li><a href=#c-debugging>C++ Debugging</a></li>
+</ul>
+</nav></div>
 </aside>
 <main class="col-12 col-md-9 col-xl-8 pl-md-5" role=main>
 <nav aria-label=breadcrumb class="d-none d-md-block d-print-none">
@@ -186,57 +200,109 @@
 <li class=breadcrumb-item>
 <a href=https://sogno-platform.github.io/dpsim-docs/docs/>Documentation</a>
 </li>
-<li class="breadcrumb-item active" aria-current=page>
+<li class=breadcrumb-item>
 <a href=https://sogno-platform.github.io/dpsim-docs/docs/development/>Development</a>
+</li>
+<li class="breadcrumb-item active" aria-current=page>
+<a href=https://sogno-platform.github.io/dpsim-docs/docs/development/debugging/>Debugging</a>
 </li>
 </ol>
 </nav>
 <div class=td-content>
-<h1>Development</h1>
-<div class=lead>How to extend DPsim.</div>
+<h1>Debugging</h1>
 <header class=article-meta>
 </header>
-<h2 id=environment>Environment</h2>
-<p>We recommend the following development tools:</p>
+<h2 id=mixed-python-c-debugging>Mixed Python C++ Debugging</h2>
+<h3 id=prerequisites>Prerequisites</h3>
+<p>Your vscode launch.json should have two configurations, one to launch the python process and one to attach gdb:</p>
+<pre><code>{
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;Python: Current File&quot;,
+            &quot;type&quot;: &quot;python&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;program&quot;: &quot;${file}&quot;,
+            &quot;console&quot;: &quot;integratedTerminal&quot;,
+            &quot;stopOnEntry&quot;: true,
+            &quot;env&quot;: {&quot;PYTHONPATH&quot;: &quot;${workspaceFolder}/build${pathSeparator}${env:PYTHONPATH}&quot;}
+        },
+        {
+            &quot;name&quot;: &quot;(gdb) Attach&quot;,
+            &quot;type&quot;: &quot;cppdbg&quot;,
+            &quot;request&quot;: &quot;attach&quot;,
+            &quot;program&quot;: &quot;/usr/bin/python&quot;,
+            &quot;processId&quot;: &quot;${command:pickProcess}&quot;,
+            &quot;MIMode&quot;: &quot;gdb&quot;,
+            &quot;setupCommands&quot;: [
+                {
+                    &quot;description&quot;: &quot;Enable pretty-printing for gdb&quot;,
+                    &quot;text&quot;: &quot;-enable-pretty-printing&quot;,
+                    &quot;ignoreFailures&quot;: true
+                }
+            ]
+        }        
+    ]
+}
+</code></pre>
+<p>The python debugger will stop on entry (&ldquo;stopOnEntry&rdquo;: true).
+Make sure to adapt your PYTHONPATH variable if necessary.</p>
+<p>The C++ code has to be build in debug mode</p>
+<pre><code>cmake .. -DCMAKE_BUILD_TYPE=Debug 
+</code></pre>
+<h3 id=attaching-c-debugger>Attaching C++ Debugger</h3>
 <ul>
-<li>Editor: <a href=https://code.visualstudio.com>Visual Studio Code</a>
-<ul>
-<li>Extensions:
-<ul>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++</a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python</a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools">CMake Tools</a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker">Docker</a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig">EditorConfig for VS Code</a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a></li>
+<li>open the python example to be debugged</li>
+<li>go to the debug menu and select / run the &ldquo;Python: Current File&rdquo; configuration</li>
+<li>the python debugger should stop at entry</li>
+<li>set C++ breakpoints</li>
+<li>go to the debug menu and run the &ldquo;(gdb) Attach&rdquo; configuration</li>
+<li>select a process… choose the python process with the “—adapter-access-token” part</li>
+<li>you can view the whole description when you hover over the process with the mouse</li>
+<li>press play to continue Python debugging… the c++ debugger will stop at the next breakpoint</li>
 </ul>
-</li>
-</ul>
-</li>
-<li><a href=https://www.docker.com>Docker</a></li>
-<li><a href=https://cmake.org>CMake</a></li>
-<li><a href=https://git-scm.com>Git</a></li>
-</ul>
-<p>Please follow the build instructions to checkout your code and install the basic dependencies and tools.</p>
-<div class=section-index>
-<hr class=panel-line>
-<div class=entry>
-<h5>
-<a href=/dpsim-docs/docs/development/debugging/>Debugging</a>
-</h5>
-<p></p>
-</div>
-<div class=entry>
-<h5>
-<a href=/dpsim-docs/docs/development/guidelines/>Guidelines</a>
-</h5>
-<p></p>
-</div>
-</div>
+<p>You can automate this by using the vscode extension “Python C++ Debugger” and by adding this configuration to the launch.json above:</p>
+<pre><code>{
+    &quot;name&quot;: &quot;Python C++ Debugger&quot;,
+    &quot;type&quot;: &quot;pythoncpp&quot;,
+    &quot;request&quot;: &quot;launch&quot;,
+    &quot;pythonConfig&quot;: &quot;custom&quot;,
+    &quot;pythonLaunchName&quot;: &quot;Python: Current File&quot;,
+    &quot;cppConfig&quot;: &quot;default (gdb) Attach&quot;
+}
+</code></pre>
+<p>This will automatically run both debuggers and select the current process.</p>
+<p>It can take a while before the debugger hits the C++ breakpoints.</p>
+<h2 id=c-debugging>C++ Debugging</h2>
+<p>Use the following launch.json for vscode and set the program path:</p>
+<pre><code>{
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;(gdb) Launch&quot;,
+            &quot;type&quot;: &quot;cppdbg&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;program&quot;: &quot;${workspaceFolder}/dpsim/build/Examples/Cxx/example&quot;, 
+            &quot;args&quot;: [],
+            &quot;stopAtEntry&quot;: true,
+            &quot;cwd&quot;: &quot;${workspaceFolder}&quot;,
+            &quot;environment&quot;: [],
+            &quot;externalConsole&quot;: false,
+            &quot;MIMode&quot;: &quot;gdb&quot;,
+            &quot;setupCommands&quot;: [
+                {
+                    &quot;description&quot;: &quot;Enable pretty-printing for gdb&quot;,
+                    &quot;text&quot;: &quot;-enable-pretty-printing&quot;,
+                    &quot;ignoreFailures&quot;: true
+                }
+            ]
+        }
+    ]
+}</code></pre>
 <div class="text-muted mt-5 pt-3 border-top">
 Last modified
-23.03.2022
-: <a href=https://github.com/sogno-platform/dpsim-docs/commit/d309c1d7835c71c67e575b08c4cd811af515ed84>update dev instructions, dockerfile, workflow (d309c1d)</a>
+24.06.2022
+: <a href=https://github.com/sogno-platform/dpsim-docs/commit/5626ad12c9f6a78142fc84783576e3ea37c26ba3>add debugging instructions (5626ad1)</a>
 </div>
 </div>
 </main>
