@@ -23,15 +23,15 @@ $ docker pull sogno/dpsim:dev  For OS specific instructions on how to install re
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sogno-platform.github.io/dpsim-docs/docs/getting-started/build/"><meta property="article:section" content="docs">
 <meta property="article:published_time" content="2017-01-05T00:00:00+00:00">
-<meta property="article:modified_time" content="2022-02-07T11:57:17+01:00"><meta property="og:site_name" content="DPsim">
+<meta property="article:modified_time" content="2022-06-28T17:05:28+02:00"><meta property="og:site_name" content="DPsim">
 <meta itemprop=name content="Build">
 <meta itemprop=description content="Docker based Clone the repository
 $ git clone git@github.com:sogno-platform/dpsim.git  or using https if you do not have an account
 $ git clone https://github.com/sogno-platform/dpsim.git  In the repository, there is a Docker file with all required dependencies
 $ cd dpsim $ docker build -t sogno/dpsim:dev -f Packaging/Docker/Dockerfile.dev .  Alternatively, the image can be pulled from DockerHub like so
 $ docker pull sogno/dpsim:dev  For OS specific instructions on how to install requirements, see the sections below."><meta itemprop=datePublished content="2017-01-05T00:00:00+00:00">
-<meta itemprop=dateModified content="2022-02-07T11:57:17+01:00">
-<meta itemprop=wordCount content="684">
+<meta itemprop=dateModified content="2022-06-28T17:05:28+02:00">
+<meta itemprop=wordCount content="700">
 <meta itemprop=keywords content><meta name=twitter:card content="summary">
 <meta name=twitter:title content="Build">
 <meta name=twitter:description content="Docker based Clone the repository
@@ -61,7 +61,7 @@ $ docker pull sogno/dpsim:dev  For OS specific instructions on how to install re
 </ul>
 </div>
 <div class="navbar-nav d-none d-lg-block">
-<input type=search class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete=off data-offline-search-index-json-src=/dpsim-docs/offline-search-index.98325acf2c1fba5c64916ac661c56657.json data-offline-search-base-href=/ data-offline-search-max-results=10>
+<input type=search class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete=off data-offline-search-index-json-src=/dpsim-docs/offline-search-index.86d329ef71ae99106fbb86674785a0d7.json data-offline-search-base-href=/ data-offline-search-max-results=10>
 </div>
 </nav>
 </header>
@@ -71,7 +71,7 @@ $ docker pull sogno/dpsim:dev  For OS specific instructions on how to install re
 <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
 <div id=td-sidebar-menu class=td-sidebar__inner>
 <form class="td-sidebar__search d-flex align-items-center">
-<input type=search class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete=off data-offline-search-index-json-src=/dpsim-docs/offline-search-index.98325acf2c1fba5c64916ac661c56657.json data-offline-search-base-href=/ data-offline-search-max-results=10>
+<input type=search class="form-control td-search-input" placeholder="&#xf002; Search this site…" aria-label="Search this site…" autocomplete=off data-offline-search-index-json-src=/dpsim-docs/offline-search-index.86d329ef71ae99106fbb86674785a0d7.json data-offline-search-base-href=/ data-offline-search-max-results=10>
 <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type=button data-toggle=collapse data-target=#td-section-nav aria-controls=td-docs-nav aria-expanded=false aria-label="Toggle section navigation">
 </button>
 </form>
@@ -259,9 +259,10 @@ $ cmake --build . --target dpsimpy
 <p>To build everything run</p>
 <pre><code>$ cmake --build .
 </code></pre>
-<p>If you would like to use the Python package, it has to be added to the path</p>
+<p>If you would like to use the Python package, it has to be added to the path.
+The following command adds the dpsimpy C++/Python package as well as the dpsim pure Python package.</p>
 <pre><code>$ cd /dpsim/build
-$ export PYTHONPATH=$(pwd):$(pwd)/Source/Python:$(pwd)/../Source/Python
+$ export PYTHONPATH=$(pwd):$(pwd)/../python/src/
 </code></pre>
 <p>To run jupyter lab</p>
 <pre><code>$ cd /dpsim
@@ -348,8 +349,8 @@ $ make docs_cxx
 <p>The resulting documentation will be generated in <code>Documentation/html/Cxx</code>.</p>
 <div class="text-muted mt-5 pt-3 border-top">
 Last modified
-07.02.2022
-: <a href=https://github.com/sogno-platform/dpsim-docs/commit/2fb1c162c0738ceafdb9697782f48da08e064fa6>update docker image path (2fb1c16)</a>
+28.06.2022
+: <a href=https://github.com/sogno-platform/dpsim-docs/commit/5730fd6de2370aa199b64bbf39ed8a5b2f227df0>update PYTHONPATH for new python package (5730fd6)</a>
 </div>
 </div>
 </main>

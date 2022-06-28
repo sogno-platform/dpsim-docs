@@ -32,9 +32,10 @@ $ cmake --build . --target dpsimpy
 &lt;p>To build everything run&lt;/p>
 &lt;pre>&lt;code>$ cmake --build .
 &lt;/code>&lt;/pre>
-&lt;p>If you would like to use the Python package, it has to be added to the path&lt;/p>
+&lt;p>If you would like to use the Python package, it has to be added to the path.
+The following command adds the dpsimpy C++/Python package as well as the dpsim pure Python package.&lt;/p>
 &lt;pre>&lt;code>$ cd /dpsim/build
-$ export PYTHONPATH=$(pwd):$(pwd)/Source/Python:$(pwd)/../Source/Python
+$ export PYTHONPATH=$(pwd):$(pwd)/../python/src/
 &lt;/code>&lt;/pre>
 &lt;p>To run jupyter lab&lt;/p>
 &lt;pre>&lt;code>$ cd /dpsim
