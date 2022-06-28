@@ -49,10 +49,11 @@ To build everything run
 
     $ cmake --build .
 
-If you would like to use the Python package, it has to be added to the path
+If you would like to use the Python package, it has to be added to the path.
+The following command adds the dpsimpy C++/Python package as well as the dpsim pure Python package.
 
     $ cd /dpsim/build
-    $ export PYTHONPATH=$(pwd):$(pwd)/Source/Python:$(pwd)/../Source/Python
+    $ export PYTHONPATH=$(pwd):$(pwd)/../python/src/
 
 To run jupyter lab
 
