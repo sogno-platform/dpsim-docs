@@ -19,15 +19,10 @@ DPsim is a solver library for dynamic power system simulation.
 
 ## Contact
 
-For further question please consider joining our Slack channel: [FEIN e.V. Slack](https://join.slack.com/t/feinev/shared_invite/enQtNTE1NjY5MTg5NTY4LWM4MWI5ZTVkNDgzZTgyNmY5NWY2N2M3MjdjYzQxY2E0MmRlNjBkYTc3ODNlMDliY2M5YzllNjE4YTY3ODBjM2M).
-
-
-- Markus Mirz <mmirz@eonerc.rwth-aachen.de>
-- Steffen Vogel <stvogel@eonerc.rwth-aachen.de>
-- Jan Dinkelbach <jdinkelbach@eonerc.rwth-aachen.de>
-
-[Institute for Automation of Complex Power Systems (ACS)](http://www.acs.eonerc.rwth-aachen.de),
-[RWTH University Aachen, Germany](http://www.rwth-aachen.de)
+For further questions please consider joining the [LF Energy Slack channel](https://slack.lfenergy.org/) and message:
+- Markus Mirz
+- Jan Dinkelbach
+- Steffen Vogel
 
 
 ## Publications
